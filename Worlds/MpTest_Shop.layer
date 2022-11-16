@@ -24,6 +24,13 @@ GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
    m_RequiredPayment {
    }
   }
+  ActionsManagerComponent "{5AD9438A174FB298}" {
+   additionalActions {
+    ADM_PhysicalShopAction "{5ADE0317C2763F08}" {
+     Duration 2
+    }
+   }
+  }
  }
  coords 131.875 1.891 141.424
  angleZ -90
@@ -35,10 +42,15 @@ SCR_SpawnPoint : "{4FEA25583D0975F7}Prefabs/MP/Spawning/SpawnPoint_USSR.et" {
 SCR_SpawnPoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
  coords 128 1 127
 }
+$grp GenericEntity : "{8A2EE917FFA4201A}Prefabs/Items/Money/OneDollarBill/OneDollarBill.et" {
+ {
+  coords 131.3 1.881 141.323
+ }
+ {
+  coords 131.3 1.881 141.492
+ }
+}
 StaticModelEntity : "{B94D11DD03097D5E}PrefabsEditable/Auto/Props/Military/Furniture/E_TableMilitary_US_01.et" {
  coords 131.474 0.981 141.564
  angleY -179.925
-}
-GenericEntity : "{EE9DE0A33B37104A}Prefabs/Items/Money/OneDollarBill/OneDollarBill.et" {
- coords 131.365 1.881 141.412
 }

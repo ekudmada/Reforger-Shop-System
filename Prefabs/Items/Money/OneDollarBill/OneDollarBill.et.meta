@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{EE9DE0A33B37104A}Prefabs/Items/Money/OneDollarBill/OneDollarBill.et"
+ Name "{8A2EE917FFA4201A}Prefabs/Items/Food/OneDollarBill.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

@@ -26,13 +26,13 @@ class ADM_PaymentMethodItem: ADM_PaymentMethod
 	override bool CheckPayment(IEntity player)
 	{
 		//Print("check payment for item payment");
-		return false;
+		return true;
 	}
 	
 	override bool CollectPayment(IEntity player)
 	{
 		//Print("collect payment ItemPayment");
-		return false;
+		return true;
 	}
 };
 
@@ -49,14 +49,20 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethod
 	
 	override bool CheckPayment(IEntity player)
 	{
-		//Print("check payment for currency");
-		return false;
+		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventory)
+			return false;
+		
+		int totalCurrency = ADM_CurrencyComponent.FindTotalCurrency(inventory);
+		if (totalCurrency < m_Quantity) return false;
+		
+		return true;
 	}
 	
 	override bool CollectPayment(IEntity player)
 	{
 		//Print("collect paymenet currency");
-		return false;
+		return true;
 	}
 };
 
@@ -129,6 +135,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		return m_RespawnTime;
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	bool CanPurchase(IEntity player)
 	{
 		bool canPurchase = true;
@@ -144,20 +151,52 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void PurchaseItemAction()
 	{
-		Rpc(PurchaseItem);
+		Rpc(RpcAsk_PurchaseItem);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void ViewPayment()
+	{
+		Print("open dialog view payment");
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void PurchaseItem(int playerId)
+	void RpcAsk_PurchaseItem(int playerId)
 	{
-		// Check if player has m_Payment
-		// If they do, check if they have space to store the purchased item m_ItemForSale
-		// If they have the storage, continue
-		// If they don't have storage but m_AllowSaleWithFullInventory then continue
-		// Remove m_Paymentkm
-		// Then give them the items
 		Print(playerId.ToString() + ": requested to buy item " + m_ItemForSale.GetItemPrefab());
+		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerId);
+		if (!player) {
+			Rpc(RpcDo_PurchaseItem, "Couldn't find player entity");
+			return;
+		}
+		
+		// Check if player has m_Payment
+		bool canPay = CanPurchase(player);
+		Print("Can purchase? " + canPay);
+		
+		// If they do, check if they have space to store the purchased item m_ItemForSale
+		
+		
+		// If they have the storage, continue
+		
+		
+		// If they don't have storage but m_AllowSaleWithFullInventory then continue
+		
+		
+		// Remove m_Payment
+		
+		
+		// Then give them the items
+		
+		
+		Rpc(RpcDo_PurchaseItem, "success");
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void RpcDo_PurchaseItem(string message)
+	{
+		Print(message);
 	}
 	
 	//------------------------------------------------------------------------------------------------

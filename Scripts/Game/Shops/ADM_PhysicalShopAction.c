@@ -91,7 +91,10 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 	{	
 		if (!m_PhysicalShop) return;
 		
-		m_PhysicalShop.PurchaseItemAction();
+		if (m_PhysicalShop.IsPaymentOnlyCurrency())
+			m_PhysicalShop.PurchaseItemAction();
+		else
+			m_PhysicalShop.ViewPayment();
 	}
 	
 	//------------------------------------------------------------------------------------------------
