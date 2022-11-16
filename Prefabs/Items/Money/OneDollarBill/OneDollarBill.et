@@ -1,0 +1,70 @@
+GenericEntity {
+ ID "5ADE579AFE65A882"
+ components {
+  SignalsManagerComponent "{5ADE30C7BDC052BB}" {
+  }
+  SoundComponent "{5ADE30C7BDC052A8}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp" "{CC0E5A1324E761C1}Sounds/Items/_SharedData/Drop/Items_Drop_Generic.acp"
+   }
+  }
+  InventoryItemComponent "{5ADE30C7BDC053E8}" {
+   Attributes SCR_ItemAttributeCollection "{5ADE30C7BDC053EF}" {
+    ItemDisplayName UIInfo "{5ADE30C7BDC0536B}" {
+     Name "One Kuna"
+     Description "One Croatian Dollar"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{5ADE30C7BDC05307}" {
+     Weight 0.001
+     SizeSetupStrategy Volume
+     ItemDimensions 5 5 5
+     ItemVolume 0.00000845
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{5ADE30C7BDC0530C}" {
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{5ADE30C7BDC0533E}" {
+      CameraOrbitAngles -60 -40 0
+      CameraDistanceToItem 0.4
+      CameraOffset 0.015 0.015 0
+      FOV 45
+     }
+    }
+    CommonItemType "NONE"
+    m_Size SLOT_1x1
+    m_SlotType SLOT_LOOT_STORAGE
+   }
+  }
+  MeshObject "{5ADE30C7BDC05393}" {
+   Object "{DB4233F0EABAB359}Assets/Items/Money/OneDollarBill/CrotatianOneDollarBill.xob"
+  }
+  Hierarchy "{5ADE30CAABEB7A5D}" {
+  }
+  RigidBody "{5ADE30C7BDC05386}" {
+   Mass 0.001
+   ModelGeometry 1
+  }
+  ActionsManagerComponent "{5ADE30C7BDC05059}" {
+   ActionContexts {
+    UserActionContext "{5ADE30C7BDC053BD}" {
+     ContextName "default"
+     Position PointInfo "{5ADE30C7BDC053BC}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{5ADE30C7BDC053A8}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5ADE30C7BDC053AB}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  RplComponent "{5ADE30C7BDC05042}" {
+  }
+ }
+ coords 131.435 1.69 141.581
+}

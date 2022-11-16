@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{EE9DE0A33B37104A}Prefabs/Items/Money/OneDollarBill/OneDollarBill.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

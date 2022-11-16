@@ -1,0 +1,8 @@
+GameProject {
+ ID "ShopSystem"
+ GUID "5AD76B0B57104B62"
+ TITLE "ShopSystem"
+ Dependencies {
+  "58D0FB3206B6F859"
+ }
+}

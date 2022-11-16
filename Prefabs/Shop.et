@@ -1,0 +1,42 @@
+GenericEntity {
+ ID "5ADE65D9B4944107"
+ components {
+  ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
+   m_ItemForSale ADM_PaymentMethodItem "{5AE04B45E4FC8652}" {
+    m_ItemPrefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
+   }
+   m_RequiredPayment {
+    ADM_PaymentMethodCurrency "{5AE0792EF395E475}" {
+     m_Quantity 500
+    }
+   }
+  }
+  MeshObject "{5AD9438CC89B3D3C}" {
+   Object "{A4048C2AA75EF832}Common/Models/Default.xob"
+  }
+  RigidBody "{5ADE0317BCBF0917}" {
+   SimState Collision
+  }
+  ActionsManagerComponent "{5AD9438A174FB298}" {
+   ActionContexts {
+    UserActionContext "{5ADD327AF958F0E4}" {
+     ContextName "Shop"
+     Position PointInfo "{5ADD327AE2CCDD93}" {
+     }
+     Radius 0.5
+    }
+   }
+   additionalActions {
+    ADM_PhysicalShopAction "{5ADE0317C2763F08}" {
+     ParentContextList {
+      "Shop"
+     }
+    }
+   }
+  }
+  RplComponent "{5ADE24EDF166A20F}" {
+  }
+ }
+ coords 131.929 1.893 141.55
+ angleZ -90
+}

@@ -1,0 +1,7 @@
+MatPBRBasic {
+ EmissiveAbsoluteLV 0
+ WetnessScale 0
+ PorosityScale 0
+ BCRMap "{DC35FA14CD7B6750}Assets/Items/Money/OneDollarBill/data/texture.edds"
+ NMOMap "{61DE3875B9DBD343}Assets/_SharedData/Fabric/ST_FabricWrinkles_1m_01_NMO.edds"
+}

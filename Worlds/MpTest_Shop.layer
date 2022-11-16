@@ -1,0 +1,44 @@
+SCR_LoadoutManager LoadoutManager {
+ coords 0 0 0
+ Flags 0
+ m_aPlayerLoadouts {
+  SCR_FactionPlayerLoadout "{5AD9183644C44768}" {
+   m_sLoadoutName "US AR"
+   m_sLoadoutResource "{5B1996C05B1E51A4}Prefabs/Characters/Factions/BLUFOR/US_Army/Character_US_AR.et"
+   m_sLoadoutImage "{43EA535E240F0B17}UI/Textures/EditorPreviews/Characters/BLUFOR/US_Army/Character_US_AR.edds"
+   m_sAffiliatedFaction "US"
+  }
+  SCR_FactionPlayerLoadout "{5AD9183644C447A9}" {
+   m_sLoadoutName "USSR AR"
+   m_sLoadoutResource "{23ADBBC31B6A3DC6}Prefabs/Characters/Factions/OPFOR/USSR_Army/Character_USSR_AR.et"
+   m_sLoadoutImage "{D93455A6F79B928C}UI/Textures/EditorPreviews/Characters/OPFOR/USSR_Army/Character_USSR_AR.edds"
+   m_sAffiliatedFaction "USSR"
+  }
+ }
+}
+GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
+ components {
+  ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
+   m_ItemForSale ADM_PaymentMethodItem "{5AE04B45E4FC8652}" {
+   }
+   m_RequiredPayment {
+   }
+  }
+ }
+ coords 131.875 1.891 141.424
+ angleZ -90
+}
+SCR_SpawnPoint : "{4FEA25583D0975F7}Prefabs/MP/Spawning/SpawnPoint_USSR.et" {
+ coords 128 1 129
+ angleY -180
+}
+SCR_SpawnPoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
+ coords 128 1 127
+}
+StaticModelEntity : "{B94D11DD03097D5E}PrefabsEditable/Auto/Props/Military/Furniture/E_TableMilitary_US_01.et" {
+ coords 131.474 0.981 141.564
+ angleY -179.925
+}
+GenericEntity : "{EE9DE0A33B37104A}Prefabs/Items/Money/OneDollarBill/OneDollarBill.et" {
+ coords 131.365 1.881 141.412
+}
