@@ -28,14 +28,20 @@ class ADM_CurrencyComponent: ScriptComponent
 		return m_Value;
 	}
 	
-	static int FindTotalCurrency(SCR_InventoryStorageManagerComponent inventoryManager)
+	static array<IEntity> FindCurrencyInInventory(SCR_InventoryStorageManagerComponent inventoryManager)
+	{
+		array<IEntity> currencyItems = {};
+		SCR_CurrencyPredicate predicate = new SCR_CurrencyPredicate();
+		inventoryManager.FindItems(currencyItems, predicate);
+		
+		return currencyItems;
+	}
+	
+	static int FindTotalCurrencyInInventory(SCR_InventoryStorageManagerComponent inventoryManager)
 	{
 		int total = 0;
 		
-		array<IEntity> currency = {};
-		SCR_CurrencyPredicate predicate = new SCR_CurrencyPredicate();
-		inventoryManager.FindItems(currency, predicate);
-		
+		array<IEntity> currency = ADM_CurrencyComponent.FindCurrencyInInventory(inventoryManager);
 		foreach (IEntity currencyEntity: currency)
 		{
 			ADM_CurrencyComponent currencyComponent = ADM_CurrencyComponent.Cast(currencyEntity.FindComponent(ADM_CurrencyComponent));

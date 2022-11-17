@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{68FE449F0B32DC43}Assets/Items/Money/BankNote/data/dinara5000.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

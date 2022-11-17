@@ -53,7 +53,7 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethod
 		if (!inventory)
 			return false;
 		
-		int totalCurrency = ADM_CurrencyComponent.FindTotalCurrency(inventory);
+		int totalCurrency = ADM_CurrencyComponent.FindTotalCurrencyInInventory(inventory);
 		if (totalCurrency < m_Quantity) return false;
 		
 		return true;
@@ -61,7 +61,20 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethod
 	
 	override bool CollectPayment(IEntity player)
 	{
-		//Print("collect paymenet currency");
+		//essentially the same as ADM_PaymentMethodItem but account for all currency types
+		
+		//check if player has the desired payment
+		if (!CheckPayment(player)) return false;
+		
+		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventory)
+			return false;
+		
+		//keep track of everything we have removed, if a single one fails we should give player everything back
+		//and return false; (though CheckPayment should theoretically prevent this, who knows what could go wrong)
+		//TryRemoveItemFromInventory
+		//get all items in inventory which match our payment
+		
 		return true;
 	}
 };
@@ -170,25 +183,6 @@ class ADM_PhysicalShopComponent: ScriptComponent
 			Rpc(RpcDo_PurchaseItem, "Couldn't find player entity");
 			return;
 		}
-		
-		// Check if player has m_Payment
-		bool canPay = CanPurchase(player);
-		Print("Can purchase? " + canPay);
-		
-		// If they do, check if they have space to store the purchased item m_ItemForSale
-		
-		
-		// If they have the storage, continue
-		
-		
-		// If they don't have storage but m_AllowSaleWithFullInventory then continue
-		
-		
-		// Remove m_Payment
-		
-		
-		// Then give them the items
-		
 		
 		Rpc(RpcDo_PurchaseItem, "success");
 	}

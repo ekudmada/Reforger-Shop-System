@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{DC35FA14CD7B6750}Assets/Items/Money/OneDollarBill/data/texture.edds"
+ Name "{53556119FF0E8CEF}Assets/Items/Money/BankNote/data/dinar50000.edds"
  Configurations {
   TIFFResourceClass PC : "{DC555BD399D92412}Configs/System/ResourceTypes/PC/TextureUnspecified.conf" {
   }

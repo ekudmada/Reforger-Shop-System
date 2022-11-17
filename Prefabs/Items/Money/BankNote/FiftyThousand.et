@@ -1,0 +1,78 @@
+GenericEntity {
+ ID "5AE27EF4379B0213"
+ components {
+  SignalsManagerComponent "{5AE27EF3E9915103}" {
+  }
+  SoundComponent "{5AE27EF3E9915130}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp" "{CC0E5A1324E761C1}Sounds/Items/_SharedData/Drop/Items_Drop_Generic.acp"
+   }
+   OnFrameUpdate 0
+  }
+  ADM_CurrencyComponent "{5AE27EF3E991513A}" {
+   m_Value 50000
+  }
+  InventoryItemComponent "{5AE27EF3E9915181}" {
+   Attributes SCR_ItemAttributeCollection "{5AE27EF3E9915184}" {
+    ItemDisplayName UIInfo "{5AE27EF3E99151CE}" {
+     Name "50,000 Kuna Dollar"
+     Description "Croatian Currency"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{5AE27EF3E99151FE}" {
+     Weight 0.001
+     SizeSetupStrategy Volume
+     ItemVolume 0.001
+     DimensionScaler 0
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{5AE27EF3E99151E5}" {
+      CameraOrbitAngles -60 -40 0
+      CameraDistanceToItem 0.4
+      CameraOffset 0.015 0.015 0
+      FOV 45
+     }
+    }
+    CommonItemType "NONE"
+    m_Size SLOT_1x1
+    m_SlotType SLOT_ANY
+   }
+  }
+  MeshObject "{5AE27EF3E99151B7}" {
+   Object "{DB4233F0EABAB359}Assets/Items/Money/BankNote/BankNote.xob"
+   Materials {
+    MaterialAssignClass "{5AE27EF459DE29E4}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{BFA47E8B256BA491}Assets/Items/Money/BankNote/data/dinara50000.emat"
+    }
+   }
+  }
+  RigidBody "{5AE27EF3E99151B0}" {
+   AngularSleepingThreashold 1
+   ModelGeometry 1
+   CCDRadius 0.015
+  }
+  ActionsManagerComponent "{5AE27EF3E9915648}" {
+   ActionContexts {
+    UserActionContext "{5AE27EF3E9915650}" {
+     ContextName "default"
+     Position PointInfo "{5AE27EF3E99151AB}" {
+     }
+     Radius 0.5
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{5AE27EF3E9915640}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5AE27EF3E9915643}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  RplComponent "{5AE27EF3E9915674}" {
+  }
+ }
+ coords 131.047 1.881 141.419
+}

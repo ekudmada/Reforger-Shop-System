@@ -7,7 +7,7 @@ GenericEntity {
    }
    m_RequiredPayment {
     ADM_PaymentMethodCurrency "{5AE0792EF395E475}" {
-     m_Quantity 500
+     m_Quantity 2
     }
    }
   }
@@ -31,6 +31,7 @@ GenericEntity {
      ParentContextList {
       "Shop"
      }
+     Duration 1
     }
    }
   }

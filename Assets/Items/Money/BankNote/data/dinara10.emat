@@ -7,6 +7,6 @@ MatPBRBasic {
  PorosityScale 0
  RoughnessScale 5
  MetalnessScale 0
- BCRMap "{DC35FA14CD7B6750}Assets/Items/Money/OneDollarBill/data/texture.edds"
+ BCRMap "{C090C3EF45D4BC23}Assets/Items/Money/BankNote/data/dinar10.edds"
  NMOMap "{61DE3875B9DBD343}Assets/_SharedData/Fabric/ST_FabricWrinkles_1m_01_NMO.edds"
 }

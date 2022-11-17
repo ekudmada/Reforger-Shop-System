@@ -1,11 +1,11 @@
 MetaFileClass {
- Name "{DB4233F0EABAB359}Assets/Items/Money/OneDollarBill/CrotatianOneDollarBill.xob"
+ Name "{DB4233F0EABAB359}Assets/Items/Money/BankNote/CrotatianOneDollarBill.xob"
  Configurations {
   FBXResourceClass PC {
    MaterialAssigns {
     MaterialAssignClass "{5ADE30CFF5788FD4}" {
      SourceMaterial "Material"
-     AssignedMaterial "{C0EAC17A59527A14}Assets/Items/Money/OneDollarBill/data/Material.emat"
+     AssignedMaterial "{C0EAC17A59527A14}Assets/Items/Money/BankNote/data/Material.emat"
     }
    }
    MeshParams {

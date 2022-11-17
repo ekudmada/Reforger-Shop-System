@@ -1,0 +1,78 @@
+GenericEntity {
+ ID "5AE27EF43E0D0C06"
+ components {
+  SignalsManagerComponent "{5AE27EF3FBAF9F95}" {
+  }
+  SoundComponent "{5AE27EF3FBAF9F8A}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp" "{CC0E5A1324E761C1}Sounds/Items/_SharedData/Drop/Items_Drop_Generic.acp"
+   }
+   OnFrameUpdate 0
+  }
+  ADM_CurrencyComponent "{5AE27EF3FBAF9FB3}" {
+   m_Value 100
+  }
+  InventoryItemComponent "{5AE27EF3FBAF9C38}" {
+   Attributes SCR_ItemAttributeCollection "{5AE27EF3FBAF9C30}" {
+    ItemDisplayName UIInfo "{5AE27EF3FBAF9C4B}" {
+     Name "100 Kuna Dollar"
+     Description "Croatian Currency"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{5AE27EF3FBAF9C65}" {
+     Weight 0.001
+     SizeSetupStrategy Volume
+     ItemVolume 0.001
+     DimensionScaler 0
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{5AE27EF3FBAF9C16}" {
+      CameraOrbitAngles -60 -40 0
+      CameraDistanceToItem 0.4
+      CameraOffset 0.015 0.015 0
+      FOV 45
+     }
+    }
+    CommonItemType "NONE"
+    m_Size SLOT_1x1
+    m_SlotType SLOT_ANY
+   }
+  }
+  MeshObject "{5AE27EF3FBAF9C2D}" {
+   Object "{DB4233F0EABAB359}Assets/Items/Money/BankNote/BankNote.xob"
+   Materials {
+    MaterialAssignClass "{5AE27EF36ABE4F80}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{47EEF7D30C78F4B4}Assets/Items/Money/BankNote/data/dinara100.emat"
+    }
+   }
+  }
+  RigidBody "{5AE27EF3FBAF9CD2}" {
+   AngularSleepingThreashold 1
+   ModelGeometry 1
+   CCDRadius 0.015
+  }
+  ActionsManagerComponent "{5AE27EF3FBAF9C9C}" {
+   ActionContexts {
+    UserActionContext "{5AE27EF3FBAF9CF8}" {
+     ContextName "default"
+     Position PointInfo "{5AE27EF3FBAF9CF7}" {
+     }
+     Radius 0.5
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{5AE27EF3FBAF9C93}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5AE27EF3FBAF9C92}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  RplComponent "{5AE27EF3FBAF9C98}" {
+  }
+ }
+ coords 131.621 1.881 141.57
+}

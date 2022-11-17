@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{7C4BB0E3F6D70076}Prefabs/Items/Money/BankNote/TwoThousand.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}
