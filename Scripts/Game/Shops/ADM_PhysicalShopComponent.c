@@ -75,6 +75,7 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethod
 		//TryRemoveItemFromInventory
 		//get all items in inventory which match our payment
 		
+		
 		return true;
 	}
 };
@@ -164,7 +165,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void PurchaseItemAction()
 	{
-		Rpc(RpcAsk_PurchaseItem);
+		Rpc(RpcAsk_PurchaseItem, GetGame().GetPlayerController().GetPlayerId());
 	}
 	
 	//------------------------------------------------------------------------------------------------

@@ -41,7 +41,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
   }
   RigidBody "{5AE0888BE518C281}" {
    AngularSleepingThreashold 1
-   ModelGeometry 1
+   ModelGeometry 0
    CCDRadius 0.015
   }
   ActionsManagerComponent "{508AB5952B584B2E}" {

@@ -48,7 +48,7 @@ GenericEntity {
   }
   RigidBody "{5AE27EF3E99151B0}" {
    AngularSleepingThreashold 1
-   ModelGeometry 1
+   ModelGeometry 0
    CCDRadius 0.015
   }
   ActionsManagerComponent "{5AE27EF3E9915648}" {
