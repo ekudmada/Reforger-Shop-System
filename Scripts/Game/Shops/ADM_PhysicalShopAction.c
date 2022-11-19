@@ -6,7 +6,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 	protected string m_ItemName;
 	protected int m_ItemQuantity;
 	
-	string GetPrefabItemDisplayName(ResourceName resourcePath)
+	string GetPrefabDisplayName(ResourceName resourcePath)
 	{
 		if (resourcePath == ResourceName.Empty)
 			return string.Empty;
@@ -79,11 +79,11 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 			return;
 		}
 		
-		ADM_PaymentMethodItem itemForSale = m_PhysicalShop.GetItemForSale();
+		ADM_PhysicalShopBase itemForSale = m_PhysicalShop.GetShopConfig();
 		if (!itemForSale) return;
 		
-		m_ItemName = GetPrefabItemDisplayName(itemForSale.GetItemPrefab());
-		m_ItemQuantity = itemForSale.GetItemQuantity();
+		m_ItemName = GetPrefabDisplayName(itemForSale.GetPrefab());
+		m_ItemQuantity = itemForSale.GetQuantity();
 	}
 	
 	//------------------------------------------------------------------------------------------------

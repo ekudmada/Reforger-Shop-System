@@ -9,7 +9,8 @@ SCR_LoadoutManager {
  }
 }
 GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
- coords 131.875 1.891 141.424
+ coords 131.948 1.891 141.829
+ angleY -90
  angleZ -90
 }
 GenericEntity : "{3E2E541A6ECC6872}Prefabs/Items/Money/BankNote/Hundred.et" {
