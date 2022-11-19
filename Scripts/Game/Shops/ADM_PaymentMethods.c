@@ -26,13 +26,13 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 	override bool CheckPayment(IEntity player)
 	{
 		//Print("check payment for item payment");
-		return true;
+		return false;
 	}
 	
 	override bool CollectPayment(IEntity player)
 	{
 		//Print("collect payment ItemPayment");
-		return true;
+		return false;
 	}
 }
 
@@ -61,8 +61,6 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 	
 	override bool CollectPayment(IEntity player)
 	{
-		//essentially the same as ADM_PaymentMethodItem but account for all currency types
-		
 		//check if player has the desired payment
 		if (!CheckPayment(player)) return false;
 		
@@ -70,12 +68,7 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 		if (!inventory)
 			return false;
 		
-		//keep track of everything we have removed, if a single one fails we should give player everything back
-		//and return false; (though CheckPayment should theoretically prevent this, who knows what could go wrong)
-		//TryRemoveItemFromInventory
-		//get all items in inventory which match our payment
-		
-		
-		return true;
+		bool didRemoveCurrency = ADM_CurrencyComponent.RemoveCurrencyFromInventory(inventory, m_Quantity);
+		return didRemoveCurrency;
 	}
 }

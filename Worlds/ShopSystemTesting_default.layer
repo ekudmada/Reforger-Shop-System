@@ -123,3 +123,6 @@ EnvironmentProbeEntity MainProbe {
 }
 SCR_MPDestructionManager DestructionManager {
 }
+GenericEntity : "{8A2EE917FFA4201A}Prefabs/Items/Money/BankNote/One.et" {
+ coords 131.959 1.881 141.275
+}

@@ -54,7 +54,6 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 			{
 				UIInfo uiInfo;
 				itemComponent.Get("UIInfo", uiInfo);
-				
 				displayName = uiInfo.GetName();	
 				
 				break;
@@ -79,11 +78,11 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 			return;
 		}
 		
-		ADM_PhysicalShopBase itemForSale = m_PhysicalShop.GetShopConfig();
-		if (!itemForSale) return;
+		ADM_PhysicalShopBase shopConfig = m_PhysicalShop.GetShopConfig();
+		if (!shopConfig) return;
 		
-		m_ItemName = GetPrefabDisplayName(itemForSale.GetPrefab());
-		m_ItemQuantity = itemForSale.GetQuantity();
+		m_ItemName = GetPrefabDisplayName(shopConfig.GetPrefab());
+		m_ItemQuantity = shopConfig.GetQuantity();
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -92,7 +91,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		if (!m_PhysicalShop) return;
 		
 		if (m_PhysicalShop.IsPaymentOnlyCurrency())
-			m_PhysicalShop.PurchaseItemAction();
+			m_PhysicalShop.AskPurchase();
 		else
 			m_PhysicalShop.ViewPayment();
 	}

@@ -14,9 +14,6 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.EditBox, params: "et", category: "Physical Shop")]
 	protected float m_RespawnTime;
 	
-	[Attribute(defvalue: "0", desc: "If true then items will drop on ground if player cannot equip item or place in inventory. If false the sale will not be allowed.", uiwidget: UIWidgets.CheckBox, category: "Physical Shop")]
-	protected bool m_AllowSaleWithFullInventory;
-	
 	//------------------------------------------------------------------------------------------------
 	void UpdateMesh(IEntity owner)
 	{
@@ -76,9 +73,9 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void PurchaseItemAction()
+	void AskPurchase()
 	{
-		Rpc(RpcAsk_PurchaseItem, GetGame().GetPlayerController().GetPlayerId());
+		Rpc(RpcAsk_Purchase, GetGame().GetPlayerController().GetPlayerId());
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -89,37 +86,51 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void RpcAsk_PurchaseItem(int playerId)
+	void RpcAsk_Purchase(int playerId)
 	{
-		Print(playerId.ToString() + ": requested to buy item " + m_ShopConfig.GetPrefab());
 		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerId);
 		if (!player) {
-			Rpc(RpcDo_PurchaseItem, "Couldn't find player entity");
+			Rpc(RpcDo_Purchase, "Couldn't find player entity");
 			return;
 		}
 		
 		bool canPay = CanPurchase(player);
 		if (!canPay) {
-			Rpc(RpcDo_PurchaseItem, "Payment not met");
+			Rpc(RpcDo_Purchase, "Payment not met");
 			return;
 		}
 		
 		bool canDeliver = m_ShopConfig.CanDeliver(player);
 		if (!canDeliver) {
-			Rpc(RpcDo_PurchaseItem, "Can't deliver item");
+			Rpc(RpcDo_Purchase, "Can't deliver item");
+			return;
+		}
+		
+		array<bool> didCollectPayments = {};
+		for (int i = 0; i < m_RequiredPayment.Count(); i++) 
+		{
+			ADM_PaymentMethodBase paymentMethod = m_RequiredPayment[i];
+			bool didCollectPayment = paymentMethod.CollectPayment(player);
+			didCollectPayments.Insert(didCollectPayment);
+		}
+		
+		if (didCollectPayments.Contains(false))
+		{
+			Rpc(RpcDo_Purchase, "Error collecting payment");
+			//TODO: Ensure that player doesn't lose anything
 			return;
 		}
 		
 		bool deliver = m_ShopConfig.Deliver(player);
 		if (!deliver) {
-			Rpc(RpcDo_PurchaseItem, "Error delivering item");
+			Rpc(RpcDo_Purchase, "Error delivering item");
 		}
 		
-		Rpc(RpcDo_PurchaseItem, "success");
+		Rpc(RpcDo_Purchase, "success");
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
-	void RpcDo_PurchaseItem(string message)
+	void RpcDo_Purchase(string message)
 	{
 		Print(message);
 	}
@@ -136,11 +147,5 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	{
 		super.OnPostInit(owner);
 		SetEventMask(owner, EntityEvent.INIT);
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	void ADM_PhysicalShopComponent(IEntityComponentSource src, IEntity ent, IEntity parent) 
-	{
-		
 	}
 };
