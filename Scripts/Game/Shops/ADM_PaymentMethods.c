@@ -23,16 +23,67 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		return m_ItemQuantity;
 	}
 	
+	array<IEntity> GetPaymentItemsFromInventory(SCR_InventoryStorageManagerComponent inventory)
+	{
+		if (!inventory)
+			return null;
+		
+		array<IEntity> items = {};
+		inventory.GetItems(items);
+		
+		array<IEntity> desiredItems = {};
+		foreach (IEntity item : items)
+		{
+			EntityPrefabData prefabData = item.GetPrefabData();
+			ResourceName prefabName = prefabData.GetPrefabName();
+			
+			if (prefabName == m_ItemPrefab)
+				desiredItems.Insert(item);	
+		}
+		
+		return desiredItems;
+	}
+	
 	override bool CheckPayment(IEntity player)
 	{
-		//Print("check payment for item payment");
-		return false;
+		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventory)
+			return false;
+		
+		array<IEntity> paymentItems = this.GetPaymentItemsFromInventory(inventory);
+		if (!paymentItems)
+			return false;
+		
+		return (paymentItems.Count() >= m_ItemQuantity);
 	}
 	
 	override bool CollectPayment(IEntity player)
 	{
-		//Print("collect payment ItemPayment");
-		return false;
+		//check if player has the desired payment
+		if (!CheckPayment(player)) return false;
+		
+		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventory)
+			return false;
+		
+		array<bool> didRemoveItems = {};
+		array<IEntity> paymentItems = this.GetPaymentItemsFromInventory(inventory);
+		foreach (IEntity item : paymentItems)
+		{
+			bool didRemoveItem = inventory.TryDeleteItem(item, null);
+			didRemoveItems.Insert(didRemoveItem);
+						
+			if (didRemoveItems.Count() == m_ItemQuantity)
+				break;
+		}
+		
+		if (didRemoveItems.Contains(false))
+		{
+			Print("Error! Couldn't remove items for payment.", LogLevel.ERROR);
+			return false;
+		}
+			
+		return true;
 	}
 }
 

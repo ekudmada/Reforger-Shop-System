@@ -9,6 +9,18 @@ SCR_LoadoutManager {
  }
 }
 GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
+ components {
+  ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
+   m_ShopConfig ADM_ItemShop "{5AE75E04240B60AC}" {
+    m_Prefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
+   }
+   m_RequiredPayment {
+    ADM_PaymentMethodCurrency "{5AE75E07DF9397FF}" {
+     m_Quantity 100
+    }
+   }
+  }
+ }
  coords 131.948 1.891 141.829
  angleY -90
  angleZ -90

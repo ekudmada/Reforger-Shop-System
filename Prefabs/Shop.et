@@ -2,14 +2,6 @@ GenericEntity {
  ID "5ADE65D9B4944107"
  components {
   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-   m_ShopConfig ADM_ItemShop "{5AE626C6978EFA52}" {
-    m_Prefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
-   }
-   m_RequiredPayment {
-    ADM_PaymentMethodCurrency "{5AE0792EF395E475}" {
-     m_Quantity 2
-    }
-   }
   }
   MeshObject "{5AD9438CC89B3D3C}" {
    Object "{A4048C2AA75EF832}Common/Models/Default.xob"

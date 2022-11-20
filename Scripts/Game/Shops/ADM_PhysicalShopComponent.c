@@ -14,6 +14,8 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.EditBox, params: "et", category: "Physical Shop")]
 	protected float m_RespawnTime;
 	
+	protected float m_LastRespawnTime = -1;
+	
 	//------------------------------------------------------------------------------------------------
 	void UpdateMesh(IEntity owner)
 	{
@@ -126,13 +128,31 @@ class ADM_PhysicalShopComponent: ScriptComponent
 			Rpc(RpcDo_Purchase, "Error delivering item");
 		}
 		
+		// Hide shop mesh
+		GetOwner().SetObject(null, string.Empty);
+		m_LastRespawnTime = System.GetTickCount();
+		
 		Rpc(RpcDo_Purchase, "success");
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
 	void RpcDo_Purchase(string message)
 	{
+		SCR_HintManagerComponent.GetInstance().ShowCustom(message);
 		Print(message);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	override void EOnFrame(IEntity owner, float timeSlice)
+	{
+		if (m_LastRespawnTime == -1) return;
+		
+		float dt = System.GetTickCount() - m_LastRespawnTime;
+		if (dt >= m_RespawnTime * 1000 && m_ShopConfig.CanRespawn(this))
+		{
+			UpdateMesh(owner);
+			m_LastRespawnTime = -1;
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -146,6 +166,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
-		SetEventMask(owner, EntityEvent.INIT);
+		SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
+		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
 };

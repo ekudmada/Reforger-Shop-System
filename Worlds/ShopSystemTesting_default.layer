@@ -123,6 +123,42 @@ EnvironmentProbeEntity MainProbe {
 }
 SCR_MPDestructionManager DestructionManager {
 }
+GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
+ components {
+  ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
+   m_ShopConfig ADM_ItemShop "{5AE75E043EF41BD9}" {
+    m_Prefab "{C0F7DD85A86B2900}Prefabs/Weapons/Handguns/PM/Handgun_PM.et"
+   }
+   m_RequiredPayment {
+    ADM_PaymentMethodItem "{5AE75E07D91471A0}" {
+     m_ItemPrefab "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et"
+    }
+    ADM_PaymentMethodItem "{5AE75E069092F746}" {
+     m_ItemPrefab "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et"
+     m_ItemQuantity 2
+    }
+   }
+   m_RespawnTime 2
+  }
+ }
+ coords 132.04 1.905 141.675
+ angleY -90
+ angleZ -90
+}
 GenericEntity : "{8A2EE917FFA4201A}Prefabs/Items/Money/BankNote/One.et" {
  coords 131.959 1.881 141.275
+}
+$grp GenericEntity : "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et" {
+ {
+  coords 132.008 1.881 141.452
+ }
+ {
+  coords 131.903 1.881 141.448
+ }
+ {
+  coords 131.864 1.881 141.535
+ }
+ {
+  coords 131.981 1.881 141.529
+ }
 }

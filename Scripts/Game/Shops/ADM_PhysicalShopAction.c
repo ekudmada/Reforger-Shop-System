@@ -82,7 +82,6 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		if (!shopConfig) return;
 		
 		m_ItemName = GetPrefabDisplayName(shopConfig.GetPrefab());
-		m_ItemQuantity = shopConfig.GetQuantity();
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -90,10 +89,10 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 	{	
 		if (!m_PhysicalShop) return;
 		
-		if (m_PhysicalShop.IsPaymentOnlyCurrency())
+		//if (m_PhysicalShop.IsPaymentOnlyCurrency())
 			m_PhysicalShop.AskPurchase();
-		else
-			m_PhysicalShop.ViewPayment();
+		//else
+		//	m_PhysicalShop.ViewPayment();
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -103,7 +102,6 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		
 		string actionName = "Buy";
 		if (m_ItemName.Length() > 0) actionName += string.Format(" %1", m_ItemName);
-		if (m_ItemQuantity > 1) actionName += string.Format(" x%1", m_ItemQuantity);
 		
 		bool currencyOnly = m_PhysicalShop.IsPaymentOnlyCurrency();
 		if (currencyOnly) {
@@ -121,5 +119,16 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		if (!m_PhysicalShop) return false;
 		
 		return m_PhysicalShop.CanPurchase(user);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	override bool CanBeShownScript(IEntity user)
+	{
+		if (!m_PhysicalShop) return false;
+		
+		VObject model = m_PhysicalShop.GetOwner().GetVObject();
+		if (!model) return false;
+		
+		return true;
 	}
 };
