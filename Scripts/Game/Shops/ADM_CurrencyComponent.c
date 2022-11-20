@@ -116,9 +116,7 @@ class ADM_CurrencyComponent: ScriptComponent
 	{
 		if (!inventory) return false;
 		if (amount < 1) return false;
-		return false;
 		
-		/*
 		array<IEntity> currencyItems = ADM_CurrencyComponent.FindCurrencyInInventory(inventory);
 		array<ref Tuple2<int, int>> denominations = ADM_CurrencyComponent.CountDenominations(currencyItems);
 		array<ref Tuple2<int, int>> requiredDenominations = ADM_CurrencyComponent.FindGreedySolution(denominations, amount);
@@ -160,6 +158,6 @@ class ADM_CurrencyComponent: ScriptComponent
 			Print(string.Format("Success! We owe the person $%1", credit));
 		}
 		
-		return true;	*/
+		return true;
 	}
 }

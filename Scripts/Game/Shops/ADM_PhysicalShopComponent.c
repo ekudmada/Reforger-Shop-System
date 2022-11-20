@@ -90,6 +90,14 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void RpcAsk_Purchase(int playerId)
 	{
+		//TODO:
+		//  - Currency (currency as items without a "virtual quantity", probably isn't a good idea from lag)
+		//  - Currency automatic denomination counting
+		//  - Return payment methods already collected if one of them fails
+		//  - Check for storage before trying to insert an item
+		//  - Purchase multiple quantities of items
+		//  - Leave items on ground if allowed (at shop location)
+		
 		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerId);
 		if (!player) {
 			Rpc(RpcDo_Purchase, "Couldn't find player entity");
@@ -126,6 +134,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		bool deliver = m_ShopConfig.Deliver(player);
 		if (!deliver) {
 			Rpc(RpcDo_Purchase, "Error delivering item");
+			return;
 		}
 		
 		// Hide shop mesh

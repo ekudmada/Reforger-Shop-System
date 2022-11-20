@@ -16,9 +16,6 @@ class ADM_PhysicalShopBase: ScriptAndConfig
 [BaseContainerProps()]
 class ADM_ItemShop: ADM_PhysicalShopBase
 {
-	[Attribute(defvalue: "1", desc: "If this item is equipable, and there is space available to equip it, then the item will auto-equip.", uiwidget: UIWidgets.CheckBox, params: "et", category: "Physical Shop")]
-	protected bool m_AutoEquip;
-	
 	[Attribute(defvalue: "0", desc: "If true then shop will spawn in place of the shop if the player cannot equip item or place in inventory. If false the sale will not be allowed.", uiwidget: UIWidgets.CheckBox, category: "Physical Shop")]
 	protected bool m_AllowSaleWithFullInventory;
 	
@@ -47,6 +44,23 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 		// give item/weapon/magazine/clothing to player	
 		IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_Prefab));
 		bool insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
+		
+		EStoragePurpose purpose = EStoragePurpose.PURPOSE_ANY;
+		if (item.FindComponent(WeaponComponent))
+			purpose = EStoragePurpose.PURPOSE_WEAPON_PROXY;
+
+		if (item.FindComponent(BaseLoadoutClothComponent))
+			purpose = EStoragePurpose.PURPOSE_LOADOUT_PROXY;
+		
+		if (item.FindComponent(SCR_GadgetComponent))
+			purpose = EStoragePurpose.PURPOSE_GADGET_PROXY;
+		
+		BaseInventoryStorageComponent storageComp = inventory.FindStorageForItem(item, purpose);
+		if (storageComp)
+		{
+			//TODO: drop current item in slot or put in inventory
+			inventory.EquipAny(storageComp, item, -1, null);
+		}	
 		
 		return insertedItem;		
 	}
