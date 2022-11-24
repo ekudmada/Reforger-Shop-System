@@ -25,50 +25,17 @@ GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
  angleY -90
  angleZ -90
 }
-GenericEntity : "{3E2E541A6ECC6872}Prefabs/Items/Money/BankNote/Hundred.et" {
- coords 131.624 1.881 141.845
-}
-GenericEntity : "{459D736726BE3AE1}Prefabs/Items/Money/BankNote/FiftyThousand.et" {
- coords 131.049 1.881 141.274
-}
 SCR_SpawnPoint : "{4FEA25583D0975F7}Prefabs/MP/Spawning/SpawnPoint_USSR.et" {
  coords 128 1 129
  angleY -180
 }
-GenericEntity : "{55BB0D3A3D525454}Prefabs/Items/Money/BankNote/Thousand.et" {
- coords 131.337 1.881 141.413
-}
 SCR_SpawnPoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
  coords 128 1 127
 }
-GenericEntity : "{7C4BB0E3F6D70076}Prefabs/Items/Money/BankNote/TwoThousand.et" {
- coords 131.34 1.881 141.557
-}
-GenericEntity : "{7D550539FD34E8DC}Prefabs/Items/Money/BankNote/Ten.et" {
- coords 131.621 1.881 141.56
-}
 GenericEntity : "{8A2EE917FFA4201A}Prefabs/Items/Money/BankNote/One.et" {
- coords 131.621 1.881 141.275
-}
-GenericEntity : "{A1BC3706FA10E641}Prefabs/Items/Money/BankNote/HundredThousand.et" {
- coords 131.05 1.881 141.418
-}
-GenericEntity : "{A974C3AF58CF745A}Prefabs/Items/Money/BankNote/TenThousand.et" {
- coords 131.34 1.881 141.842
+ coords 131.478 1.881 141.762
 }
 StaticModelEntity : "{B94D11DD03097D5E}PrefabsEditable/Auto/Props/Military/Furniture/E_TableMilitary_US_01.et" {
  coords 131.474 0.981 141.564
  angleY -179.925
-}
-GenericEntity : "{BC0D675C731ED991}Prefabs/Items/Money/BankNote/FiveThousand.et" {
- coords 131.34 1.881 141.699
-}
-GenericEntity : "{D46F70D4ED808714}Prefabs/Items/Money/BankNote/TwentyFive.et" {
- coords 131.623 1.881 141.699
-}
-GenericEntity : "{D8EBB5C3B0692F20}Prefabs/Items/Money/BankNote/FiveHundred.et" {
- coords 131.336 1.881 141.272
-}
-GenericEntity : "{F093365939506D5D}Prefabs/Items/Money/BankNote/Five.et" {
- coords 131.623 1.881 141.416
 }

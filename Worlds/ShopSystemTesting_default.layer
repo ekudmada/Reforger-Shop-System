@@ -164,7 +164,6 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
    ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
     m_ShopConfig ADM_ItemShop "{5AE89C2E9F895B1B}" {
      m_Prefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
-     m_AutoEquip 0
     }
     m_RequiredPayment {
      ADM_PaymentMethodItem "{5AE89C2E8D90CE4D}" {
@@ -196,9 +195,6 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
   coords 129.143 0.952 141.538
   angleZ 0
  }
-}
-GenericEntity : "{8A2EE917FFA4201A}Prefabs/Items/Money/BankNote/One.et" {
- coords 131.959 1.881 141.275
 }
 $grp GenericEntity : "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et" {
  {

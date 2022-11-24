@@ -1,7 +1,7 @@
 class ADM_PaymentMethodBase: ScriptAndConfig
 {
-	bool CheckPayment(IEntity player) { return false; };
-	bool CollectPayment(IEntity player) { return false; };
+	bool CheckPayment(IEntity player) { return false; }
+	bool CollectPayment(IEntity player) { return false; }
 }
 
 [BaseContainerProps()]

@@ -1,4 +1,4 @@
-class ADM_PhysicalShopComponentClass: ScriptComponentClass {};
+class ADM_PhysicalShopComponentClass: ScriptComponentClass {}
 
 //! A brief explanation of what this component does.
 //! The explanation can be spread across multiple lines.
@@ -83,6 +83,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void ViewPayment()
 	{
+		//TODO
 		Print("open dialog view payment");
 	}
 	
@@ -91,27 +92,27 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	void RpcAsk_Purchase(int playerId)
 	{
 		//TODO:
-		//  - Currency (currency as items without a "virtual quantity", probably isn't a good idea from lag)
-		//  - Currency automatic denomination counting
 		//  - Return payment methods already collected if one of them fails
 		//  - Check for storage before trying to insert an item
 		//  - Purchase multiple quantities of items
-		//  - Leave items on ground if allowed (at shop location)
 		
 		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerId);
-		if (!player) {
+		if (!player) 
+		{
 			Rpc(RpcDo_Purchase, "Couldn't find player entity");
 			return;
 		}
 		
 		bool canPay = CanPurchase(player);
-		if (!canPay) {
+		if (!canPay) 
+		{
 			Rpc(RpcDo_Purchase, "Payment not met");
 			return;
 		}
 		
-		bool canDeliver = m_ShopConfig.CanDeliver(player);
-		if (!canDeliver) {
+		bool canDeliver = m_ShopConfig.CanDeliver(player, this);
+		if (!canDeliver) 
+		{
 			Rpc(RpcDo_Purchase, "Can't deliver item");
 			return;
 		}
@@ -131,8 +132,9 @@ class ADM_PhysicalShopComponent: ScriptComponent
 			return;
 		}
 		
-		bool deliver = m_ShopConfig.Deliver(player);
-		if (!deliver) {
+		bool deliver = m_ShopConfig.Deliver(player, this);
+		if (!deliver) 
+		{
 			Rpc(RpcDo_Purchase, "Error delivering item");
 			return;
 		}
@@ -178,4 +180,4 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
-};
+}

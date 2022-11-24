@@ -9,23 +9,40 @@ class SCR_CurrencyPredicate: InventorySearchPredicate
 	{		
 		return (ADM_CurrencyComponent.Cast(queriedComponents[0])).GetValue() > 0;
 	}
-};
+}
 
-class ADM_CurrencyComponentClass: ScriptComponentClass
-{
-};
+class ADM_CurrencyComponentClass: ScriptComponentClass {}
 
 //! A brief explanation of what this component does.
 //! The explanation can be spread across multiple lines.
 //! This should help with quickly understanding the script's purpose.
 class ADM_CurrencyComponent: ScriptComponent
 {
-	[Attribute(uiwidget: UIWidgets.EditBox, params: "1 inf")]
+	[Attribute(uiwidget: UIWidgets.EditBox, params: "0 inf")]
 	protected int m_Value;
 	
 	int GetValue()
 	{
 		return m_Value;
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	void SetValue(int value)
+	{
+		// TODO: reasoning for calling this function should exist. Don't just let any
+		// random RPC call modify this value. Though, I am unsure how to implement such a thing.
+		m_Value = value;
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	void ModifyValue(int amount, bool direction)
+	{
+		// TODO: reasoning for calling this function should exist. Don't just let any
+		// random RPC call modify this value. Though, I am unsure how to implement such a thing.
+		if (direction)
+			m_Value += amount;
+		else
+			m_Value -= amount;
 	}
 	
 	static array<IEntity> FindCurrencyInInventory(SCR_InventoryStorageManagerComponent inventoryManager)
@@ -53,109 +70,41 @@ class ADM_CurrencyComponent: ScriptComponent
 		return total;
 	}
 	
-	// Denomination is <bill amount, quantity>
-	static array<ref Tuple2<int, int>> CountDenominations(notnull array<IEntity> currencyItems)
-	{
-		array<Tuple2<int, int>> denominations = {};
-		foreach (IEntity currencyEnt : currencyItems)
-		{
-			ADM_CurrencyComponent currencyComp = ADM_CurrencyComponent.Cast(currencyEnt.FindComponent(ADM_CurrencyComponent));
-			int denomination = currencyComp.GetValue();
-			
-			bool inArray = false;
-			foreach (Tuple2<int, int> curDenomination : denominations)
-			{
-				if (curDenomination.param1 == denomination)
-				{
-					inArray = true;
-					curDenomination.param2++;
-					break;
-				}
-			}
-			
-			if (!inArray) denominations.Insert(new Tuple2<int, int>(denomination, 1));
-		}
-		
-		array<ref Tuple2<int, int>> sortedDenominations = {}; // high to low
-		foreach (Tuple2<int, int> denomination : denominations)
-		{
-			bool done = false;
-			int denominationAmount = denomination.param1;
-			
-			for (int i = 0; i < sortedDenominations.Count(); i++)
-			{
-				int curDenominationAmount = sortedDenominations[i].param1;
-				if (denominationAmount > curDenominationAmount)
-				{
-					sortedDenominations.InsertAt(denomination, i);
-					done = true;
-					break;
-				}
-			}
-			
-			if (!done)
-				sortedDenominations.Insert(denomination);
-		}
-		
-		return sortedDenominations;
-	}
-	
-	static array<ref Tuple2<int, int>> FindGreedySolution(array<ref Tuple2<int, int>> givenDenominations, int amount)
-	{
-		array<ref Tuple2<int, int>> greedySolution = {};
-		
-		foreach (Tuple2<int, int> denomination : givenDenominations)
-		{
-			
-		}
-		
-		return greedySolution;
-	}
-	
 	static bool RemoveCurrencyFromInventory(SCR_InventoryStorageManagerComponent inventory, int amount)
 	{
 		if (!inventory) return false;
 		if (amount < 1) return false;
+		if (ADM_CurrencyComponent.FindTotalCurrencyInInventory(inventory) < amount) return false;
 		
+		int originalAmount = amount;
 		array<IEntity> currencyItems = ADM_CurrencyComponent.FindCurrencyInInventory(inventory);
-		array<ref Tuple2<int, int>> denominations = ADM_CurrencyComponent.CountDenominations(currencyItems);
-		array<ref Tuple2<int, int>> requiredDenominations = ADM_CurrencyComponent.FindGreedySolution(denominations, amount);
-		
-		array<bool> removedItems = {};
-		int totalMoneyRemoved = 0;
-		foreach (Tuple2<int, int> denomination : requiredDenominations)
+		foreach (IEntity item : currencyItems)
 		{
-			int denominationAmount = denomination.param1;
-			int denominationQuantityToRemove = denomination.param2;
-			
-			foreach (IEntity currencyEntity : currencyItems)
+			ADM_CurrencyComponent currencyComp = ADM_CurrencyComponent.Cast(item.FindComponent(ADM_CurrencyComponent));
+			if (currencyComp)
 			{
-				ADM_CurrencyComponent currencyComponent = ADM_CurrencyComponent.Cast(currencyEntity.FindComponent(ADM_CurrencyComponent));
-				if (currencyComponent.GetValue() == denominationAmount)
+				int val = currencyComp.GetValue();
+				if (val >= amount)
 				{
-					bool removedItem = inventory.TryDeleteItem(currencyEntity, null);
-					removedItems.Insert(removedItem);
-					totalMoneyRemoved += denominationAmount;
+					currencyComp.ModifyValue(amount, false);
+					amount = 0;
+				} else {
+					amount -= val;
+					currencyComp.SetValue(0);
 				}
-					
-				if (denominationQuantityToRemove <= 0)
-					break;
 			}
 		}
 		
-		if (removedItems.Contains(false) || removedItems.Count() == 0)
-			return false;
-		
-		int credit = totalMoneyRemoved - amount;
-		if (credit < 0)
+		if (amount > 0)
 		{
-			Print("Error! We didn't collect enough money!", LogLevel.ERROR);
+			Print(string.Format("Error! Did not remove requested amount of currency from inventory. $%1 was requested, $%2 total remaining.", originalAmount, amount), LogLevel.ERROR);
 			return false;
 		}
 		
-		if (credit > 0)
+		if (amount < 0)
 		{
-			Print(string.Format("Success! We owe the person $%1", credit));
+			Print(string.Format("Error! Removed too much currency from inventory. $%1 was requested, net: $%2.", originalAmount, amount), LogLevel.ERROR);
+			return false;
 		}
 		
 		return true;
