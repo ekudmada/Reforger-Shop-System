@@ -25,12 +25,36 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 		if (!inventory)
 			return false;
 		
-		return true;
+		SCR_CharacterInventoryStorageComponent charInventory = inventory.GetCharacterStorage();
+		if (!charInventory)
+			return false;
+		
+		array<SCR_UniversalInventoryStorageComponent> inventoryStorages = {};
+		charInventory.GetStorages(inventoryStorages); // this isn't including my backpack or weapon storage. Why?
+		
+		array<bool> checks = {};
+		foreach (SCR_UniversalInventoryStorageComponent storage : inventoryStorages)
+		{
+			float weight = 0;
+			float volume = 0;
+			
+			// check volume
+			bool weightFits = (storage.GetWeight() + weight) <= storage.GetMaxWeight();
+			Print(string.Format("%1N out of %2N", storage.GetWeight() + weight, storage.GetMaxWeight()));
+			
+			// check mass
+			bool volumeFits = (storage.GetVolume2() + volume) <= storage.GetMaxVolume();
+			Print(string.Format("%1m^3 out of %2m^3", storage.GetVolume2() + volume, storage.GetMaxVolume()));
+			
+			checks.Insert(weightFits && volumeFits);
+		}
+		
+		// if any of the storages can fit it, then we are good
+		return checks.Contains(true);
 	}
 	
 	override bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop)
 	{
-		//TODO: Check if player can fit the item in their inventory
 		if (!m_AllowSaleWithFullInventory)
 			return CanFitItemInInventory(player);
 		

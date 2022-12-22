@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{CCC9AD46ABFB0A0B}Scripts/Game/Shops/Modded"
+ Configurations {
+  FolderResourceClass PC {
+  }
+  FolderResourceClass XBOX_ONE : PC {
+  }
+  FolderResourceClass XBOX_SERIES : PC {
+  }
+  FolderResourceClass PS4 : PC {
+  }
+  FolderResourceClass HEADLESS : PC {
+  }
+ }
+}

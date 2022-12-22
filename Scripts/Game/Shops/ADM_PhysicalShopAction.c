@@ -42,27 +42,9 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		// Getting UIInfo is broken right now
 		// Currently broken as of 11/14/2022. Issue has been resolved as of 11/9/2022, need to wait for game update
 		// https://feedback.bistudio.com/T167392
-		string displayName = "";
-		switch (itemComponent.GetClassName())
-		{
-			case "InventoryItemComponent":
-			{
-				
-				break;
-			}
-			case "WeaponComponent":
-			{
-				UIInfo uiInfo;
-				itemComponent.Get("UIInfo", uiInfo);
-				displayName = uiInfo.GetName();	
-				
-				break;
-			}
-			default:
-			{
-				break;
-			}
-		}
+		UIInfo uiInfo;
+		itemComponent.Get("UIInfo", uiInfo);
+		string displayName = uiInfo.GetName();	
 		
 		return displayName;
 	}

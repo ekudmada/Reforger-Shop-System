@@ -20,6 +20,9 @@ GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
     }
    }
   }
+  RigidBody "{5ADE0317BCBF0917}" {
+   Static 1
+  }
  }
  coords 131.948 1.891 141.829
  angleY -90
@@ -33,6 +36,11 @@ SCR_SpawnPoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
  coords 128 1 127
 }
 GenericEntity : "{8A2EE917FFA4201A}Prefabs/Items/Money/BankNote/One.et" {
+ components {
+  ADM_CurrencyComponent "{5AE0A0486B58B685}" {
+   m_Value 1000
+  }
+ }
  coords 131.478 1.881 141.762
 }
 StaticModelEntity : "{B94D11DD03097D5E}PrefabsEditable/Auto/Props/Military/Furniture/E_TableMilitary_US_01.et" {

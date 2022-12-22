@@ -95,6 +95,11 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		//  - Return payment methods already collected if one of them fails
 		//  - Check for storage before trying to insert an item
 		//  - Purchase multiple quantities of items
+		//  - Drop current item in slot or put in inventory
+		//  - Don't respawn unless no other items are in the way
+		//  - View payment if not currency
+		//  - Add supply/demand ability (player shops will be real supply)
+		//  - Add interface for "ownership" of shop (where the money goes, if its a player shop it should go to playr, if NPC it should go to either nowhere or some sort of federal system)
 		
 		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerId);
 		if (!player) 

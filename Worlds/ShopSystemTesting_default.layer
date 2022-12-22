@@ -141,6 +141,9 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
     }
     m_RespawnTime 10
    }
+   RigidBody "{5ADE0317BCBF0917}" {
+    Static 1
+   }
   }
   coords 132.04 1.905 141.675
   angleY -90
@@ -154,8 +157,11 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
     }
     m_RespawnTime 10
    }
+   RigidBody "{5ADE0317BCBF0917}" {
+    Static 1
+   }
   }
-  coords 134.159 1.966 141.531
+  coords 134.159 1.892 141.531
   angleY -90.766
   angleZ -90
  }
@@ -166,10 +172,13 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
      m_Prefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
     }
     m_RequiredPayment {
-     ADM_PaymentMethodItem "{5AE89C2E8D90CE4D}" {
-      m_ItemPrefab "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et"
+     ADM_PaymentMethodItem "{5B0443CCC4A6FA51}" {
+      m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
      }
     }
+   }
+   RigidBody "{5ADE0317BCBF0917}" {
+    Static 1
    }
   }
   coords 134.113 1.905 141.83
@@ -190,6 +199,7 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
    }
    RigidBody "{5ADE0317BCBF0917}" {
     ModelGeometry 1
+    Static 1
    }
   }
   coords 129.143 0.952 141.538
