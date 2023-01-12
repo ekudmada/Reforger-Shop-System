@@ -83,6 +83,8 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		if (!m_PhysicalShop) return false;
 		
 		string actionName = "Buy";
+		if (!m_PhysicalShop.GetRequiredPayment().Count() > 0) actionName = "Free";
+		
 		if (m_ItemName.Length() > 0) actionName += string.Format(" %1", m_ItemName);
 		
 		bool currencyOnly = m_PhysicalShop.IsPaymentOnlyCurrency();

@@ -14,7 +14,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.EditBox, params: "et", category: "Physical Shop")]
 	protected float m_RespawnTime;
 	
-	protected float m_LastRespawnTime = -1;
+	protected float m_LastStateChangeTime = -1;
 	
 	//------------------------------------------------------------------------------------------------
 	void UpdateMesh(IEntity owner)
@@ -56,9 +56,17 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	// Return amount of seconds to respawn
 	float GetRespawnTime()
 	{
 		return m_RespawnTime;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Amount of time in milliseconds until respawn
+	float GetTimeUntilRespawn()
+	{
+		return System.GetTickCount() - m_LastStateChangeTime;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -77,7 +85,8 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void AskPurchase()
 	{
-		Rpc(RpcAsk_Purchase, GetGame().GetPlayerController().GetPlayerId());
+		int playerId = GetGame().GetPlayerController().GetPlayerId();
+		Rpc(RpcAsk_Transaction, playerId);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -88,18 +97,30 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	void SetState(IEntity shop, bool state)
+	{
+		if (state)
+		{
+			UpdateMesh(shop);
+			m_LastStateChangeTime = -1;
+		} else {
+			shop.SetObject(null, string.Empty);
+			m_LastStateChangeTime = System.GetTickCount();
+		}
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void RpcAsk_Purchase(int playerId)
+	void RpcAsk_Transaction(int playerId)
 	{
 		//TODO:
 		//  - Return payment methods already collected if one of them fails
 		//  - Check for storage before trying to insert an item
 		//  - Purchase multiple quantities of items
 		//  - Drop current item in slot or put in inventory
-		//  - Don't respawn unless no other items are in the way
 		//  - View payment if not currency
 		//  - Add supply/demand ability (player shops will be real supply)
-		//  - Add interface for "ownership" of shop (where the money goes, if its a player shop it should go to playr, if NPC it should go to either nowhere or some sort of federal system)
+		//  - Add interface for "ownership" of shop (where the money goes, if its a player shop it should go to player, if NPC it should go to either nowhere or some sort of federal system)
 		
 		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerId);
 		if (!player) 
@@ -122,18 +143,31 @@ class ADM_PhysicalShopComponent: ScriptComponent
 			return;
 		}
 		
+		array<ADM_PaymentMethodBase> collectedPaymentMethods = {};
 		array<bool> didCollectPayments = {};
 		for (int i = 0; i < m_RequiredPayment.Count(); i++) 
 		{
 			ADM_PaymentMethodBase paymentMethod = m_RequiredPayment[i];
+			
+			// If collect payment returns false, it is assumed that the payment was NOT removed from the player
+			// this will be up to each payment method coding logic to ensure is true.
 			bool didCollectPayment = paymentMethod.CollectPayment(player);
 			didCollectPayments.Insert(didCollectPayment);
+			
+			if (didCollectPayment) collectedPaymentMethods.Insert(paymentMethod);
 		}
 		
 		if (didCollectPayments.Contains(false))
 		{
 			Rpc(RpcDo_Purchase, "Error collecting payment");
-			//TODO: Ensure that player doesn't lose anything
+			
+			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)
+			{
+				bool returnedPayment = paymentMethod.ReturnPayment(player);
+				if (!returnedPayment)
+					PrintFormat("Error returning payment! %s", paymentMethod.Type().ToString());
+			}
+			
 			return;
 		}
 		
@@ -141,12 +175,18 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		if (!deliver) 
 		{
 			Rpc(RpcDo_Purchase, "Error delivering item");
+			
+			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)
+			{
+				bool returnedPayment = paymentMethod.ReturnPayment(player);
+				if (!returnedPayment)
+					PrintFormat("Error returning payment! %1", paymentMethod.Type().ToString());
+			}
+			
 			return;
 		}
 		
-		// Hide shop mesh
-		GetOwner().SetObject(null, string.Empty);
-		m_LastRespawnTime = System.GetTickCount();
+		this.SetState(GetOwner(), false);
 		
 		Rpc(RpcDo_Purchase, "success");
 	}
@@ -161,14 +201,11 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
-		if (m_LastRespawnTime == -1) return;
+		if (m_LastStateChangeTime == -1) return;
 		
-		float dt = System.GetTickCount() - m_LastRespawnTime;
+		float dt = GetTimeUntilRespawn();
 		if (dt >= m_RespawnTime * 1000 && m_ShopConfig.CanRespawn(this))
-		{
-			UpdateMesh(owner);
-			m_LastRespawnTime = -1;
-		}
+			this.SetState(owner, true);
 	}
 	
 	//------------------------------------------------------------------------------------------------

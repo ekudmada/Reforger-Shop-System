@@ -25,20 +25,32 @@ class ADM_CurrencyComponent: ScriptComponent
 	{
 		return m_Value;
 	}
-	
+
+	// TODO: reasoning for calling the next two functions should exist. Don't just let any
+	// random RPC call modify this value. Though, I am unsure how to implement such a thing.
+	// Thought: any action which needs to modify currency should be done from the server. 
+	// If a player wants to use currency, they shouldn't ask for the currency to be modified.
+	// Whatever system that is modifying the currency should do it from the authority.
+	// For example a player asks to buy something from a shop, then the shop when executed on
+	// the authority will call the set value function.
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void SetValue(int value)
 	{
-		// TODO: reasoning for calling this function should exist. Don't just let any
-		// random RPC call modify this value. Though, I am unsure how to implement such a thing.
+		if (RplSession.Mode() == RplMode.Client)
+			return;
+		
 		m_Value = value;
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void ModifyValue(int amount, bool direction)
 	{
-		// TODO: reasoning for calling this function should exist. Don't just let any
-		// random RPC call modify this value. Though, I am unsure how to implement such a thing.
+		if (RplSession.Mode() == RplMode.Client)
+			return;
+		
+		if (amount < 0)
+			amount *= -1;
+		
 		if (direction)
 			m_Value += amount;
 		else

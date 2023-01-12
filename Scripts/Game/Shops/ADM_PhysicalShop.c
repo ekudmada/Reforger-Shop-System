@@ -40,11 +40,11 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 			
 			// check volume
 			bool weightFits = (storage.GetWeight() + weight) <= storage.GetMaxWeight();
-			Print(string.Format("%1N out of %2N", storage.GetWeight() + weight, storage.GetMaxWeight()));
+			//Print(string.Format("%1N out of %2N", storage.GetWeight() + weight, storage.GetMaxWeight()));
 			
 			// check mass
 			bool volumeFits = (storage.GetVolume2() + volume) <= storage.GetMaxVolume();
-			Print(string.Format("%1m^3 out of %2m^3", storage.GetVolume2() + volume, storage.GetMaxVolume()));
+			//Print(string.Format("%1m^3 out of %2m^3", storage.GetVolume2() + volume, storage.GetMaxVolume()));
 			
 			checks.Insert(weightFits && volumeFits);
 		}
@@ -59,6 +59,29 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 			return CanFitItemInInventory(player);
 		
 		return true;
+	}
+	
+	static bool InsertAutoEquipItem(SCR_InventoryStorageManagerComponent inventory, IEntity item)
+	{
+		bool insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
+		EStoragePurpose purpose = EStoragePurpose.PURPOSE_ANY;
+		if (item.FindComponent(WeaponComponent))
+			purpose = EStoragePurpose.PURPOSE_WEAPON_PROXY;
+
+		if (item.FindComponent(BaseLoadoutClothComponent))
+			purpose = EStoragePurpose.PURPOSE_LOADOUT_PROXY;
+		
+		if (item.FindComponent(SCR_GadgetComponent))
+			purpose = EStoragePurpose.PURPOSE_GADGET_PROXY;
+		
+		BaseInventoryStorageComponent storageComp = inventory.FindStorageForItem(item, purpose);
+		if (storageComp)
+		{
+			//TODO: drop current item in slot or put in inventory
+			bool equipped = inventory.EquipAny(storageComp, item, -1, null);
+		}
+		
+		return insertedItem;
 	}
 	
 	override bool Deliver(IEntity player, ADM_PhysicalShopComponent shop)
@@ -82,31 +105,45 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 			
 			return true;
 		} else {
-			bool insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
-			EStoragePurpose purpose = EStoragePurpose.PURPOSE_ANY;
-			if (item.FindComponent(WeaponComponent))
-				purpose = EStoragePurpose.PURPOSE_WEAPON_PROXY;
-	
-			if (item.FindComponent(BaseLoadoutClothComponent))
-				purpose = EStoragePurpose.PURPOSE_LOADOUT_PROXY;
-			
-			if (item.FindComponent(SCR_GadgetComponent))
-				purpose = EStoragePurpose.PURPOSE_GADGET_PROXY;
-			
-			BaseInventoryStorageComponent storageComp = inventory.FindStorageForItem(item, purpose);
-			if (storageComp)
-			{
-				//TODO: drop current item in slot or put in inventory
-				inventory.EquipAny(storageComp, item, -1, null);
-			}	
-			
-			return insertedItem;	
+			return InsertAutoEquipItem(inventory, item);	
 		}
 	}
 	
 	override bool CanRespawn(ADM_PhysicalShopComponent shop)
 	{
 		//TODO: Don't respawn unless no other items are in the way
+				
+		return true;
+	}
+}
+
+[BaseContainerProps()]
+class ADM_VehicleShop: ADM_PhysicalShopBase
+{
+	override bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop)
+	{
+		return true;
+	}
+	
+	override bool Deliver(IEntity player, ADM_PhysicalShopComponent shop)
+	{
+		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventory)
+			return false;
+		
+		// double check we can deliver
+		bool canDeliver = this.CanDeliver(player, shop);
+		if (!canDeliver) return false;
+		
+		// spawn vehicle
+		
+		
+		return true;
+	}
+	
+	override bool CanRespawn(ADM_PhysicalShopComponent shop)
+	{
+		//TODO: Don't respawn the shop vehicle unless no other vehicles are in the way
 				
 		return true;
 	}

@@ -1,3 +1,42 @@
 FrameWidgetClass {
  Name "rootFrame"
+ {
+  RichTextWidgetClass "{5C5013E0BB214F96}" {
+   Name "RichText0"
+   Slot FrameWidgetSlot "{5C5013E0A14F70C9}" {
+    PositionX 660
+    OffsetLeft 660
+    PositionY 305
+    OffsetTop 305
+    SizeX 600
+    OffsetRight -1260
+    SizeY 30
+    OffsetBottom -335
+   }
+   Text "Required Payment"
+  }
+  OverlayWidgetClass "{5C5013E0C6C89B3D}" {
+   Name "Overlay0"
+   Slot FrameWidgetSlot "{5C5013E0C6C89BC4}" {
+    Anchor 0.5 0.5 0.5 0.5
+    PositionX -300
+    OffsetLeft -300
+    PositionY -200
+    OffsetTop -200
+    SizeX 600
+    OffsetRight -300
+    SizeY 400
+    OffsetBottom -200
+   }
+   {
+    OverlayWidgetClass "{5C5013E0FC412380}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
+     Name "ListBox0"
+     Slot OverlayWidgetSlot "{5C5013E0FC4123B5}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+    }
+   }
+  }
+ }
 }
