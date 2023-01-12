@@ -174,6 +174,7 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
     m_RequiredPayment {
      ADM_PaymentMethodItem "{5B0443CCC4A6FA51}" {
       m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
+      m_ItemQuantity 2
      }
     }
    }
@@ -188,7 +189,7 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
  {
   components {
    ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_ItemShop "{5AE89C2E9F895B1B}" {
+    m_ShopConfig ADM_VehicleShop "{5AE89C2E9F895B1B}" {
      m_Prefab "{4597626AF36C0858}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320.et"
     }
     m_RequiredPayment {
@@ -196,10 +197,22 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
       m_ItemPrefab "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et"
      }
     }
+    m_RespawnTime 10
    }
    RigidBody "{5ADE0317BCBF0917}" {
     ModelGeometry 1
     Static 1
+   }
+   ActionsManagerComponent "{5AD9438A174FB298}" {
+    ActionContexts {
+     UserActionContext "{5ADD327AF958F0E4}" {
+      Radius 5
+     }
+    }
+    additionalActions {
+     ADM_PhysicalShopAction "{5ADE0317C2763F08}" {
+     }
+    }
    }
   }
   coords 129.143 0.952 141.538

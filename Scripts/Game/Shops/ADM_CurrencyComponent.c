@@ -42,19 +42,18 @@ class ADM_CurrencyComponent: ScriptComponent
 		m_Value = value;
 	}
 	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void ModifyValue(int amount, bool direction)
+	bool ModifyValue(int amount, bool direction)
 	{
 		if (RplSession.Mode() == RplMode.Client)
-			return;
+			return false;
 		
-		if (amount < 0)
-			amount *= -1;
-		
+		if (amount < 0) return false;
 		if (direction)
 			m_Value += amount;
 		else
 			m_Value -= amount;
+		
+		return true;
 	}
 	
 	static array<IEntity> FindCurrencyInInventory(SCR_InventoryStorageManagerComponent inventoryManager)
@@ -117,6 +116,27 @@ class ADM_CurrencyComponent: ScriptComponent
 		{
 			Print(string.Format("Error! Removed too much currency from inventory. $%1 was requested, net: $%2.", originalAmount, amount), LogLevel.ERROR);
 			return false;
+		}
+		
+		return true;
+	}
+	
+		
+	static bool AddCurrencyToInventory(SCR_InventoryStorageManagerComponent inventory, int amount)
+	{
+		if (!inventory) return false;
+		if (amount < 1) return false;
+		
+		int originalAmount = amount;
+		array<IEntity> currencyItems = ADM_CurrencyComponent.FindCurrencyInInventory(inventory);
+		foreach (IEntity item : currencyItems)
+		{
+			ADM_CurrencyComponent currencyComp = ADM_CurrencyComponent.Cast(item.FindComponent(ADM_CurrencyComponent));
+			if (currencyComp) 
+			{
+				currencyComp.ModifyValue(amount, true); 
+				break;
+			}
 		}
 		
 		return true;

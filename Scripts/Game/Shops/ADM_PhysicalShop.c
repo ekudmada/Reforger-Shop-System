@@ -127,16 +127,19 @@ class ADM_VehicleShop: ADM_PhysicalShopBase
 	
 	override bool Deliver(IEntity player, ADM_PhysicalShopComponent shop)
 	{
-		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory)
-			return false;
-		
 		// double check we can deliver
 		bool canDeliver = this.CanDeliver(player, shop);
 		if (!canDeliver) return false;
 		
 		// spawn vehicle
+		vector mat[4];
+		shop.GetOwner().GetTransform(mat);
 		
+		EntitySpawnParams spawnParams = new EntitySpawnParams;
+		spawnParams.Transform = mat;
+		
+		Resource resource = Resource.Load(m_Prefab);
+		IEntity entity = GetGame().SpawnEntityPrefab(resource, null, spawnParams);
 		
 		return true;
 	}

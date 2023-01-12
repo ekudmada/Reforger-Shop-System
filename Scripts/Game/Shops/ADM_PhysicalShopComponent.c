@@ -32,6 +32,19 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		
 		MeshObject model = resource.GetResource().ToMeshObject();
 		owner.SetObject(model, string.Empty);
+		
+		Physics physics = owner.GetPhysics();
+		if (!physics) return;
+		
+		physics.Destroy();
+		
+		physics = Physics.CreateStatic(owner, -1);
+		PhysicsGeom geom = PhysicsGeom.CreateBox(Vector(1,1,1));
+		vector frame[4];
+		Math3D.MatrixIdentity4(frame);
+		frame[3] = vector.Up;
+		string material = "{D745FD8FC67DB26A}Common/Materials/Game/stone.gamemat";
+		int idx = physics.AddGeom("Box", geom, frame, material, 0xffffffff);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -97,24 +110,10 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void SetState(IEntity shop, bool state)
-	{
-		if (state)
-		{
-			UpdateMesh(shop);
-			m_LastStateChangeTime = -1;
-		} else {
-			shop.SetObject(null, string.Empty);
-			m_LastStateChangeTime = System.GetTickCount();
-		}
-	}
-	
-	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void RpcAsk_Transaction(int playerId)
 	{
 		//TODO:
-		//  - Return payment methods already collected if one of them fails
 		//  - Check for storage before trying to insert an item
 		//  - Purchase multiple quantities of items
 		//  - Drop current item in slot or put in inventory
@@ -186,7 +185,12 @@ class ADM_PhysicalShopComponent: ScriptComponent
 			return;
 		}
 		
-		this.SetState(GetOwner(), false);
+		// Hide shop mesh
+		Physics physics = GetOwner().GetPhysics();
+		if (physics) physics.Destroy();
+		
+		GetOwner().SetObject(null, string.Empty);
+		m_LastStateChangeTime = System.GetTickCount();
 		
 		Rpc(RpcDo_Purchase, "success");
 	}
@@ -205,7 +209,10 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		
 		float dt = GetTimeUntilRespawn();
 		if (dt >= m_RespawnTime * 1000 && m_ShopConfig.CanRespawn(this))
-			this.SetState(owner, true);
+		{
+			UpdateMesh(owner);
+			m_LastStateChangeTime = -1;
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------

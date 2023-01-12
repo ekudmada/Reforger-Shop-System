@@ -1,7 +1,11 @@
 class ADM_PaymentMethodBase: ScriptAndConfig
 {
 	bool CheckPayment(IEntity player) { return false; }
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	bool CollectPayment(IEntity player) { return false; }
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	bool ReturnPayment(IEntity player) { return false; }
 }
 
@@ -108,14 +112,16 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
 		
+		bool returned = true;
 		for (int i = 0; i < m_ItemQuantity; i++)
 		{
 			IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_ItemPrefab));
-			bool insertedItem = ADM_ItemShop.InsertAutoEquipItem(inventory, item);
-			return insertedItem;
+			bool insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
+			
+			if (!insertedItem) returned = false;
 		}
 			
-		return true;
+		return returned;
 	}
 }
 
@@ -154,5 +160,16 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 		
 		bool didRemoveCurrency = ADM_CurrencyComponent.RemoveCurrencyFromInventory(inventory, m_Quantity);
 		return didRemoveCurrency;
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	override bool ReturnPayment(IEntity player)
+	{
+		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventory)
+			return false;
+		
+		bool didAddCurrency = ADM_CurrencyComponent.AddCurrencyToInventory(inventory, m_Quantity);
+		return didAddCurrency;
 	}
 }
