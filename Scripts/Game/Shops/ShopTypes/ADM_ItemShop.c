@@ -1,18 +1,3 @@
-class ADM_PhysicalShopBase: ScriptAndConfig
-{
-	[Attribute(defvalue: "", desc: "Prefab of thing to sell", uiwidget: UIWidgets.ResourceNamePicker, params: "et")]
-	protected ResourceName m_Prefab;
-	
-	ResourceName GetPrefab()
-	{
-		return m_Prefab;
-	}
-	
-	bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop) { return false; }
-	bool Deliver(IEntity player, ADM_PhysicalShopComponent shop) { return false; }
-	bool CanRespawn(ADM_PhysicalShopComponent shop) { return false; }
-}
-
 [BaseContainerProps()]
 class ADM_ItemShop: ADM_PhysicalShopBase
 {
@@ -112,41 +97,6 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 	override bool CanRespawn(ADM_PhysicalShopComponent shop)
 	{
 		//TODO: Don't respawn unless no other items are in the way
-				
-		return true;
-	}
-}
-
-[BaseContainerProps()]
-class ADM_VehicleShop: ADM_PhysicalShopBase
-{
-	override bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop)
-	{
-		return true;
-	}
-	
-	override bool Deliver(IEntity player, ADM_PhysicalShopComponent shop)
-	{
-		// double check we can deliver
-		bool canDeliver = this.CanDeliver(player, shop);
-		if (!canDeliver) return false;
-		
-		// spawn vehicle
-		vector mat[4];
-		shop.GetOwner().GetTransform(mat);
-		
-		EntitySpawnParams spawnParams = new EntitySpawnParams;
-		spawnParams.Transform = mat;
-		
-		Resource resource = Resource.Load(m_Prefab);
-		IEntity entity = GetGame().SpawnEntityPrefab(resource, null, spawnParams);
-		
-		return true;
-	}
-	
-	override bool CanRespawn(ADM_PhysicalShopComponent shop)
-	{
-		//TODO: Don't respawn the shop vehicle unless no other vehicles are in the way
 				
 		return true;
 	}

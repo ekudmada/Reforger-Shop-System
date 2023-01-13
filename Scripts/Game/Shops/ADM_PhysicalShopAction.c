@@ -39,12 +39,11 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 
 		if (!itemComponent) return string.Empty;
 
-		// Getting UIInfo is broken right now
-		// Currently broken as of 11/14/2022. Issue has been resolved as of 11/9/2022, need to wait for game update
-		// https://feedback.bistudio.com/T167392
 		UIInfo uiInfo;
 		itemComponent.Get("UIInfo", uiInfo);
-		string displayName = uiInfo.GetName();	
+		
+		string displayName = string.Empty;
+		if (uiInfo) displayName = uiInfo.GetName();	
 		
 		return displayName;
 	}

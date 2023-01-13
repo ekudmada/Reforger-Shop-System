@@ -1,14 +1,3 @@
-class ADM_PaymentMethodBase: ScriptAndConfig
-{
-	bool CheckPayment(IEntity player) { return false; }
-	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	bool CollectPayment(IEntity player) { return false; }
-	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	bool ReturnPayment(IEntity player) { return false; }
-}
-
 [BaseContainerProps()]
 class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 {
@@ -70,10 +59,11 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		if (!inventory)
 			return false;
 		
+		// TODO: keep track of where each item came from, I can imagine a scenario where we try to add something back to the inventory that was in an equipment slot and it fails b/c no room in a vest or bag
 		// Keep track of what is removed, as it is removed.
 		// cant use ReturnPayment() b/c then we would give EVERYTHING back,
-		// if we fail in the middle the player would get something for free
-		// vs. only returning what was taken.
+		// if we fail in the middle of removing payments the player would get something for free.
+		// versus only returning what was taken.
 		array<ResourceName> removedItems = {};
 		array<bool> didRemoveItems = {};
 		array<IEntity> paymentItems = this.GetPaymentItemsInInventory(inventory);
@@ -122,54 +112,5 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		}
 			
 		return returned;
-	}
-}
-
-[BaseContainerProps()]
-class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
-{
-	[Attribute()]
-	int m_Quantity;
-	
-	int GetQuantity()
-	{
-		return m_Quantity;
-	}
-	
-	override bool CheckPayment(IEntity player)
-	{
-		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory)
-			return false;
-		
-		int totalCurrency = ADM_CurrencyComponent.FindTotalCurrencyInInventory(inventory);
-		if (totalCurrency < m_Quantity) return false;
-		
-		return true;
-	}
-	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	override bool CollectPayment(IEntity player)
-	{
-		//check if player has the desired payment
-		if (!CheckPayment(player)) return false;
-		
-		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory)
-			return false;
-		
-		bool didRemoveCurrency = ADM_CurrencyComponent.RemoveCurrencyFromInventory(inventory, m_Quantity);
-		return didRemoveCurrency;
-	}
-	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	override bool ReturnPayment(IEntity player)
-	{
-		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory)
-			return false;
-		
-		bool didAddCurrency = ADM_CurrencyComponent.AddCurrencyToInventory(inventory, m_Quantity);
-		return didAddCurrency;
 	}
 }
