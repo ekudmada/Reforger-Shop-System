@@ -136,10 +136,9 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
      }
      ADM_PaymentMethodItem "{5AE75E069092F746}" {
       m_ItemPrefab "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et"
-      m_ItemQuantity 2
      }
     }
-    m_RespawnTime 10
+    m_RespawnTime 1
    }
    RigidBody "{5ADE0317BCBF0917}" {
     Static 1

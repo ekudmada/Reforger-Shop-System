@@ -64,15 +64,23 @@ SCR_SpawnPoint : "{4FEA25583D0975F7}Prefabs/MP/Spawning/SpawnPoint_USSR.et" {
 SCR_SpawnPoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
  coords 128 1 127
 }
+$grp GenericEntity : "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et" {
+ {
+  coords 131.67 2.048 141.674
+ }
+ {
+  coords 131.479 2.048 141.606
+ }
+}
 StaticModelEntity : "{B94D11DD03097D5E}PrefabsEditable/Auto/Props/Military/Furniture/E_TableMilitary_US_01.et" {
  coords 131.474 0.981 141.564
  angleY -179.925
 }
 $grp GenericEntity : "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et" {
  {
-  coords 133.355 1.939 141.689
+  coords 133.337 1.939 141.67
  }
  {
-  coords 133.375 1.939 141.814
+  coords 133.357 1.939 141.795
  }
 }

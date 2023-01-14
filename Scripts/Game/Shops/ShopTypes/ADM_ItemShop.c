@@ -38,35 +38,24 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 		return checks.Contains(true);
 	}
 	
-	override bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop)
-	{
-		if (!m_AllowSaleWithFullInventory)
-			return CanFitItemInInventory(player);
-		
-		return true;
-	}
-	
 	static bool InsertAutoEquipItem(SCR_InventoryStorageManagerComponent inventory, IEntity item)
 	{
-		bool insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
 		EStoragePurpose purpose = EStoragePurpose.PURPOSE_ANY;
-		if (item.FindComponent(WeaponComponent))
-			purpose = EStoragePurpose.PURPOSE_WEAPON_PROXY;
-
-		if (item.FindComponent(BaseLoadoutClothComponent))
-			purpose = EStoragePurpose.PURPOSE_LOADOUT_PROXY;
+		if (item.FindComponent(WeaponComponent)) purpose = EStoragePurpose.PURPOSE_WEAPON_PROXY;
+		if (item.FindComponent(BaseLoadoutClothComponent)) purpose = EStoragePurpose.PURPOSE_LOADOUT_PROXY;
+		if (item.FindComponent(SCR_GadgetComponent)) purpose = EStoragePurpose.PURPOSE_GADGET_PROXY;
 		
-		if (item.FindComponent(SCR_GadgetComponent))
-			purpose = EStoragePurpose.PURPOSE_GADGET_PROXY;
-		
-		BaseInventoryStorageComponent storageComp = inventory.FindStorageForItem(item, purpose);
-		if (storageComp)
-		{
-			//TODO: drop current item in slot or put in inventory
-			bool equipped = inventory.EquipAny(storageComp, item, -1, null);
-		}
+		bool insertedItem = inventory.TryInsertItem(item, purpose, null);
+		if (!insertedItem) insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
 		
 		return insertedItem;
+	}
+	
+	override bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop)
+	{
+		if (!m_AllowSaleWithFullInventory) return CanFitItemInInventory(player);
+		
+		return true;
 	}
 	
 	override bool Deliver(IEntity player, ADM_PhysicalShopComponent shop)
@@ -94,10 +83,5 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 		}
 	}
 	
-	override bool CanRespawn(ADM_PhysicalShopComponent shop)
-	{
-		//TODO: Don't respawn unless no other items are in the way
-				
-		return true;
-	}
+	override bool CanRespawn(ADM_PhysicalShopComponent shop) { return true; }
 }

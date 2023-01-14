@@ -113,9 +113,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	void RpcAsk_Transaction(int playerId)
 	{
 		//TODO:
-		//  - Check for storage before trying to insert an item
 		//  - Purchase multiple quantities of items
-		//  - Drop current item in slot or put in inventory
 		//  - View payment if not currency
 		//  - Add supply/demand ability (player shops will be real supply)
 		//  - Add interface for "ownership" of shop (where the money goes, if its a player shop it should go to player, if NPC it should go to either nowhere or some sort of federal system)
@@ -157,34 +155,30 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		
 		if (didCollectPayments.Contains(false))
 		{
-			Rpc(RpcDo_Purchase, "Error collecting payment");
-			
 			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)
 			{
 				bool returnedPayment = paymentMethod.ReturnPayment(player);
-				if (!returnedPayment)
-					PrintFormat("Error returning payment! %s", paymentMethod.Type().ToString());
+				if (!returnedPayment) PrintFormat("Error returning payment! %s", paymentMethod.Type().ToString());
 			}
 			
+			Rpc(RpcDo_Purchase, "Error collecting payment");
 			return;
 		}
 		
 		bool deliver = m_ShopConfig.Deliver(player, this);
 		if (!deliver) 
 		{
-			Rpc(RpcDo_Purchase, "Error delivering item");
-			
 			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)
 			{
 				bool returnedPayment = paymentMethod.ReturnPayment(player);
-				if (!returnedPayment)
-					PrintFormat("Error returning payment! %1", paymentMethod.Type().ToString());
+				if (!returnedPayment) PrintFormat("Error returning payment! %1", paymentMethod.Type().ToString());
 			}
 			
+			Rpc(RpcDo_Purchase, "Error delivering item");
 			return;
 		}
 		
-		// Hide shop mesh
+		// Hide shop
 		Physics physics = GetOwner().GetPhysics();
 		if (physics) physics.Destroy();
 		

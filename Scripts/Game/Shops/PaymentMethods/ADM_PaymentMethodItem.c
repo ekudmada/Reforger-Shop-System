@@ -4,7 +4,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 	[Attribute(defvalue: "", desc: "Prefab of item", uiwidget: UIWidgets.ResourceNamePicker, params: "et")]
 	protected ResourceName m_ItemPrefab;
 	
-	[Attribute(defvalue: "1", desc: "Number of item to sell", params: "1 inf")]
+	[Attribute(defvalue: "1", desc: "Number of item for payment", params: "1 inf")]
 	protected int m_ItemQuantity;
 	
 	ResourceName GetItemPrefab()
@@ -19,8 +19,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 	
 	array<IEntity> GetPaymentItemsInInventory(SCR_InventoryStorageManagerComponent inventory)
 	{
-		if (!inventory)
-			return null;
+		if (!inventory) return null;
 		
 		array<IEntity> allInventoryItems = {};
 		inventory.GetItems(allInventoryItems);
@@ -45,8 +44,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		array<IEntity> paymentItems = this.GetPaymentItemsInInventory(inventory);
 		if (!paymentItems) return false;
 		
-		bool haveEnough = paymentItems.Count() >= m_ItemQuantity;
-		return haveEnough;
+		return (paymentItems.Count() >= m_ItemQuantity);
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
@@ -56,10 +54,8 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		if (!CheckPayment(player)) return false;
 		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory)
-			return false;
+		if (!inventory) return false;
 		
-		// TODO: keep track of where each item came from, I can imagine a scenario where we try to add something back to the inventory that was in an equipment slot and it fails b/c no room in a vest or bag
 		// Keep track of what is removed, as it is removed.
 		// cant use ReturnPayment() b/c then we would give EVERYTHING back,
 		// if we fail in the middle of removing payments the player would get something for free.
@@ -76,8 +72,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 			didRemoveItems.Insert(didRemoveItem);
 			
 			if (didRemoveItem) removedItems.Insert(prefabName);
-			if (didRemoveItems.Count() == m_ItemQuantity)
-				break;
+			if (didRemoveItems.Count() == m_ItemQuantity) break;
 		}
 		
 		if (didRemoveItems.Contains(false))
@@ -88,6 +83,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 			{
 				IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(returnItemPrefab));
 				bool inserted = ADM_ItemShop.InsertAutoEquipItem(inventory, item);
+				if (!inserted) Print("Error! Couldn't return an item for payment.", LogLevel.ERROR); //TODO: not sure best way to handle this if it occurs, maybe drop it?
 			}
 			
 			return false;
@@ -107,7 +103,6 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		{
 			IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_ItemPrefab));
 			bool insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
-			
 			if (!insertedItem) returned = false;
 		}
 			

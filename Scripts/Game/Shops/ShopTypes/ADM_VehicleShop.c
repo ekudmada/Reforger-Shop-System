@@ -1,9 +1,17 @@
 [BaseContainerProps()]
 class ADM_VehicleShop: ADM_PhysicalShopBase
 {
+	override bool CanRespawn(ADM_PhysicalShopComponent shop)
+	{
+		//TODO: Don't respawn the shop vehicle unless no other vehicles are in the way
+		
+		return true;
+	}
+	
 	override bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop)
 	{
-		return true;
+		// Don't need to check any player specific things like inventory storage, just need to check if the space is clear from objects that could blow it up.
+		return CanRespawn(shop);
 	}
 	
 	override bool Deliver(IEntity player, ADM_PhysicalShopComponent shop)
@@ -20,13 +28,6 @@ class ADM_VehicleShop: ADM_PhysicalShopBase
 		Resource resource = Resource.Load(m_Prefab);
 		IEntity entity = GetGame().SpawnEntityPrefab(resource, null, params);
 		
-		return true;
-	}
-	
-	override bool CanRespawn(ADM_PhysicalShopComponent shop)
-	{
-		//TODO: Don't respawn the shop vehicle unless no other vehicles are in the way
-				
 		return true;
 	}
 }
