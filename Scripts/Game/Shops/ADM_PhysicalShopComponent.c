@@ -38,12 +38,13 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		oldPhysics.Destroy();
 		
 		Physics newPhysics = Physics.CreateStatic(owner, -1);
-		PhysicsGeom geom = PhysicsGeom.CreateBox(Vector(1,1,1));
+		
+		/*PhysicsGeom geom = PhysicsGeom.CreateBox(Vector(1,1,1));
 		vector frame[4];
 		Math3D.MatrixIdentity4(frame);
 		frame[3] = vector.Up;
 		string material = "{D745FD8FC67DB26A}Common/Materials/Game/stone.gamemat";
-		int idx = newPhysics.AddGeom("Box", geom, frame, material, 0xffffffff);
+		int idx = newPhysics.AddGeom("Box", geom, frame, material, 0xffffffff);*/
 	}
 	
 	//------------------------------------------------------------------------------------------------

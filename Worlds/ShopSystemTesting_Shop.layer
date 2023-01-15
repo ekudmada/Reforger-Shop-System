@@ -35,7 +35,12 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
     m_ShopConfig ADM_VehicleShop "{5AE89C2E9F895B1B}" {
      m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
     }
-    m_RespawnTime 10
+    m_RequiredPayment {
+     ADM_PaymentMethodItem "{5C5D72433CA61533}" {
+      m_ItemPrefab "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et"
+     }
+    }
+    m_RespawnTime 1
    }
    RigidBody "{5ADE0317BCBF0917}" {
     ModelGeometry 1
@@ -58,7 +63,6 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
  }
 }
 SCR_SpawnPoint : "{4FEA25583D0975F7}Prefabs/MP/Spawning/SpawnPoint_USSR.et" {
- coords 128 1 129
  angleY -180
 }
 SCR_SpawnPoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
@@ -66,10 +70,11 @@ SCR_SpawnPoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
 }
 $grp GenericEntity : "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et" {
  {
-  coords 131.67 2.048 141.674
+  coords 131.611 1.167 141.611
+  angleZ -0.001
  }
  {
-  coords 131.479 2.048 141.606
+  coords 131.42 1.167 141.543
  }
 }
 StaticModelEntity : "{B94D11DD03097D5E}PrefabsEditable/Auto/Props/Military/Furniture/E_TableMilitary_US_01.et" {
@@ -78,9 +83,11 @@ StaticModelEntity : "{B94D11DD03097D5E}PrefabsEditable/Auto/Props/Military/Furni
 }
 $grp GenericEntity : "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et" {
  {
-  coords 133.337 1.939 141.67
+  coords 133.274 1.94 141.605
+  angleX -0.71
+  angleZ -1.481
  }
  {
-  coords 133.357 1.939 141.795
+  coords 133.294 1.939 141.73
  }
 }
