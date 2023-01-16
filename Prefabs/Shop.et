@@ -19,11 +19,10 @@ GenericEntity {
     }
    }
    additionalActions {
-    ADM_PhysicalShopAction "{5ADE0317C2763F08}" {
+    ADM_PhysicalShopPurchaseAction "{5C602D10A86790E0}" {
      ParentContextList {
       "Shop"
      }
-     Duration 1
     }
    }
   }

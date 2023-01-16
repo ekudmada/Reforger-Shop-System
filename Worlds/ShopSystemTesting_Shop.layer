@@ -43,10 +43,6 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
       Radius 5
      }
     }
-    additionalActions {
-     ADM_PhysicalShopAction "{5ADE0317C2763F08}" {
-     }
-    }
    }
   }
   coords 125.897 0.952 141.538
@@ -56,7 +52,7 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
   components {
    ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
     m_ShopConfig ADM_VehicleShop "{5AE89C2E9F895B1B}" {
-     m_Prefab "{16C1F16C9B053801}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320_transport.et"
+     m_Prefab "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et"
     }
     m_RequiredPayment {
      ADM_PaymentMethodItem "{5AE89C2E8D90CE4D}" {
@@ -73,10 +69,6 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
     ActionContexts {
      UserActionContext "{5ADD327AF958F0E4}" {
       Radius 5
-     }
-    }
-    additionalActions {
-     ADM_PhysicalShopAction "{5ADE0317C2763F08}" {
      }
     }
    }
@@ -99,6 +91,12 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
    }
    RigidBody "{5ADE0317BCBF0917}" {
     Static 1
+   }
+   ActionsManagerComponent "{5AD9438A174FB298}" {
+    additionalActions {
+     ADM_PhysicalShopPurchaseAction "{5C602D10AED77688}" {
+     }
+    }
    }
   }
   coords 134.096 1.899 141.809

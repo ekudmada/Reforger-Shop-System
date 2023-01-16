@@ -1,7 +1,7 @@
 [BaseContainerProps()]
 class ADM_VehicleShop: ADM_ShopBase
 {
-	static bool DEBUG = true;
+	static bool DEBUG = false;
 	
 	EntitySpawnParams GetVehicleSpawnTransform(ADM_PhysicalShopComponent shop)
 	{

@@ -1,4 +1,4 @@
-class ADM_PhysicalShopAction : ScriptedUserAction
+class ADM_PhysicalShopPurchaseAction : ScriptedUserAction
 {
 	protected IEntity m_Owner;
 	protected ADM_PhysicalShopComponent m_Shop;
@@ -28,7 +28,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 	{	
 		if (!m_Shop) return;
 		
-		if (m_Shop.IsPaymentOnlyCurrency())
+		if (m_Shop.IsPaymentOnlyCurrency() || !(m_Shop.GetRequiredPayment().Count() > 0))
 			m_Shop.AskPurchase();
 		else
 			m_Shop.ViewPayment();
