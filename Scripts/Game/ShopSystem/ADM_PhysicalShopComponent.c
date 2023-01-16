@@ -3,10 +3,11 @@ class ADM_PhysicalShopComponentClass: ScriptComponentClass {}
 //! A brief explanation of what this component does.
 //! The explanation can be spread across multiple lines.
 //! This should help with quickly understanding the script's purpose.
+//TODO: look into SCR_PreviewEntityComponent
 class ADM_PhysicalShopComponent: ScriptComponent
 {
 	[Attribute(defvalue: "", desc: "Physical Shop Configuration", uiwidget: UIWidgets.Object, params: "et", category: "Physical Shop")]
-	protected ref ADM_PhysicalShopBase m_ShopConfig;
+	protected ref ADM_ShopBase m_ShopConfig;
 	
 	[Attribute(category: "Physical Shop")]
 	protected ref array<ref ADM_PaymentMethodBase> m_RequiredPayment;
@@ -63,7 +64,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	ADM_PhysicalShopBase GetShopConfig()
+	ADM_ShopBase GetShopConfig()
 	{
 		return m_ShopConfig;
 	}
@@ -105,8 +106,9 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void ViewPayment()
 	{
-		//TODO
-		Print("open dialog view payment");
+		MenuBase menuBase = GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.ADM_ViewPaymentMenu); 
+		ADM_ViewPaymentUI menu = ADM_ViewPaymentUI.Cast(menuBase);
+		menu.SetShop(this);
 	}
 	
 	//------------------------------------------------------------------------------------------------

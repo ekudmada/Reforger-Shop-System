@@ -45,4 +45,9 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 		bool didAddCurrency = ADM_CurrencyComponent.AddCurrencyToInventory(inventory, m_Quantity);
 		return didAddCurrency;
 	}
+	
+	override string GetDisplayString()
+	{
+		return string.Format("$%1", m_Quantity);
+	}
 }

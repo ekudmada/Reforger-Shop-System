@@ -108,4 +108,9 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 			
 		return returned;
 	}
+	
+	override string GetDisplayString()
+	{
+		return string.Format("%1 x%2", ADM_ShopBase.GetPrefabDisplayName(m_ItemPrefab), m_ItemQuantity);
+	}
 }

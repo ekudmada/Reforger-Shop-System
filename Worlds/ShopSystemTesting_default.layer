@@ -121,118 +121,15 @@ EnvironmentProbeEntity MainProbe {
  BottomAngleMax -5
  BottomAngleMin 0
 }
+SCR_LoadoutManager {
+ coords 132.658 1.001 137.617
+ m_aPlayerLoadouts {
+  SCR_FactionPlayerLoadout "{5AE27EF60B431BC9}" {
+   m_sLoadoutResource "{26A9756790131354}Prefabs/Characters/Factions/BLUFOR/US_Army/Character_US_Rifleman.et"
+   m_sLoadoutImage "{2B0877799B9B6C66}UI/Textures/EditorPreviews/Characters/BLUFOR/US_Army/Character_US_Rifleman.edds"
+   m_sAffiliatedFaction "US"
+  }
+ }
+}
 SCR_MPDestructionManager DestructionManager {
-}
-$grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
- {
-  components {
-   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_ItemShop "{5AE75E043EF41BD9}" {
-     m_Prefab "{C0F7DD85A86B2900}Prefabs/Weapons/Handguns/PM/Handgun_PM.et"
-    }
-    m_RequiredPayment {
-     ADM_PaymentMethodItem "{5AE75E07D91471A0}" {
-      m_ItemPrefab "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et"
-     }
-     ADM_PaymentMethodItem "{5AE75E069092F746}" {
-      m_ItemPrefab "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et"
-     }
-    }
-    m_RespawnTime 1
-   }
-   RigidBody "{5ADE0317BCBF0917}" {
-    Static 1
-   }
-  }
-  coords 132.04 1.905 141.675
-  angleY -90
-  angleZ -90
- }
- {
-  components {
-   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_ItemShop "{5AE8A57F3F6088F5}" {
-     m_Prefab "{3EB02CDAD5F23C82}Prefabs/Weapons/Rifles/SVD/Rifle_SVD.et"
-    }
-    m_RespawnTime 10
-   }
-   RigidBody "{5ADE0317BCBF0917}" {
-    Static 1
-   }
-  }
-  coords 134.159 1.892 141.531
-  angleY -90.766
-  angleZ -90
- }
- {
-  components {
-   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_ItemShop "{5AE89C2E9F895B1B}" {
-     m_Prefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
-    }
-    m_RequiredPayment {
-     ADM_PaymentMethodItem "{5B0443CCC4A6FA51}" {
-      m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
-      m_ItemQuantity 2
-     }
-    }
-   }
-   RigidBody "{5ADE0317BCBF0917}" {
-    Static 1
-   }
-  }
-  coords 134.113 1.905 141.83
-  angleY -90
-  angleZ -90
- }
- {
-  components {
-   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_VehicleShop "{5AE89C2E9F895B1B}" {
-     m_Prefab "{16C1F16C9B053801}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320_transport.et"
-    }
-    m_RequiredPayment {
-     ADM_PaymentMethodItem "{5AE89C2E8D90CE4D}" {
-      m_ItemPrefab "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et"
-     }
-    }
-    m_RespawnTime 10
-   }
-   RigidBody "{5ADE0317BCBF0917}" {
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{5AD9438A174FB298}" {
-    ActionContexts {
-     UserActionContext "{5ADD327AF958F0E4}" {
-      Radius 5
-     }
-    }
-    additionalActions {
-     ADM_PhysicalShopAction "{5ADE0317C2763F08}" {
-     }
-    }
-   }
-  }
-  coords 129.143 0.993 141.538
-  angleZ 0
- }
-}
-$grp GenericEntity : "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et" {
- {
-  coords 132.008 1.881 141.452
- }
- {
-  coords 131.903 1.881 141.448
- }
- {
-  coords 131.864 1.881 141.535
- }
- {
-  coords 131.981 1.881 141.529
- }
-}
-StaticModelEntity : "{B94D11DD03097D5E}PrefabsEditable/Auto/Props/Military/Furniture/E_TableMilitary_US_01.et" {
- coords 133.887 0.981 141.561
- angleY -179.925
 }

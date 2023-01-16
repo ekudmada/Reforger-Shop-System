@@ -1,39 +1,310 @@
 FrameWidgetClass {
  Name "rootFrame"
  {
-  RichTextWidgetClass "{5C5013E0BB214F96}" {
-   Name "RichText0"
-   Slot FrameWidgetSlot "{5C5013E0A14F70C9}" {
-    PositionX 660
-    OffsetLeft 660
-    PositionY 305
-    OffsetTop 305
-    SizeX 600
-    OffsetRight -1260
-    SizeY 30
-    OffsetBottom -335
-   }
-   Text "Required Payment"
-  }
   OverlayWidgetClass "{5C5013E0C6C89B3D}" {
    Name "Overlay0"
    Slot FrameWidgetSlot "{5C5013E0C6C89BC4}" {
     Anchor 0.5 0.5 0.5 0.5
-    PositionX -300
-    OffsetLeft -300
+    PositionX -200
+    OffsetLeft -200
     PositionY -200
     OffsetTop -200
-    SizeX 600
-    OffsetRight -300
+    SizeX 400
+    OffsetRight -200
     SizeY 400
     OffsetBottom -200
    }
    {
-    OverlayWidgetClass "{5C5013E0FC412380}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
-     Name "ListBox0"
-     Slot OverlayWidgetSlot "{5C5013E0FC4123B5}" {
+    ImageWidgetClass "{5C5F72E446852866}" {
+     Name "Background"
+     Slot OverlayWidgetSlot "{5C5F72E446852807}" {
       HorizontalAlign 3
       VerticalAlign 3
+     }
+     Color 0 0 0 0.373
+    }
+    VerticalLayoutWidgetClass "{5C5F75758AC4FA59}" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5C5F75758AC4FA66}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      HorizontalLayoutWidgetClass "{5C5F7575DC7A9236}" {
+       Name "Title"
+       Slot LayoutSlot "{5C5F7916D4D1FB28}" {
+        SizeMode Auto
+       }
+       {
+        OverlayWidgetClass "{5C5F757528DBC677}" {
+         Name "Overlay0"
+         Slot LayoutSlot "{5C5F757528DBC66A}" {
+          SizeMode Fill
+         }
+         {
+          ImageWidgetClass "{5C5F72E4CBBF79E3}" {
+           Name "Title Background"
+           Slot OverlayWidgetSlot "{5C5F7916D4D1FBF5}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           Color 0.761 0.386 0.078 1
+          }
+          RichTextWidgetClass "{5C5013E0BB214F96}" {
+           Name "RichText0"
+           Slot OverlayWidgetSlot "{5C5F7916D4D1FBEF}" {
+            HorizontalAlign 3
+            Padding 5 0 5 0
+           }
+           Text "Required Payment"
+           "Vertical Alignment" Center
+          }
+         }
+        }
+       }
+      }
+      HorizontalLayoutWidgetClass "{5C5F7575DDE1619D}" {
+       Name "Content"
+       Slot LayoutSlot "{5C5F7916D4D1FB82}" {
+        SizeMode Fill
+       }
+       {
+        OverlayWidgetClass "{5C5013E0FC412380}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
+         Name "ListBox0"
+         Slot LayoutSlot "{5C5F7916D4D1F2B1}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+          SizeMode Fill
+         }
+        }
+       }
+      }
+      ImageWidgetClass "{5C602D0260E8A162}" {
+       Name "Divider"
+       Slot LayoutSlot "{5C602D0260E8A11E}" {
+        VerticalAlign 1
+       }
+       Color 0.212 0.212 0.212 1
+       Size 0 2
+      }
+      HorizontalLayoutWidgetClass "{5C5F75750E813ABE}" {
+       Name "Footer"
+       Slot LayoutSlot "{5C5F75750E813B54}" {
+        VerticalAlign 2
+        Padding 25 5 25 5
+        FillWeight 0.25
+       }
+       {
+        ButtonWidgetClass "{5C5F7574C86CA1A5}" {
+         Name "Cancel"
+         Slot LayoutSlot "{5C5F7574C86CA642}" {
+          Padding 10 0 10 0
+         }
+         Clipping False
+         Color 0 0 0 0
+         components {
+          SCR_NavigationButtonComponent "{5C5F79123F459E65}" {
+           m_BackgroundDefault 0 0 0 0.42
+           m_BackgroundHovered 0 0 0 0.42
+           m_BackgroundSelectedHovered 0.761 0.392 0.078 0.302
+           m_BackgroundClicked 0.761 0.392 0.078 0.302
+           m_bShowBorderOnFocus 0
+           m_bShowBorderOnHover 1
+           m_sLabel " #AR-Workshop_ButtonCancel"
+           m_sActionName "MenuBack"
+          }
+         }
+         "no focus" 1
+         {
+          SizeLayoutWidgetClass "{5C5F7912A3BAF9A6}" {
+           Name "SizeLayout"
+           Slot ButtonWidgetSlot "{5C5F7912A3BAFE40}" {
+           }
+           AllowHeightOverride 1
+           HeightOverride 48
+           {
+            OverlayWidgetClass "{5C5F7912AD6EB677}" {
+             Name "Overlay"
+             Slot AlignableSlot "{5C5F7912AD6EB660}" {
+              VerticalAlign 3
+              Padding 2 2 2 2
+             }
+             {
+              ImageWidgetClass "{5C5F79125DCB5667}" {
+               Name "Background"
+               Slot OverlayWidgetSlot "{5C5F79125DCB561E}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+               }
+               Color 0 0 0 0.42
+              }
+              PanelWidgetClass "{5C5F791244900FE7}" {
+               Name "Border"
+               Slot OverlayWidgetSlot "{5C5F791244900F9D}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+                Padding -2 -2 -2 -2
+               }
+               Color 0.761 0.384 0.078 1
+               style outline_2px
+              }
+              HorizontalLayoutWidgetClass "{5C5F791243AE7C79}" {
+               Name "HorizontalLayout"
+               Slot OverlayWidgetSlot "{5C5F791243AE7C1F}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+                Padding 10 10 10 10
+               }
+               Clipping False
+               "Inherit Color" 1
+               {
+                RichTextWidgetClass "{5C5F79124841F8E4}" {
+                 Name "Action"
+                 Slot LayoutSlot "{5C5F79124841F899}" {
+                  HorizontalAlign 0
+                  Padding 0 -5 5 0
+                 }
+                 Color 0.761 0.384 0.078 1
+                 Text "<action name=\"MenuTabLeft\"/>"
+                 "Font Size" 20
+                 "Min Font Size" 20
+                 "Vertical Alignment" Center
+                 FontProperties FontProperties "{5C5F79136678B814}" {
+                  Font "{EABA4FE9D014CCEF}UI/Fonts/RobotoCondensed/RobotoCondensed_Bold.fnt"
+                 }
+                 "Line Spacing" 10
+                }
+                RichTextWidgetClass "{5C5F7912762D3A5A}" {
+                 Name "Text"
+                 Slot LayoutSlot "{5C5F7912762D3A71}" {
+                  HorizontalAlign 0
+                  Padding 5 0 0 0
+                  SizeMode Fill
+                 }
+                 Text "Navigation button"
+                 "Font Size" 20
+                 "Min Font Size" 20
+                 "Horizontal Alignment" Right
+                 "Vertical Alignment" Center
+                 "Line Spacing" 10
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        OverlayWidgetClass "{5C5F791327A0BFBE}" {
+         Name "Spacer"
+         Slot LayoutSlot "{5C5F791327A0BFD8}" {
+          SizeMode Fill
+         }
+        }
+        ButtonWidgetClass "{5C5F791337CCC30E}" {
+         Name "Confirm"
+         Slot LayoutSlot "{5C5F7574C86CA642}" {
+          Padding 10 0 10 0
+         }
+         Clipping False
+         Color 0 0 0 0
+         components {
+          SCR_NavigationButtonComponent "{5C5F79123F459E65}" {
+           m_BackgroundDefault 0 0 0 0.42
+           m_BackgroundHovered 0 0 0 0.42
+           m_BackgroundSelectedHovered 0.761 0.392 0.078 0.302
+           m_BackgroundClicked 0.761 0.392 0.078 0.302
+           m_bShowBorderOnFocus 0
+           m_bShowBorderOnHover 1
+           m_sLabel "#AR-Menu_OK"
+           m_sActionName "DialogConfirm"
+          }
+         }
+         "no focus" 1
+         {
+          SizeLayoutWidgetClass "{5C5F791337CCC30F}" {
+           Name "SizeLayout"
+           Slot ButtonWidgetSlot "{5C5F7912A3BAFE40}" {
+           }
+           AllowHeightOverride 1
+           HeightOverride 48
+           {
+            OverlayWidgetClass "{5C5F791337CCC30C}" {
+             Name "Overlay"
+             Slot AlignableSlot "{5C5F7912AD6EB660}" {
+              VerticalAlign 3
+              Padding 2 2 2 2
+             }
+             {
+              ImageWidgetClass "{5C5F791337CCC30D}" {
+               Name "Background"
+               Slot OverlayWidgetSlot "{5C5F79125DCB561E}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+               }
+               Color 0 0 0 0.42
+              }
+              PanelWidgetClass "{5C5F791337CCC30A}" {
+               Name "Border"
+               Slot OverlayWidgetSlot "{5C5F791244900F9D}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+                Padding -2 -2 -2 -2
+               }
+               Color 0.761 0.384 0.078 1
+               style outline_2px
+              }
+              HorizontalLayoutWidgetClass "{5C5F791337CF22DD}" {
+               Name "HorizontalLayout"
+               Slot OverlayWidgetSlot "{5C5F791243AE7C1F}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+                Padding 10 10 10 10
+               }
+               Clipping False
+               "Inherit Color" 1
+               {
+                RichTextWidgetClass "{5C5F791337CF22DF}" {
+                 Name "Action"
+                 Slot LayoutSlot "{5C5F79124841F899}" {
+                  HorizontalAlign 0
+                  Padding 0 -5 5 0
+                 }
+                 Color 0.761 0.384 0.078 1
+                 Text "<action name=\"MenuTabLeft\"/>"
+                 "Font Size" 20
+                 "Min Font Size" 20
+                 "Vertical Alignment" Center
+                 FontProperties FontProperties "{5C5F79136678B814}" {
+                  Font "{EABA4FE9D014CCEF}UI/Fonts/RobotoCondensed/RobotoCondensed_Bold.fnt"
+                 }
+                 "Line Spacing" 10
+                }
+                RichTextWidgetClass "{5C5F791337CF22DE}" {
+                 Name "Text"
+                 Slot LayoutSlot "{5C5F7912762D3A71}" {
+                  HorizontalAlign 0
+                  Padding 5 0 0 0
+                  SizeMode Fill
+                 }
+                 Text "Navigation button"
+                 "Font Size" 20
+                 "Min Font Size" 20
+                 "Horizontal Alignment" Right
+                 "Vertical Alignment" Center
+                 "Line Spacing" 10
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
      }
     }
    }

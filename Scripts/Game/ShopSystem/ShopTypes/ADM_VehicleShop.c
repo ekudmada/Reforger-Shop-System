@@ -1,7 +1,7 @@
 [BaseContainerProps()]
-class ADM_VehicleShop: ADM_PhysicalShopBase
+class ADM_VehicleShop: ADM_ShopBase
 {
-	static bool DEBUG = false;
+	static bool DEBUG = true;
 	
 	EntitySpawnParams GetVehicleSpawnTransform(ADM_PhysicalShopComponent shop)
 	{
@@ -13,8 +13,8 @@ class ADM_VehicleShop: ADM_PhysicalShopBase
 	}
 	
 	// static version of SCR_EntitySpawnerComponent::IsSpawnPositionClean
-	static autoptr Shape debugShape;
-	static bool IsSpawnPositionClean(Resource resource, EntitySpawnParams params, bool removeWrecks = true, BaseWorld world = null, vector heightOffset = vector.Zero)
+	static autoptr Shape debugBB, debugIntersect;
+	static bool IsSpawnPositionClean(Resource resource, EntitySpawnParams params, array<IEntity> excludeArray, bool removeWrecks = true, BaseWorld world = null, vector heightOffset = vector.Zero)
 	{
 		if (!world)
 			world = GetGame().GetWorld();
@@ -27,6 +27,8 @@ class ADM_VehicleShop: ADM_PhysicalShopBase
 		if (!previewEntity)
 			return false;
 		
+		excludeArray.Insert(previewEntity);
+		
 		TraceOBB paramOBB = new TraceOBB();
 		Math3D.MatrixIdentity3(paramOBB.Mat);
 		vector currentMat[4];
@@ -36,14 +38,14 @@ class ADM_VehicleShop: ADM_PhysicalShopBase
 		paramOBB.Mat[2] = currentMat[2];
 		paramOBB.Start = currentMat[3] + heightOffset;
 		paramOBB.Flags = TraceFlags.ENTS;
-		paramOBB.Exclude = previewEntity;
+		paramOBB.ExcludeArray = excludeArray;
 		paramOBB.LayerMask = EPhysicsLayerPresets.Projectile;
 		previewEntity.GetPreviewBounds(paramOBB.Mins, paramOBB.Maxs);
 		
 		if (DEBUG)
 		{	
-			debugShape = Shape.Create(ShapeType.BBOX, ARGB(255, 255, 255, 255), ShapeFlags.VISIBLE | ShapeFlags.NOZBUFFER | ShapeFlags.WIREFRAME, paramOBB.Mins, paramOBB.Maxs);
-			debugShape.SetMatrix(currentMat);
+			debugBB = Shape.Create(ShapeType.BBOX, COLOR_BLUE_A, ShapeFlags.VISIBLE | ShapeFlags.NOZBUFFER | ShapeFlags.WIREFRAME, paramOBB.Mins, paramOBB.Maxs);
+			debugBB.SetMatrix(currentMat);
 		}
 			
 		GetGame().GetWorld().TracePosition(paramOBB, null);
@@ -51,14 +53,24 @@ class ADM_VehicleShop: ADM_PhysicalShopBase
 		
 		//If tracePosition found colliding entity, further checks will be done to determine whether can be actually something spawned
 		if (paramOBB.TraceEnt)
+		{
+			if (DEBUG)
+			{
+				vector mat[4];
+				paramOBB.TraceEnt.GetTransform(mat);
+				debugIntersect = Shape.CreateSphere(COLOR_RED, ShapeFlags.VISIBLE | ShapeFlags.NOZBUFFER | ShapeFlags.WIREFRAME, paramOBB.TraceEnt.GetOrigin(), 0.1);
+				debugIntersect.SetMatrix(mat);
+			}
+				
 			return false;
-		
+		}
+			
 		return true;
 	}
 	
 	override bool CanRespawn(ADM_PhysicalShopComponent shop)
 	{
-		return ADM_VehicleShop.IsSpawnPositionClean(Resource.Load(m_Prefab), GetVehicleSpawnTransform(shop));
+		return ADM_VehicleShop.IsSpawnPositionClean(Resource.Load(m_Prefab), GetVehicleSpawnTransform(shop), {shop.GetOwner()});
 	}
 	
 	override bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop)

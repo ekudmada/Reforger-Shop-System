@@ -1,12 +1,12 @@
 [BaseContainerProps()]
-class ADM_ItemShop: ADM_PhysicalShopBase
+class ADM_ItemShop: ADM_ShopBase
 {
 	[Attribute(defvalue: "0", desc: "If true then shop will spawn in place of the shop if the player cannot equip item or place in inventory. If false the sale will not be allowed.", uiwidget: UIWidgets.CheckBox, category: "Physical Shop")]
 	protected bool m_AllowSaleWithFullInventory;
 	
 	bool CanFitItemInInventory(IEntity player)
 	{
-		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		/*SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory)
 			return false;
 		
@@ -17,7 +17,7 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 		array<SCR_UniversalInventoryStorageComponent> inventoryStorages = {};
 		charInventory.GetStorages(inventoryStorages); // this isn't including my backpack or weapon storage. Why?
 		
-		array<bool> checks = {};
+		array<bool> checks = {true};
 		foreach (SCR_UniversalInventoryStorageComponent storage : inventoryStorages)
 		{
 			float weight = 0;
@@ -32,10 +32,10 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 			//Print(string.Format("%1m^3 out of %2m^3", storage.GetVolume2() + volume, storage.GetMaxVolume()));
 			
 			checks.Insert(weightFits && volumeFits);
-		}
+		}*/
 		
 		// if any of the storages can fit it, then we are good
-		return checks.Contains(true);
+		return true;
 	}
 	
 	static bool InsertAutoEquipItem(SCR_InventoryStorageManagerComponent inventory, IEntity item)
@@ -61,26 +61,32 @@ class ADM_ItemShop: ADM_PhysicalShopBase
 	override bool Deliver(IEntity player, ADM_PhysicalShopComponent shop)
 	{
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory)
-			return false;
+		if (!inventory) return false;
 		
 		// double check we can deliver
 		bool canDeliver = this.CanDeliver(player, shop);
 		if (!canDeliver) return false;
 		
 		// give item/weapon/magazine/clothing to player	
-		IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_Prefab));		
-		if (m_AllowSaleWithFullInventory && !CanFitItemInInventory(player))
+		IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_Prefab));	
+		bool putInInventory = ADM_ItemShop.InsertAutoEquipItem(inventory, item);;
+		
+		// Move item to location of shop if we can't fit in inventory and we allow sale with full inventory
+		if (m_AllowSaleWithFullInventory && !putInInventory)
 		{
-			// Move item to ground location of shop
 			vector shopMat[4];
 			shop.GetOwner().GetTransform(shopMat);
 			item.SetTransform(shopMat);
-			
-			return true;
-		} else {
-			return InsertAutoEquipItem(inventory, item);	
 		}
+		
+		// If we cant do either, delete it
+		if (!m_AllowSaleWithFullInventory && !putInInventory)
+		{
+			SCR_EntityHelper.DeleteEntityAndChildren(item);
+			return false;
+		}
+		
+		return true;
 	}
 	
 	override bool CanRespawn(ADM_PhysicalShopComponent shop) { return true; }

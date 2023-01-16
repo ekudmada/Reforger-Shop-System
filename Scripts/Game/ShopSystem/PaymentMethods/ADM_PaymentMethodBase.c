@@ -16,4 +16,9 @@ class ADM_PaymentMethodBase: ScriptAndConfig
 	*/
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	bool ReturnPayment(IEntity player) { return false; }
+	
+	/*
+		How to display this payment method in menus
+	*/
+	string GetDisplayString() { return string.Empty; }
 }
