@@ -38,19 +38,6 @@ class ADM_ItemShop: ADM_ShopBase
 		return true;
 	}
 	
-	static bool InsertAutoEquipItem(SCR_InventoryStorageManagerComponent inventory, IEntity item)
-	{
-		EStoragePurpose purpose = EStoragePurpose.PURPOSE_ANY;
-		if (item.FindComponent(WeaponComponent)) purpose = EStoragePurpose.PURPOSE_WEAPON_PROXY;
-		if (item.FindComponent(BaseLoadoutClothComponent)) purpose = EStoragePurpose.PURPOSE_LOADOUT_PROXY;
-		if (item.FindComponent(SCR_GadgetComponent)) purpose = EStoragePurpose.PURPOSE_GADGET_PROXY;
-		
-		bool insertedItem = inventory.TryInsertItem(item, purpose, null);
-		if (!insertedItem) insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
-		
-		return insertedItem;
-	}
-	
 	override bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop)
 	{
 		if (!m_AllowSaleWithFullInventory) return CanFitItemInInventory(player);
@@ -60,6 +47,8 @@ class ADM_ItemShop: ADM_ShopBase
 	
 	override bool Deliver(IEntity player, ADM_PhysicalShopComponent shop)
 	{
+		if (RplSession.Mode() == RplMode.Client) return false;
+		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
 		
@@ -68,8 +57,8 @@ class ADM_ItemShop: ADM_ShopBase
 		if (!canDeliver) return false;
 		
 		// give item/weapon/magazine/clothing to player	
-		IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_Prefab));	
-		bool putInInventory = ADM_ItemShop.InsertAutoEquipItem(inventory, item);;
+		IEntity item = GetGame().SpawnEntityPrefab(m_PrefabResource);	
+		bool putInInventory = ADM_Utils.InsertAutoEquipItem(inventory, item);
 		
 		// Move item to location of shop if we can't fit in inventory and we allow sale with full inventory
 		if (m_AllowSaleWithFullInventory && !putInInventory)

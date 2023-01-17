@@ -12,8 +12,7 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 	override bool CheckPayment(IEntity player)
 	{
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory)
-			return false;
+		if (!inventory) return false;
 		
 		int totalCurrency = ADM_CurrencyComponent.FindTotalCurrencyInInventory(inventory);
 		if (totalCurrency < m_Quantity) return false;
@@ -21,26 +20,26 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 		return true;
 	}
 	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	override bool CollectPayment(IEntity player)
 	{
+		if (RplSession.Mode() == RplMode.Client) return false;
+		
 		//check if player has the desired payment
 		if (!CheckPayment(player)) return false;
 		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory)
-			return false;
+		if (!inventory) return false;
 		
 		bool didRemoveCurrency = ADM_CurrencyComponent.RemoveCurrencyFromInventory(inventory, m_Quantity);
 		return didRemoveCurrency;
 	}
 	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	override bool ReturnPayment(IEntity player)
 	{
+		if (RplSession.Mode() == RplMode.Client) return false;
+		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory)
-			return false;
+		if (!inventory) return false;
 		
 		bool didAddCurrency = ADM_CurrencyComponent.AddCurrencyToInventory(inventory, m_Quantity);
 		return didAddCurrency;

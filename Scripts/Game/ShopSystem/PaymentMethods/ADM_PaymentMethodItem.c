@@ -47,9 +47,10 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		return (paymentItems.Count() >= m_ItemQuantity);
 	}
 	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	override bool CollectPayment(IEntity player)
 	{
+		if (RplSession.Mode() == RplMode.Client) return false;
+		
 		//check if player has the desired payment
 		if (!CheckPayment(player)) return false;
 		
@@ -82,7 +83,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 			foreach (ResourceName returnItemPrefab : removedItems)
 			{
 				IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(returnItemPrefab));
-				bool inserted = ADM_ItemShop.InsertAutoEquipItem(inventory, item);
+				bool inserted = ADM_Utils.InsertAutoEquipItem(inventory, item);
 				if (!inserted) Print("Error! Couldn't return an item for payment.", LogLevel.ERROR); //TODO: not sure best way to handle this if it occurs, maybe drop it?
 			}
 			
@@ -92,9 +93,10 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		return true;
 	}
 	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	override bool ReturnPayment(IEntity player)
 	{
+		if (RplSession.Mode() == RplMode.Client) return false;
+		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
 		
@@ -111,6 +113,6 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 	
 	override string GetDisplayString()
 	{
-		return string.Format("%1 x%2", ADM_ShopBase.GetPrefabDisplayName(m_ItemPrefab), m_ItemQuantity);
+		return string.Format("%1 x%2", ADM_Utils.GetPrefabDisplayName(m_ItemPrefab), m_ItemQuantity);
 	}
 }

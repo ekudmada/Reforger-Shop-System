@@ -20,7 +20,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void UpdateMesh(IEntity owner)
 	{
-		//TODO: look into using SCR_PreviewEntity or replicating it. Display prefab as 1:1 with all slots and such
+		//TODO: look into using SCR_PreviewEntity or replicating it. Display prefab 1:1 with all slots and such
 		if (!m_ShopConfig) return;
 		
 		ResourceName modelPath;
@@ -39,6 +39,25 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		if (oldPhysics) oldPhysics.Destroy();
 		
 		Physics.CreateStatic(owner, 0xffffffff);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void SetState(bool state)
+	{
+		IEntity owner = GetOwner();
+		if (!owner) return;
+		
+		if (state)
+		{
+			UpdateMesh(owner);
+			m_LastStateChangeTime = -1;
+		} else {
+			Physics physics = owner.GetPhysics();
+			if (physics) physics.Destroy();
+			
+			owner.SetObject(null, string.Empty);
+			m_LastStateChangeTime = System.GetTickCount();
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -117,21 +136,21 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerId);
 		if (!player) 
 		{
-			Rpc(RpcDo_Purchase, "Couldn't find player entity");
+			Rpc(RpcDo_Transaction, "Couldn't find player entity");
 			return;
 		}
 		
 		bool canPay = CanPurchase(player);
 		if (!canPay) 
 		{
-			Rpc(RpcDo_Purchase, "Payment not met");
+			Rpc(RpcDo_Transaction, "Payment not met");
 			return;
 		}
 		
 		bool canDeliver = m_ShopConfig.CanDeliver(player, this);
 		if (!canDeliver) 
 		{
-			Rpc(RpcDo_Purchase, "Can't deliver item");
+			Rpc(RpcDo_Transaction, "Can't deliver item");
 			return;
 		}
 		
@@ -141,8 +160,6 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		{
 			ADM_PaymentMethodBase paymentMethod = m_RequiredPayment[i];
 			
-			// If collect payment returns false, it is assumed that the payment was NOT removed from the player
-			// this will be up to each payment method coding logic to ensure is true.
 			bool didCollectPayment = paymentMethod.CollectPayment(player);
 			didCollectPayments.Insert(didCollectPayment);
 			
@@ -157,7 +174,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 				if (!returnedPayment) PrintFormat("Error returning payment! %s", paymentMethod.Type().ToString());
 			}
 			
-			Rpc(RpcDo_Purchase, "Error collecting payment");
+			Rpc(RpcDo_Transaction, "Error collecting payment");
 			return;
 		}
 		
@@ -170,25 +187,18 @@ class ADM_PhysicalShopComponent: ScriptComponent
 				if (!returnedPayment) PrintFormat("Error returning payment! %1", paymentMethod.Type().ToString());
 			}
 			
-			Rpc(RpcDo_Purchase, "Error delivering item");
+			Rpc(RpcDo_Transaction, "Error delivering item");
 			return;
 		}
 		
-		// Hide shop
-		Physics physics = GetOwner().GetPhysics();
-		if (physics) physics.Destroy();
-		
-		GetOwner().SetObject(null, string.Empty);
-		m_LastStateChangeTime = System.GetTickCount();
-		
-		Rpc(RpcDo_Purchase, "success");
+		this.SetState(false);
+		Rpc(RpcDo_Transaction, "success");
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
-	void RpcDo_Purchase(string message)
+	void RpcDo_Transaction(string message)
 	{
 		SCR_HintManagerComponent.GetInstance().ShowCustom(message);
-		Print(message);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -199,8 +209,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		float dt = GetTimeUntilRespawn();
 		if (dt >= m_RespawnTime * 1000 && m_ShopConfig.CanRespawn(this))
 		{
-			UpdateMesh(owner);
-			m_LastStateChangeTime = -1;
+			this.SetState(true);
 		}
 	}
 	
@@ -208,7 +217,9 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
-		UpdateMesh(owner);
+		
+		m_ShopConfig.SetPrefabResource(Resource.Load(m_ShopConfig.GetPrefab()));
+		this.SetState(true);
 	}
 	
 	//------------------------------------------------------------------------------------------------

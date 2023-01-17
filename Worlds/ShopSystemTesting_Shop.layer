@@ -59,7 +59,7 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
       m_ItemPrefab "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et"
      }
     }
-    m_RespawnTime 10
+    m_RespawnTime 1
    }
    RigidBody "{5ADE0317BCBF0917}" {
     ModelGeometry 1
@@ -99,9 +99,10 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
     }
    }
   }
-  coords 134.096 1.899 141.809
-  angleY -90
-  angleZ -90
+  coords 134.097 1.947 141.808
+  angleX -9.545
+  angleY -89.893
+  angleZ -0.648
  }
  {
   components {
@@ -115,9 +116,10 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
     Static 1
    }
   }
-  coords 134.159 1.892 141.531
-  angleY -90.766
-  angleZ -90
+  coords 134.159 2.213 141.531
+  angleX 89.921
+  angleY -90
+  angleZ 0
  }
  {
   components {
@@ -132,9 +134,6 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
      ADM_PaymentMethodItem "{5AE75E069092F746}" {
       m_ItemPrefab "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et"
      }
-     ADM_PaymentMethodCurrency "{5C602D0A77E0493D}" {
-      m_Quantity 1000
-     }
     }
     m_RespawnTime 1
    }
@@ -145,26 +144,6 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
   coords 132.04 1.905 141.675
   angleY -90
   angleZ -90
- }
-}
-SCR_SpawnPoint : "{4FEA25583D0975F7}Prefabs/MP/Spawning/SpawnPoint_USSR.et" {
- angleY -180
-}
-SCR_SpawnPoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
- coords 128 1 127
-}
-$grp GenericEntity : "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et" {
- {
-  coords 131.981 1.881 141.529
- }
- {
-  coords 131.864 1.881 141.535
- }
- {
-  coords 131.903 1.881 141.448
- }
- {
-  coords 132.008 1.881 141.452
  }
 }
 $grp StaticModelEntity : "{B94D11DD03097D5E}PrefabsEditable/Auto/Props/Military/Furniture/E_TableMilitary_US_01.et" {
