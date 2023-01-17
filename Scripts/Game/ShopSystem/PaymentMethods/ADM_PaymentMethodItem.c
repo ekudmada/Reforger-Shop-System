@@ -7,6 +7,8 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 	[Attribute(defvalue: "1", desc: "Number of item for payment", params: "1 inf")]
 	protected int m_ItemQuantity;
 	
+	protected ResourceName m_CachedIcon;
+	
 	ResourceName GetItemPrefab()
 	{
 		return m_ItemPrefab;
@@ -114,5 +116,10 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 	override string GetDisplayString()
 	{
 		return string.Format("%1 x%2", ADM_Utils.GetPrefabDisplayName(m_ItemPrefab), m_ItemQuantity);
+	}
+	
+	override ResourceName GetDisplayIcon()
+	{
+		return ADM_Utils.GetPrefabDisplayIcon(m_ItemPrefab);
 	}
 }

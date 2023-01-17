@@ -1,4 +1,4 @@
-class ADM_ShopBase: ScriptAndConfig
+class ADM_MerchandiseBase: ScriptAndConfig
 {
 	[Attribute(defvalue: "", desc: "Prefab to sell", uiwidget: UIWidgets.ResourceNamePicker, params: "et")]
 	protected ResourceName m_Prefab;
@@ -10,7 +10,5 @@ class ADM_ShopBase: ScriptAndConfig
 	
 	bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop) { return false; }
 	bool CanRespawn(ADM_PhysicalShopComponent shop) { return false; }
-	
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	bool Deliver(IEntity player, ADM_PhysicalShopComponent shop) { return false; }
 }

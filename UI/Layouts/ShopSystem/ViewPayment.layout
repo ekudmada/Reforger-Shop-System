@@ -76,6 +76,11 @@ FrameWidgetClass {
           VerticalAlign 3
           SizeMode Fill
          }
+         components {
+          SCR_ListBoxComponent "{566C9415BAA54E1B}" {
+           m_sElementLayout "{22895154D4717BD0}UI/layouts/ListBox/ListBoxElement_ImageText.layout"
+          }
+         }
         }
        }
       }

@@ -17,7 +17,7 @@ class ADM_PhysicalShopPurchaseAction : ScriptedUserAction
 			return;
 		}
 		
-		ADM_ShopBase shopConfig = m_Shop.GetShopConfig();
+		ADM_MerchandiseBase shopConfig = m_Shop.GetMerchandise();
 		if (!shopConfig) return;
 		
 		m_ItemName = ADM_Utils.GetPrefabDisplayName(shopConfig.GetPrefab());

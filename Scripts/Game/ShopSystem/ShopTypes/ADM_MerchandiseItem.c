@@ -1,5 +1,5 @@
 [BaseContainerProps()]
-class ADM_ItemShop: ADM_ShopBase
+class ADM_MerchandiseItem: ADM_MerchandiseBase
 {
 	[Attribute(defvalue: "0", desc: "If true then shop will spawn in place of the shop if the player cannot equip item or place in inventory. If false the sale will not be allowed.", uiwidget: UIWidgets.CheckBox, category: "Physical Shop")]
 	protected bool m_AllowSaleWithFullInventory;
@@ -68,7 +68,7 @@ class ADM_ItemShop: ADM_ShopBase
 			item.SetTransform(shopMat);
 		}
 		
-		// If we cant do either, delete it
+		// If we cant do with both conditions false, delete it
 		if (!m_AllowSaleWithFullInventory && !putInInventory)
 		{
 			SCR_EntityHelper.DeleteEntityAndChildren(item);

@@ -6,8 +6,8 @@ class ADM_PhysicalShopComponentClass: ScriptComponentClass {}
 //TODO: look into SCR_PreviewEntityComponent
 class ADM_PhysicalShopComponent: ScriptComponent
 {
-	[Attribute(defvalue: "", desc: "Physical Shop Configuration", uiwidget: UIWidgets.Object, params: "et", category: "Physical Shop")]
-	protected ref ADM_ShopBase m_ShopConfig;
+	[Attribute(defvalue: "", desc: "Merchandise to sell", uiwidget: UIWidgets.Object, params: "et", category: "Physical Shop")]
+	protected ref ADM_MerchandiseBase m_Merchandise;
 	
 	[Attribute(category: "Physical Shop")]
 	protected ref array<ref ADM_PaymentMethodBase> m_RequiredPayment;
@@ -21,12 +21,12 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	void UpdateMesh(IEntity owner)
 	{
 		//TODO: look into using SCR_PreviewEntity or replicating it. Display prefab 1:1 with all slots and such
-		if (!m_ShopConfig) return;
+		if (!m_Merchandise) return;
 		
 		ResourceName modelPath;
 		string remapPath;
 		
-		bool foundModelPath = SCR_Global.GetModelAndRemapFromResource(m_ShopConfig.GetPrefab(), modelPath, remapPath);
+		bool foundModelPath = SCR_Global.GetModelAndRemapFromResource(m_Merchandise.GetPrefab(), modelPath, remapPath);
 		if (!foundModelPath) return;
 		
 		Resource resource = Resource.Load(modelPath);
@@ -76,9 +76,9 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	ADM_ShopBase GetShopConfig()
+	ADM_MerchandiseBase GetMerchandise()
 	{
-		return m_ShopConfig;
+		return m_Merchandise;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -109,13 +109,6 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void AskPurchase()
-	{
-		int playerId = GetGame().GetPlayerController().GetPlayerId();
-		Rpc(RpcAsk_Transaction, playerId);
-	}
-	
-	//------------------------------------------------------------------------------------------------
 	void ViewPayment()
 	{
 		MenuBase menuBase = GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.ADM_ViewPaymentMenu); 
@@ -124,8 +117,15 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	void AskPurchase()
+	{
+		int playerId = GetGame().GetPlayerController().GetPlayerId();
+		Rpc(RpcAsk_Purchase, playerId);
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void RpcAsk_Transaction(int playerId)
+	void RpcAsk_Purchase(int playerId)
 	{
 		//TODO:
 		//  - Purchase multiple quantities of items
@@ -147,7 +147,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 			return;
 		}
 		
-		bool canDeliver = m_ShopConfig.CanDeliver(player, this);
+		bool canDeliver = m_Merchandise.CanDeliver(player, this);
 		if (!canDeliver) 
 		{
 			Rpc(RpcDo_Transaction, "Can't deliver item");
@@ -178,7 +178,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 			return;
 		}
 		
-		bool deliver = m_ShopConfig.Deliver(player, this);
+		bool deliver = m_Merchandise.Deliver(player, this);
 		if (!deliver) 
 		{
 			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)
@@ -207,7 +207,7 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		if (m_LastStateChangeTime == -1) return;
 		
 		float dt = GetTimeUntilRespawn();
-		if (dt >= m_RespawnTime * 1000 && m_ShopConfig.CanRespawn(this))
+		if (dt >= m_RespawnTime * 1000 && m_Merchandise.CanRespawn(this))
 		{
 			this.SetState(true);
 		}
@@ -218,7 +218,9 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	{
 		super.EOnInit(owner);
 		
-		m_ShopConfig.SetPrefabResource(Resource.Load(m_ShopConfig.GetPrefab()));
+		if (m_Merchandise)
+			m_Merchandise.SetPrefabResource(Resource.Load(m_Merchandise.GetPrefab()));
+		
 		this.SetState(true);
 	}
 	

@@ -19,4 +19,9 @@ class ADM_PaymentMethodBase: ScriptAndConfig
 		How to display this payment method in menus
 	*/
 	string GetDisplayString() { return string.Empty; }
+	
+	/*
+		How to display this payment method in menus
+	*/
+	ResourceName GetDisplayIcon() { return string.Empty; }
 }

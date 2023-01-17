@@ -1,7 +1,6 @@
 [BaseContainerProps()]
-class ADM_VehicleShop: ADM_ShopBase
+class ADM_MerchandiseVehicle: ADM_MerchandiseBase
 {
-	
 	EntitySpawnParams GetVehicleSpawnTransform(ADM_PhysicalShopComponent shop)
 	{
 		EntitySpawnParams params = EntitySpawnParams();
@@ -40,8 +39,7 @@ class ADM_VehicleShop: ADM_ShopBase
 		if (!canDeliver) return false;
 		
 		// spawn vehicle
-		EntitySpawnParams params = GetVehicleSpawnTransform(shop);
-		IEntity entity = GetGame().SpawnEntityPrefab(m_PrefabResource, null, params);
+		IEntity entity = GetGame().SpawnEntityPrefab(m_PrefabResource, null, GetVehicleSpawnTransform(shop));
 		
 		return true;
 	}

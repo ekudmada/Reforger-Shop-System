@@ -1,6 +1,6 @@
-class SCR_CurrencyPredicate: InventorySearchPredicate
+class ADM_CurrencyPredicate: InventorySearchPredicate
 {
-	void SCR_CurrencyPredicate()
+	void ADM_CurrencyPredicate()
 	{
 		QueryComponentTypes.Insert(ADM_CurrencyComponent);
 	}
@@ -26,14 +26,6 @@ class ADM_CurrencyComponent: ScriptComponent
 		return m_Value;
 	}
 
-	// TODO: reasoning for calling the next two functions should exist. Don't just let any
-	// random RPC call modify this value. Though, I am unsure how to implement such a thing.
-	// Thought: any action which needs to modify currency should be done from the server. 
-	// If a player wants to use currency, they shouldn't ask for the currency to be modified.
-	// Whatever system that is modifying the currency should do it from the authority.
-	// For example a player asks to buy something from a shop, then the shop when executed on
-	// the authority will call the set value function.
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void SetValue(int value)
 	{
 		if (RplSession.Mode() == RplMode.Client)
@@ -59,7 +51,7 @@ class ADM_CurrencyComponent: ScriptComponent
 	static array<IEntity> FindCurrencyInInventory(SCR_InventoryStorageManagerComponent inventoryManager)
 	{
 		array<IEntity> currencyItems = {};
-		SCR_CurrencyPredicate predicate = new SCR_CurrencyPredicate();
+		ADM_CurrencyPredicate predicate = new ADM_CurrencyPredicate();
 		inventoryManager.FindItems(currencyItems, predicate);
 		
 		return currencyItems;
@@ -70,7 +62,7 @@ class ADM_CurrencyComponent: ScriptComponent
 		int total = 0;
 		
 		array<IEntity> currency = ADM_CurrencyComponent.FindCurrencyInInventory(inventoryManager);
-		foreach (IEntity currencyEntity: currency)
+		foreach (IEntity currencyEntity : currency)
 		{
 			ADM_CurrencyComponent currencyComponent = ADM_CurrencyComponent.Cast(currencyEntity.FindComponent(ADM_CurrencyComponent));
 			if (!currencyComponent) continue;
@@ -121,7 +113,6 @@ class ADM_CurrencyComponent: ScriptComponent
 		return true;
 	}
 	
-		
 	static bool AddCurrencyToInventory(SCR_InventoryStorageManagerComponent inventory, int amount)
 	{
 		if (!inventory) return false;

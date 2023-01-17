@@ -2,9 +2,8 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
  {
   components {
    ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_ItemShop "{5AE75E04240B60AC}" {
+    m_Merchandise ADM_MerchandiseItem "{5C6308F40F20A0FE}" {
      m_Prefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
-     m_AllowSaleWithFullInventory 1
     }
     m_RequiredPayment {
      ADM_PaymentMethodCurrency "{5AE75E07DF9397FF}" {
@@ -23,8 +22,8 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
  {
   components {
    ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_VehicleShop "{5AE89C2E9F895B1B}" {
-     m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
+    m_Merchandise ADM_MerchandiseVehicle "{5C6308F5DFCDA13C}" {
+     m_Prefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
     }
     m_RequiredPayment {
      ADM_PaymentMethodItem "{5C5D72433CA61533}" {
@@ -45,13 +44,13 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
     }
    }
   }
-  coords 125.897 0.952 141.538
+  coords 124.52 0.952 141.538
   angleZ 0
  }
  {
   components {
    ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_VehicleShop "{5AE89C2E9F895B1B}" {
+    m_Merchandise ADM_MerchandiseVehicle "{5C6308F428FF43AE}" {
      m_Prefab "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et"
     }
     m_RequiredPayment {
@@ -73,13 +72,13 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
     }
    }
   }
-  coords 129.143 0.993 141.538
+  coords 128.638 0.993 141.538
   angleZ 0
  }
  {
   components {
    ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_ItemShop "{5AE89C2E9F895B1B}" {
+    m_Merchandise ADM_MerchandiseItem "{5C6308F4224E2977}" {
      m_Prefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
     }
     m_RequiredPayment {
@@ -107,7 +106,7 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
  {
   components {
    ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_ItemShop "{5AE8A57F3F6088F5}" {
+    m_Merchandise ADM_MerchandiseItem "{5C6308F42C0A03ED}" {
      m_Prefab "{3EB02CDAD5F23C82}Prefabs/Weapons/Rifles/SVD/Rifle_SVD.et"
     }
     m_RespawnTime 10
@@ -124,7 +123,7 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
  {
   components {
    ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_ShopConfig ADM_ItemShop "{5AE75E043EF41BD9}" {
+    m_Merchandise ADM_MerchandiseItem "{5C6308F433DF6923}" {
      m_Prefab "{C0F7DD85A86B2900}Prefabs/Weapons/Handguns/PM/Handgun_PM.et"
     }
     m_RequiredPayment {
@@ -133,6 +132,9 @@ $grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
      }
      ADM_PaymentMethodItem "{5AE75E069092F746}" {
       m_ItemPrefab "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et"
+     }
+     ADM_PaymentMethodCurrency "{5C6308F2729FC3E9}" {
+      m_Quantity 1000
      }
     }
     m_RespawnTime 1

@@ -85,7 +85,7 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 		
 		foreach (ADM_PaymentMethodBase paymentMethod : m_shop.GetRequiredPayment())
 		{
-			m_ListBoxComponent.AddItem(paymentMethod.GetDisplayString());
+			m_ListBoxComponent.AddItemAndIcon(paymentMethod.GetDisplayString(), paymentMethod.GetDisplayIcon(), "");
 		}
 	}
 	

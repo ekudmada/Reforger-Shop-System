@@ -1,82 +1,97 @@
 class ADM_Utils
 {
 	static bool DEBUG = false;
-	protected static ref map<ResourceName, ref string> s_mPrefabDisplayName = new map<ResourceName, ref string>();
-
+	protected static ref map<ResourceName, ref UIInfo> s_mItemUIInfo = new map<ResourceName, ref UIInfo>();
+	protected static ref map<ResourceName, ref SCR_EditableVehicleUIInfo> s_mVehicleUIInfo = new map<ResourceName, ref SCR_EditableVehicleUIInfo>();
+	
 	//------------------------------------------------------------------------------------------------
-	// Modified from EL_UIInfoUtils from Everon Life. By Arkensor
-	static string GetPrefabDisplayName(ResourceName prefab)
+	// The following function is MIT license and is from Everon Life
+	// https://github.com/EveronLife/EveronLife/blob/98e1f4061d185c31ad68dfa2e3316870a1cece0e/src/Scripts/Game/Core/EL_UIInfoUtils.c
+	static UIInfo GetItemUIInfo(ResourceName prefab)
 	{
-		string resultDisplayName = s_mPrefabDisplayName.Get(prefab);
+		UIInfo resultInfo = s_mItemUIInfo.Get(prefab);
 
-		if (!resultDisplayName)
+		if (!resultInfo)
 		{
 			IEntitySource entitySource = SCR_BaseContainerTools.FindEntitySource(Resource.Load(prefab));
 			if (entitySource)
 			{
-				// Default to InventoryItemComponent, but lets prioritize other types like SCR_EditableVehicleComponent
-				// priority is low ----> high
-				array<string> classPriority = {"InventoryItemComponent", "SCR_EditableVehicleComponent"};
-				string classToCheck = classPriority[0];
-				int prevFoundIndex = -1;
 			    for(int nComponent, componentCount = entitySource.GetComponentCount(); nComponent < componentCount; nComponent++)
 			    {
 			        IEntityComponentSource componentSource = entitySource.GetComponent(nComponent);
-					
-					int foundIndex = classPriority.Find(componentSource.GetClassName());
-					if (foundIndex != -1 && foundIndex > prevFoundIndex)
-					{
-						classToCheck = componentSource.GetClassName();
-						prevFoundIndex = foundIndex;
-					}
+			        if(componentSource.GetClassName().ToType().IsInherited(InventoryItemComponent))
+			        {
+			            BaseContainer attributesContainer = componentSource.GetObject("Attributes");
+			            if (attributesContainer)
+			            {
+			                BaseContainer itemDisplayNameContainer = attributesContainer.GetObject("ItemDisplayName");
+			                if (itemDisplayNameContainer)
+			                {
+			                    resultInfo = UIInfo.Cast(BaseContainerTools.CreateInstanceFromContainer(itemDisplayNameContainer));
+			                    break;
+			                }
+			            }
+			        }
 			    }
-				
-				for(int nComponent, componentCount = entitySource.GetComponentCount(); nComponent < componentCount; nComponent++)
-				{
-					IEntityComponentSource componentSource = entitySource.GetComponent(nComponent);
-					
-					switch(classToCheck)
-					{
-						case classPriority[0]:
-						{
-							if(componentSource.GetClassName().ToType().IsInherited(InventoryItemComponent))
-					        {
-					            BaseContainer attributesContainer = componentSource.GetObject("Attributes");
-					            if (attributesContainer)
-					            {
-					                BaseContainer itemDisplayNameContainer = attributesContainer.GetObject("ItemDisplayName");
-					                if (itemDisplayNameContainer)
-					                {
-					                    UIInfo resultInfo = UIInfo.Cast(BaseContainerTools.CreateInstanceFromContainer(itemDisplayNameContainer));
-										resultDisplayName = resultInfo.GetName();
-					                    break;
-					                }
-					            }
-					        }
-							break;
-						}
-						case classPriority[1]:
-						{
-							if(componentSource.GetClassName().ToType().IsInherited(SCR_EditableVehicleComponent))
-					        {
-								BaseContainer baseUIInfo = componentSource.GetObject("m_UIInfo");
-								if (baseUIInfo)
-								{
-				                    SCR_EditableVehicleUIInfo vehicleResultInfo = SCR_EditableVehicleUIInfo.Cast(BaseContainerTools.CreateInstanceFromContainer(baseUIInfo));
-									resultDisplayName = vehicleResultInfo.GetName();
-				                    break;
-								}
-							}
-							break;
-						}
-					}
-				}
 			}
 			
-			s_mPrefabDisplayName.Set(prefab, resultDisplayName);
+			s_mItemUIInfo.Set(prefab, resultInfo);
 		}
 
-		return resultDisplayName;
+		return resultInfo;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	static SCR_EditableVehicleUIInfo GetVehicleUIInfo(ResourceName prefab)
+	{
+		SCR_EditableVehicleUIInfo resultInfo = s_mVehicleUIInfo.Get(prefab);
+
+		if (!resultInfo)
+		{
+			IEntitySource entitySource = SCR_BaseContainerTools.FindEntitySource(Resource.Load(prefab));
+			if (entitySource)
+			{
+			    for(int nComponent, componentCount = entitySource.GetComponentCount(); nComponent < componentCount; nComponent++)
+			    {
+			        IEntityComponentSource componentSource = entitySource.GetComponent(nComponent);
+			        if(componentSource.GetClassName().ToType().IsInherited(SCR_EditableVehicleComponent))
+			        {
+						BaseContainer baseUIInfo = componentSource.GetObject("m_UIInfo");
+						if (baseUIInfo)
+						{
+		                    resultInfo = SCR_EditableVehicleUIInfo.Cast(BaseContainerTools.CreateInstanceFromContainer(baseUIInfo));
+							break;
+						}
+			        }
+			    }
+			}
+			
+			s_mVehicleUIInfo.Set(prefab, resultInfo);
+		}
+
+		return resultInfo;
+	}
+	
+	static string GetPrefabDisplayName(ResourceName prefab)
+	{
+		SCR_EditableVehicleUIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
+		if (vehicleUIInfo) return vehicleUIInfo.GetName();
+		
+		UIInfo itemUIInfo = ADM_Utils.GetItemUIInfo(prefab);
+		if (itemUIInfo) return itemUIInfo.GetName();
+		
+		return prefab;
+	}
+	
+	static ResourceName GetPrefabDisplayIcon(ResourceName prefab)
+	{
+		SCR_EditableVehicleUIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
+		if (vehicleUIInfo) return vehicleUIInfo.GetIconPath();
+		
+		UIInfo itemUIInfo = ADM_Utils.GetItemUIInfo(prefab);
+		if (itemUIInfo) return itemUIInfo.GetIconPath();
+		
+		return string.Empty;
 	}
 	
 	static bool InsertAutoEquipItem(SCR_InventoryStorageManagerComponent inventory, IEntity item)
