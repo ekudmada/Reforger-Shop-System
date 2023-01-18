@@ -5,7 +5,7 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseBase
 	{
 		EntitySpawnParams params = EntitySpawnParams();
 		params.TransformMode = ETransformMode.WORLD;
-		params.Transform[3] = shop.GetOwner().GetOrigin();
+		shop.GetOwner().GetTransform(params.Transform);
 		
 		return params;
 	}
@@ -39,7 +39,8 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseBase
 		if (!canDeliver) return false;
 		
 		// spawn vehicle
-		IEntity entity = GetGame().SpawnEntityPrefab(m_PrefabResource, null, GetVehicleSpawnTransform(shop));
+		ref EntitySpawnParams params = GetVehicleSpawnTransform(shop);
+		IEntity entity = GetGame().SpawnEntityPrefab(m_PrefabResource, shop.GetOwner().GetWorld(), params);
 		
 		return true;
 	}
