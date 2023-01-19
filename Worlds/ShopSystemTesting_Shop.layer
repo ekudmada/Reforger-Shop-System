@@ -46,7 +46,7 @@ $grp GenericEntity {
       }
      }
     }
-    m_RespawnTime 10
+    m_RespawnTime 0.5
    }
    MeshObject "{5C664CA5921DE9AF}" {
    }

@@ -9,7 +9,7 @@ class ADM_ShopComponent: ScriptComponent
 	bool IsPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
 	{
 		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPaymentToBuy();
-		if (requiredPayment.Count() != 1)	return false;
+		if (requiredPayment.Count() != 1) return false;
 		if (requiredPayment[0].ClassName().ToType() != ADM_PaymentMethodCurrency) return false;
 		
 		return true;
@@ -51,9 +51,6 @@ class ADM_ShopComponent: ScriptComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void RpcAsk_Purchase(int playerId, ADM_ShopMerchandise merchandise, int quantity)
 	{
-		//TODO:
-		//  - Add interface for "ownership" of shop (where the money goes, if its a player shop it should go to player, if NPC it should go to either nowhere or some sort of federal system)
-		
 		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerId);
 		if (!player) 
 		{

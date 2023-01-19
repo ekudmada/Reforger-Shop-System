@@ -1,9 +1,11 @@
 class ADM_PhysicalShopComponentClass: ScriptComponentClass {}
 
 //TODO: look into SCR_PreviewEntityComponent
+//TODO: don't hide entity if purchase failed from super (ADM_ShopComponent)
+//TODO: fix respawn time = 0 bug (vehicle check doesnt work)
 class ADM_PhysicalShopComponent: ADM_ShopComponent
 {	
-	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.EditBox, params: "et", category: "Physical Shop")]
+	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.Slider, params: "0.1 1000 et", category: "Physical Shop")]
 	protected float m_RespawnTime;
 	
 	protected float m_LastStateChangeTime = -1;
@@ -81,14 +83,14 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 	override void RpcAsk_Purchase(int playerId, ADM_ShopMerchandise merchandise, int quantity)
 	{
 		super.RpcAsk_Purchase(playerId, merchandise, quantity);
-		this.SetState(false);
+		SetState(false);
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
-		this.SetState(true);
+		SetState(true);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -97,10 +99,10 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 		if (m_LastStateChangeTime == -1) return;
 		
 		float dt = GetTimeUntilRespawn();
-		if (dt >= m_RespawnTime * 1000 && m_Merchandise.Count() > 0 && m_Merchandise[0].GetMerchandise().CanRespawn(this))
+		if (dt > m_RespawnTime * 1000 && m_Merchandise.Count() > 0 && m_Merchandise[0].GetMerchandise().CanRespawn(this))
 		{
 			Print(dt);
-			this.SetState(true);
+			SetState(true);
 		}
 	}
 	
