@@ -1,17 +1,8 @@
 class ADM_PhysicalShopComponentClass: ScriptComponentClass {}
 
-//! A brief explanation of what this component does.
-//! The explanation can be spread across multiple lines.
-//! This should help with quickly understanding the script's purpose.
 //TODO: look into SCR_PreviewEntityComponent
-class ADM_PhysicalShopComponent: ScriptComponent
-{
-	[Attribute(defvalue: "", desc: "Merchandise to sell", uiwidget: UIWidgets.Object, params: "et", category: "Physical Shop")]
-	protected ref ADM_MerchandiseBase m_Merchandise;
-	
-	[Attribute(category: "Physical Shop")]
-	protected ref array<ref ADM_PaymentMethodBase> m_RequiredPayment;
-	
+class ADM_PhysicalShopComponent: ADM_ShopComponent
+{	
 	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.EditBox, params: "et", category: "Physical Shop")]
 	protected float m_RespawnTime;
 	
@@ -21,12 +12,15 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	void UpdateMesh(IEntity owner)
 	{
 		//TODO: look into using SCR_PreviewEntity or replicating it. Display prefab 1:1 with all slots and such
-		if (!m_Merchandise) return;
+		if (!m_Merchandise || m_Merchandise.Count() <= 0) return;
 		
 		ResourceName modelPath;
 		string remapPath;
 		
-		bool foundModelPath = SCR_Global.GetModelAndRemapFromResource(m_Merchandise.GetPrefab(), modelPath, remapPath);
+		ADM_MerchandiseType merchandise = m_Merchandise[0].GetMerchandise();
+		if (!merchandise) return;
+		
+		bool foundModelPath = SCR_Global.GetModelAndRemapFromResource(merchandise.GetPrefab(), modelPath, remapPath);
 		if (!foundModelPath) return;
 		
 		Resource resource = Resource.Load(modelPath);
@@ -61,27 +55,6 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	array<ref ADM_PaymentMethodBase> GetRequiredPayment()
-	{
-		return m_RequiredPayment;
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	bool IsPaymentOnlyCurrency()
-	{
-		if (m_RequiredPayment.Count() != 1)	return false;
-		if (m_RequiredPayment[0].ClassName() != "ADM_PaymentMethodCurrency") return false;
-		
-		return true;
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	ADM_MerchandiseBase GetMerchandise()
-	{
-		return m_Merchandise;
-	}
-	
-	//------------------------------------------------------------------------------------------------
 	// Return amount of seconds to respawn
 	float GetRespawnTime()
 	{
@@ -96,19 +69,6 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	bool CanPurchase(IEntity player)
-	{
-		bool canPurchase = true;
-		foreach (ADM_PaymentMethodBase payment : m_RequiredPayment)
-		{
-			canPurchase = payment.CheckPayment(player);
-			if (!canPurchase) break;
-		}
-		
-		return canPurchase;
-	}
-	
-	//------------------------------------------------------------------------------------------------
 	void ViewPayment()
 	{
 		MenuBase menuBase = GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.ADM_ViewPaymentMenu); 
@@ -117,88 +77,18 @@ class ADM_PhysicalShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void AskPurchase()
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	override void RpcAsk_Purchase(int playerId, ADM_ShopMerchandise merchandise, int quantity)
 	{
-		int playerId = GetGame().GetPlayerController().GetPlayerId();
-		Rpc(RpcAsk_Purchase, playerId);
+		super.RpcAsk_Purchase(playerId, merchandise, quantity);
+		this.SetState(false);
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void RpcAsk_Purchase(int playerId)
+	override void EOnInit(IEntity owner)
 	{
-		//TODO:
-		//  - Purchase multiple quantities of items
-		//  - View payment if not currency
-		//  - Add supply/demand ability (player shops will be real supply)
-		//  - Add interface for "ownership" of shop (where the money goes, if its a player shop it should go to player, if NPC it should go to either nowhere or some sort of federal system)
-		
-		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerId);
-		if (!player) 
-		{
-			Rpc(RpcDo_Transaction, "Couldn't find player entity");
-			return;
-		}
-		
-		bool canPay = CanPurchase(player);
-		if (!canPay) 
-		{
-			Rpc(RpcDo_Transaction, "Payment not met");
-			return;
-		}
-		
-		bool canDeliver = m_Merchandise.CanDeliver(player, this);
-		if (!canDeliver) 
-		{
-			Rpc(RpcDo_Transaction, "Can't deliver item");
-			return;
-		}
-		
-		array<ADM_PaymentMethodBase> collectedPaymentMethods = {};
-		array<bool> didCollectPayments = {};
-		for (int i = 0; i < m_RequiredPayment.Count(); i++) 
-		{
-			ADM_PaymentMethodBase paymentMethod = m_RequiredPayment[i];
-			
-			bool didCollectPayment = paymentMethod.CollectPayment(player);
-			didCollectPayments.Insert(didCollectPayment);
-			
-			if (didCollectPayment) collectedPaymentMethods.Insert(paymentMethod);
-		}
-		
-		if (didCollectPayments.Contains(false))
-		{
-			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)
-			{
-				bool returnedPayment = paymentMethod.ReturnPayment(player);
-				if (!returnedPayment) PrintFormat("Error returning payment! %s", paymentMethod.Type().ToString());
-			}
-			
-			Rpc(RpcDo_Transaction, "Error collecting payment");
-			return;
-		}
-		
-		bool deliver = m_Merchandise.Deliver(player, this);
-		if (!deliver) 
-		{
-			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)
-			{
-				bool returnedPayment = paymentMethod.ReturnPayment(player);
-				if (!returnedPayment) PrintFormat("Error returning payment! %1", paymentMethod.Type().ToString());
-			}
-			
-			Rpc(RpcDo_Transaction, "Error delivering item");
-			return;
-		}
-		
-		this.SetState(false);
-		Rpc(RpcDo_Transaction, "success");
-	}
-	
-	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
-	void RpcDo_Transaction(string message)
-	{
-		SCR_HintManagerComponent.GetInstance().ShowCustom(message);
+		super.EOnInit(owner);
+		this.SetState(true);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -207,28 +97,17 @@ class ADM_PhysicalShopComponent: ScriptComponent
 		if (m_LastStateChangeTime == -1) return;
 		
 		float dt = GetTimeUntilRespawn();
-		if (dt >= m_RespawnTime * 1000 && m_Merchandise.CanRespawn(this))
+		if (dt >= m_RespawnTime * 1000 && m_Merchandise.Count() > 0 && m_Merchandise[0].GetMerchandise().CanRespawn(this))
 		{
+			Print(dt);
 			this.SetState(true);
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------
-	override void EOnInit(IEntity owner)
+	void ADM_PhysicalShopComponent()
 	{
-		super.EOnInit(owner);
-		
-		if (m_Merchandise)
-			m_Merchandise.SetPrefabResource(Resource.Load(m_Merchandise.GetPrefab()));
-		
-		this.SetState(true);
-	}
+		if (!m_Merchandise || m_Merchandise.Count() <= 0) return;
 	
-	//------------------------------------------------------------------------------------------------
-	override void OnPostInit(IEntity owner)
-	{
-		super.OnPostInit(owner);
-		SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
-		owner.SetFlags(EntityFlags.ACTIVE, true);
+		m_Merchandise.Resize(1);
 	}
 }

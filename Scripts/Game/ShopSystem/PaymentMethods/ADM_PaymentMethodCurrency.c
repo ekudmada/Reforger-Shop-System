@@ -9,18 +9,18 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 		return m_Quantity;
 	}
 	
-	override bool CheckPayment(IEntity player)
+	override bool CheckPayment(IEntity player, int quantity = 1)
 	{
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
 		
 		int totalCurrency = ADM_CurrencyComponent.FindTotalCurrencyInInventory(inventory);
-		if (totalCurrency < m_Quantity) return false;
+		if (totalCurrency < m_Quantity * quantity) return false;
 		
 		return true;
 	}
 	
-	override bool CollectPayment(IEntity player)
+	override bool CollectPayment(IEntity player, int quantity = 1)
 	{
 		if (RplSession.Mode() == RplMode.Client) return false;
 		
@@ -30,24 +30,24 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
 		
-		bool didRemoveCurrency = ADM_CurrencyComponent.RemoveCurrencyFromInventory(inventory, m_Quantity);
+		bool didRemoveCurrency = ADM_CurrencyComponent.RemoveCurrencyFromInventory(inventory, m_Quantity * quantity);
 		return didRemoveCurrency;
 	}
 	
-	override bool ReturnPayment(IEntity player)
+	override bool ReturnPayment(IEntity player, int quantity = 1)
 	{
 		if (RplSession.Mode() == RplMode.Client) return false;
 		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
 		
-		bool didAddCurrency = ADM_CurrencyComponent.AddCurrencyToInventory(inventory, m_Quantity);
+		bool didAddCurrency = ADM_CurrencyComponent.AddCurrencyToInventory(inventory, m_Quantity * quantity);
 		return didAddCurrency;
 	}
 	
-	override string GetDisplayString()
+	override string GetDisplayString(int quantity = 1)
 	{
-		return string.Format("$%1", m_Quantity);
+		return string.Format("$%1", m_Quantity * quantity);
 	}
 	
 	override ResourceName GetDisplayIcon()

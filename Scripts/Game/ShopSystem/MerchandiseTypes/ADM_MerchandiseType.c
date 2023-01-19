@@ -1,4 +1,4 @@
-class ADM_MerchandiseBase: ScriptAndConfig
+class ADM_MerchandiseType: ScriptAndConfig
 {
 	[Attribute(defvalue: "", desc: "Prefab to sell", uiwidget: UIWidgets.ResourceNamePicker, params: "et")]
 	protected ResourceName m_Prefab;
@@ -8,7 +8,7 @@ class ADM_MerchandiseBase: ScriptAndConfig
 	Resource GetPrefabResource() { return m_PrefabResource; }
 	void SetPrefabResource(Resource res) { m_PrefabResource = res; }
 	
-	bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop) { return false; }
-	bool CanRespawn(ADM_PhysicalShopComponent shop) { return false; }
-	bool Deliver(IEntity player, ADM_PhysicalShopComponent shop) { return false; }
+	bool CanDeliver(IEntity player, ADM_ShopComponent shop, int quantity = 1) { return false; }
+	bool CanRespawn(ADM_ShopComponent shop, int quantity = 1) { return false; }
+	bool Deliver(IEntity player, ADM_ShopComponent shop, int quantity = 1) { return false; }
 }

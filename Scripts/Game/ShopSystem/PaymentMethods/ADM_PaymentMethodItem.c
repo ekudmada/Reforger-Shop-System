@@ -38,7 +38,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		return desiredItems;
 	}
 	
-	override bool CheckPayment(IEntity player)
+	override bool CheckPayment(IEntity player, int quantity = 1)
 	{
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
@@ -49,7 +49,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		return (paymentItems.Count() >= m_ItemQuantity);
 	}
 	
-	override bool CollectPayment(IEntity player)
+	override bool CollectPayment(IEntity player, int quantity = 1)
 	{
 		if (RplSession.Mode() == RplMode.Client) return false;
 		
@@ -75,7 +75,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 			didRemoveItems.Insert(didRemoveItem);
 			
 			if (didRemoveItem) removedItems.Insert(prefabName);
-			if (didRemoveItems.Count() == m_ItemQuantity) break;
+			if (didRemoveItems.Count() == m_ItemQuantity*quantity) break;
 		}
 		
 		if (didRemoveItems.Contains(false))
@@ -95,7 +95,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		return true;
 	}
 	
-	override bool ReturnPayment(IEntity player)
+	override bool ReturnPayment(IEntity player, int quantity = 1)
 	{
 		if (RplSession.Mode() == RplMode.Client) return false;
 		
@@ -103,7 +103,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		if (!inventory) return false;
 		
 		bool returned = true;
-		for (int i = 0; i < m_ItemQuantity; i++)
+		for (int i = 0; i < m_ItemQuantity * quantity; i++)
 		{
 			IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_ItemPrefab));
 			bool insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
@@ -113,9 +113,9 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		return returned;
 	}
 	
-	override string GetDisplayString()
+	override string GetDisplayString(int quantity = 1)
 	{
-		return string.Format("%1 x%2", ADM_Utils.GetPrefabDisplayName(m_ItemPrefab), m_ItemQuantity);
+		return string.Format("%1 x%2", ADM_Utils.GetPrefabDisplayName(m_ItemPrefab), m_ItemQuantity * quantity);
 	}
 	
 	override ResourceName GetDisplayIcon()

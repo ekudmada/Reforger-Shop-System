@@ -62,9 +62,9 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 	
 	void Confirm()
 	{
-		if (!m_shop) return;
+		if (!m_shop || m_shop.GetMerchandise().Count() <= 0) return;
 		
-		m_shop.AskPurchase();
+		m_shop.AskPurchase(m_shop.GetMerchandise()[0]);
 		GetGame().GetMenuManager().CloseMenu(this);
 	}
 	
@@ -81,9 +81,9 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 	
 	void UpdatePaymentMethods()
 	{
-		if (!m_shop) return;
+		if (!m_shop || m_shop.GetMerchandise().Count() <= 0) return;
 		
-		foreach (ADM_PaymentMethodBase paymentMethod : m_shop.GetRequiredPayment())
+		foreach (ADM_PaymentMethodBase paymentMethod : m_shop.GetMerchandise()[0].GetRequiredPaymentToBuy())
 		{
 			m_ListBoxComponent.AddItemAndIcon(paymentMethod.GetDisplayString(), paymentMethod.GetDisplayIcon(), "");
 		}

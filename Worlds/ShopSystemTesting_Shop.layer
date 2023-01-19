@@ -1,160 +1,119 @@
-$grp GenericEntity : "{06204CA46608AFA1}Prefabs/Shop.et" {
+$grp GenericEntity {
  {
   components {
-   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_Merchandise ADM_MerchandiseItem "{5C6308F40F20A0FE}" {
-     m_Prefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
-    }
-    m_RequiredPayment {
-     ADM_PaymentMethodCurrency "{5AE75E07DF9397FF}" {
-      m_Quantity 100
+   ADM_ShopComponent "{5C6643375C567CF1}" {
+    m_Merchandise {
+     ADM_ShopMerchandise "{5C6643376C5CA6E6}" {
+      m_Merchandise ADM_MerchandiseItem "{5C664337117351B1}" {
+       m_Prefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
+      }
+      m_RequiredPayment {
+       ADM_PaymentMethodCurrency "{5C664337042960B7}" {
+        m_Quantity 100
+       }
+       ADM_PaymentMethodItem "{5C6643370032E343}" {
+        m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
+       }
+      }
      }
-    }
-   }
-   RigidBody "{5ADE0317BCBF0917}" {
-    Static 1
-   }
-  }
-  coords 131.948 1.891 141.829
-  angleY -90
-  angleZ -90
- }
- {
-  components {
-   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_Merchandise ADM_MerchandiseVehicle "{5C6308F5DFCDA13C}" {
-     m_Prefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
-    }
-    m_RequiredPayment {
-     ADM_PaymentMethodItem "{5C5D72433CA61533}" {
-      m_ItemPrefab "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et"
-     }
-    }
-    m_RespawnTime 1
-   }
-   RigidBody "{5ADE0317BCBF0917}" {
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{5AD9438A174FB298}" {
-    ActionContexts {
-     UserActionContext "{5ADD327AF958F0E4}" {
-      Radius 5
+     ADM_ShopMerchandise "{5C66433730A0A6FA}" {
+      m_Merchandise ADM_MerchandiseItem "{5C6643373E49D825}" {
+       m_Prefab "{06B68C58B72EAAC6}Prefabs/Items/Equipment/Backpacks/Backpack_ALICE_Medium.et"
+      }
+      m_RequiredPayment {
+       ADM_PaymentMethodCurrency "{5C664337210DE591}" {
+        m_Quantity 5
+       }
+      }
      }
     }
    }
   }
-  coords 124.52 0.952 141.538
-  angleZ 0
+  coords 129.108 1.001 140.942
  }
  {
   components {
-   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_Merchandise ADM_MerchandiseVehicle "{5C6308F428FF43AE}" {
-     m_Prefab "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et"
-    }
-    m_RequiredPayment {
-     ADM_PaymentMethodItem "{5AE89C2E8D90CE4D}" {
-      m_ItemPrefab "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et"
+   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_Merchandise {
+     ADM_ShopMerchandise "{5C664CA55F3929BF}" {
+      m_Merchandise ADM_MerchandiseVehicle "{5C664CA55AF365B1}" {
+       m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
+      }
+      m_RequiredPayment {
+       ADM_PaymentMethodItem "{5C664CA71B53EEC6}" {
+        m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
+       }
+      }
      }
-    }
-    m_RespawnTime 1
-   }
-   RigidBody "{5ADE0317BCBF0917}" {
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{5AD9438A174FB298}" {
-    ActionContexts {
-     UserActionContext "{5ADD327AF958F0E4}" {
-      Radius 5
-     }
-    }
-   }
-  }
-  coords 128.638 0.993 141.538
-  angleZ 0
- }
- {
-  components {
-   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_Merchandise ADM_MerchandiseItem "{5C6308F4224E2977}" {
-     m_Prefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
-    }
-    m_RequiredPayment {
-     ADM_PaymentMethodItem "{5B0443CCC4A6FA51}" {
-      m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
-      m_ItemQuantity 2
-     }
-    }
-   }
-   RigidBody "{5ADE0317BCBF0917}" {
-    Static 1
-   }
-   ActionsManagerComponent "{5AD9438A174FB298}" {
-    additionalActions {
-     ADM_PhysicalShopPurchaseAction "{5C602D10AED77688}" {
-     }
-    }
-   }
-  }
-  coords 134.097 1.947 141.808
-  angleX -9.545
-  angleY -89.893
-  angleZ -0.648
- }
- {
-  components {
-   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_Merchandise ADM_MerchandiseItem "{5C6308F42C0A03ED}" {
-     m_Prefab "{3EB02CDAD5F23C82}Prefabs/Weapons/Rifles/SVD/Rifle_SVD.et"
     }
     m_RespawnTime 10
    }
-   RigidBody "{5ADE0317BCBF0917}" {
+   MeshObject "{5C664CA5921DE9AF}" {
+   }
+   RigidBody "{5C664CA591CC3346}" {
+    ModelGeometry 1
     Static 1
    }
+   ActionsManagerComponent "{5C664CA5835A08C8}" {
+    ActionContexts {
+     UserActionContext "{5C664CA5800A49E1}" {
+      ContextName "Shop"
+      Position PointInfo "{5C664CA529C736CB}" {
+      }
+      Radius 2
+     }
+    }
+    additionalActions {
+     ADM_PhysicalShopPurchaseAction "{5C664CA58DB01C13}" {
+      ParentContextList {
+       "Shop"
+      }
+     }
+    }
+   }
+   RplComponent "{5C664CA59F5A8A12}" {
+   }
   }
-  coords 134.159 2.213 141.531
-  angleX 89.921
-  angleY -90
-  angleZ 0
+  coords 141.301 1.001 136.165
  }
  {
   components {
-   ADM_PhysicalShopComponent "{5AD94386DCE50D28}" {
-    m_Merchandise ADM_MerchandiseItem "{5C6308F433DF6923}" {
-     m_Prefab "{C0F7DD85A86B2900}Prefabs/Weapons/Handguns/PM/Handgun_PM.et"
-    }
-    m_RequiredPayment {
-     ADM_PaymentMethodItem "{5AE75E07D91471A0}" {
-      m_ItemPrefab "{9DB69176CEF0EE97}Prefabs/Weapons/Grenades/Smoke_ANM8HC.et"
-     }
-     ADM_PaymentMethodItem "{5AE75E069092F746}" {
-      m_ItemPrefab "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et"
-     }
-     ADM_PaymentMethodCurrency "{5C6308F2729FC3E9}" {
-      m_Quantity 1000
+   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_Merchandise {
+     ADM_ShopMerchandise "{5C664CA55F3929BF}" {
+      m_Merchandise ADM_MerchandiseVehicle "{5C664CA55AF365B1}" {
+       m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
+      }
      }
     }
-    m_RespawnTime 1
+    m_RespawnTime 10
    }
-   RigidBody "{5ADE0317BCBF0917}" {
+   MeshObject "{5C664CA5921DE9AF}" {
+   }
+   RigidBody "{5C664CA591CC3346}" {
+    ModelGeometry 1
     Static 1
    }
+   ActionsManagerComponent "{5C664CA5835A08C8}" {
+    ActionContexts {
+     UserActionContext "{5C664CA5800A49E1}" {
+      ContextName "Shop"
+      Position PointInfo "{5C664CA529C736CB}" {
+      }
+      Radius 2
+     }
+    }
+    additionalActions {
+     ADM_PhysicalShopPurchaseAction "{5C664CA58DB01C13}" {
+      ParentContextList {
+       "Shop"
+      }
+     }
+    }
+   }
+   RplComponent "{5C664CA59F5A8A12}" {
+   }
   }
-  coords 132.04 1.905 141.675
-  angleY -90
-  angleZ -90
- }
-}
-$grp StaticModelEntity : "{B94D11DD03097D5E}PrefabsEditable/Auto/Props/Military/Furniture/E_TableMilitary_US_01.et" {
- {
-  coords 131.474 0.981 141.564
-  angleY -179.925
- }
- {
-  coords 133.887 0.981 141.561
-  angleY -179.925
+  coords 138.342 1.001 136.165
  }
 }

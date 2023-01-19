@@ -1,7 +1,7 @@
 [BaseContainerProps()]
-class ADM_MerchandiseVehicle: ADM_MerchandiseBase
+class ADM_MerchandiseVehicle: ADM_MerchandiseType
 {
-	EntitySpawnParams GetVehicleSpawnTransform(ADM_PhysicalShopComponent shop)
+	EntitySpawnParams GetVehicleSpawnTransform(ADM_ShopComponent shop)
 	{
 		EntitySpawnParams params = EntitySpawnParams();
 		params.TransformMode = ETransformMode.WORLD;
@@ -12,8 +12,10 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseBase
 	
 	int lastCheckTime = -1;
 	bool canRespawnCache = false;
-	override bool CanRespawn(ADM_PhysicalShopComponent shop)
+	override bool CanRespawn(ADM_ShopComponent shop, int quantity = 1)
 	{
+		if (quantity > 1) quantity = 1;
+		
 		int curTick = System.GetTickCount();
 		if (curTick - lastCheckTime >= 1000)
 		{
@@ -24,22 +26,24 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseBase
 		return canRespawnCache;
 	}
 	
-	override bool CanDeliver(IEntity player, ADM_PhysicalShopComponent shop)
+	override bool CanDeliver(IEntity player, ADM_ShopComponent shop, int quantity = 1)
 	{
-		// Don't need to check any player specific things like inventory storage, just need to check if the space is clear from objects that could blow it up.
-		return CanRespawn(shop);
+		if (quantity > 1) quantity = 1;
+
+		return CanRespawn(shop, quantity);
 	}
 	
-	override bool Deliver(IEntity player, ADM_PhysicalShopComponent shop)
+	override bool Deliver(IEntity player, ADM_ShopComponent shop, int quantity = 1)
 	{
 		if (RplSession.Mode() == RplMode.Client) return false;
+		if (quantity > 1) quantity = 1;
 		
 		// double check we can deliver
-		bool canDeliver = this.CanDeliver(player, shop);
+		bool canDeliver = this.CanDeliver(player, shop, quantity);
 		if (!canDeliver) return false;
 		
 		// spawn vehicle
-		ref EntitySpawnParams params = GetVehicleSpawnTransform(shop);
+		EntitySpawnParams params = GetVehicleSpawnTransform(shop);
 		IEntity entity = GetGame().SpawnEntityPrefab(m_PrefabResource, shop.GetOwner().GetWorld(), params);
 		
 		return true;

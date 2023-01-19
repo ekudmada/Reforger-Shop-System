@@ -17,38 +17,35 @@ class ADM_PhysicalShopPurchaseAction : ScriptedUserAction
 			return;
 		}
 		
-		ADM_MerchandiseBase shopConfig = m_Shop.GetMerchandise();
+		array<ref ADM_ShopMerchandise> shopConfigs = m_Shop.GetMerchandise();
+		if (!shopConfigs) return;
+		
+		ADM_ShopMerchandise shopConfig;
+		if (shopConfigs.Count() > 0) shopConfig = shopConfigs[0];
 		if (!shopConfig) return;
 		
-		m_ItemName = ADM_Utils.GetPrefabDisplayName(shopConfig.GetPrefab());
+		m_ItemName = ADM_Utils.GetPrefabDisplayName(shopConfig.GetMerchandise().GetPrefab());
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
 	{	
-		if (!m_Shop) return;
+		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return;
 		
-		if (m_Shop.IsPaymentOnlyCurrency() || !(m_Shop.GetRequiredPayment().Count() > 0))
-			m_Shop.AskPurchase();
+		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandise()[0];
+		if (m_Shop.IsPaymentOnlyCurrency(merchandise) || !(merchandise.GetRequiredPaymentToBuy().Count() > 0))
+			m_Shop.AskPurchase(merchandise);
 		else
 			m_Shop.ViewPayment();
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	override bool GetActionNameScript(out string outName)
+	override bool CanBeShownScript(IEntity user)
 	{
-		if (!m_Shop) return false;
+		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return false;
 		
-		string actionName = "Purchase";
-		if (!m_Shop.GetRequiredPayment().Count() > 0) actionName = "Free";
-		if (m_ItemName.Length() > 0) actionName += string.Format(" %1", m_ItemName);
-		
-		bool currencyOnly = m_Shop.IsPaymentOnlyCurrency();
-		if (currencyOnly) {
-			int cost = ADM_PaymentMethodCurrency.Cast(m_Shop.GetRequiredPayment()[0]).GetQuantity();
-			actionName += string.Format(" ($%1)", cost);
-		}
-		outName = actionName;
+		VObject model = m_Shop.GetOwner().GetVObject();
+		if (!model) return false;
 		
 		return true;
 	}
@@ -56,20 +53,29 @@ class ADM_PhysicalShopPurchaseAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
 	{
-		if (!m_Shop) return false;
+		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return false;
 		
 		//return m_Shop.CanPurchase(user);
 		return true;
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	override bool CanBeShownScript(IEntity user)
+	override bool GetActionNameScript(out string outName)
 	{
-		if (!m_Shop) return false;
+		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return false;
 		
-		VObject model = m_Shop.GetOwner().GetVObject();
-		if (!model) return false;
+		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandise()[0];
+		string actionName = "Purchase";
+		if (!merchandise.GetRequiredPaymentToBuy().Count() > 0) actionName = "Free";
+		if (m_ItemName.Length() > 0) actionName += string.Format(" %1", m_ItemName);
+		
+		bool currencyOnly = m_Shop.IsPaymentOnlyCurrency(merchandise);
+		if (currencyOnly) {
+			int cost = ADM_PaymentMethodCurrency.Cast(merchandise.GetRequiredPaymentToBuy()[0]).GetQuantity();
+			actionName += string.Format(" ($%1)", cost);
+		}
+		outName = actionName;
 		
 		return true;
 	}
-};
+}
