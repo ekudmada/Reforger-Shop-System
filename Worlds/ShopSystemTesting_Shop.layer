@@ -82,7 +82,7 @@ $grp GenericEntity {
     m_Merchandise {
      ADM_ShopMerchandise "{5C664CA55F3929BF}" {
       m_Merchandise ADM_MerchandiseVehicle "{5C664CA55AF365B1}" {
-       m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
+       m_Prefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
       }
      }
     }
@@ -114,6 +114,110 @@ $grp GenericEntity {
    RplComponent "{5C664CA59F5A8A12}" {
    }
   }
-  coords 138.342 1.001 136.165
+  coords 137.777 1.001 136.165
+ }
+ {
+  components {
+   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_Merchandise {
+     ADM_ShopMerchandise "{5C6716DB663C538A}" {
+      m_Merchandise ADM_MerchandiseItem "{5C6716DB6444B5D5}" {
+       m_Prefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
+      }
+      m_RequiredPayment {
+       ADM_PaymentMethodItem "{5C6716DB1F3485D9}" {
+        m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
+       }
+      }
+     }
+    }
+    m_RespawnTime 0.5
+   }
+   MeshObject "{5C664CA5921DE9AF}" {
+   }
+   RigidBody "{5C664CA591CC3346}" {
+    ModelGeometry 1
+    Static 1
+   }
+   ActionsManagerComponent "{5C664CA5835A08C8}" {
+    ActionContexts {
+     UserActionContext "{5C664CA5800A49E1}" {
+      ContextName "Shop"
+      Position PointInfo "{5C664CA529C736CB}" {
+      }
+      Radius 2
+     }
+    }
+    additionalActions {
+     ADM_PhysicalShopPurchaseAction "{5C664CA58DB01C13}" {
+      ParentContextList {
+       "Shop"
+      }
+     }
+    }
+   }
+   RplComponent "{5C664CA59F5A8A12}" {
+   }
+  }
+  coords 147.955 1.958 138.488
+  angleY -98.878
+  angleZ -38.454
+ }
+ {
+  components {
+   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_Merchandise {
+     ADM_ShopMerchandise "{5C6716DB663C538A}" {
+      m_Merchandise ADM_MerchandiseItem "{5C6716DB6444B5D5}" {
+       m_Prefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
+      }
+      m_RequiredPayment {
+       ADM_PaymentMethodItem "{5C6716DB1F3485D9}" {
+        m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
+       }
+      }
+     }
+    }
+    m_RespawnTime 0.5
+   }
+   MeshObject "{5C664CA5921DE9AF}" {
+   }
+   RigidBody "{5C664CA591CC3346}" {
+    ModelGeometry 1
+    Static 1
+   }
+   ActionsManagerComponent "{5C664CA5835A08C8}" {
+    ActionContexts {
+     UserActionContext "{5C664CA5800A49E1}" {
+      ContextName "Shop"
+      Position PointInfo "{5C664CA529C736CB}" {
+      }
+      Radius 2
+     }
+    }
+    additionalActions {
+     ADM_PhysicalShopPurchaseAction "{5C664CA58DB01C13}" {
+      ParentContextList {
+       "Shop"
+      }
+     }
+    }
+   }
+   RplComponent "{5C664CA59F5A8A12}" {
+   }
+  }
+  coords 146.673 1.887 138.289
+  angleY -98.878
+  angleZ -0.816
+ }
+}
+$grp StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/TableMilitary_USSR_01.et" {
+ {
+  coords 146.395 1.001 138.228
+  angleY 0
+ }
+ {
+  coords 147.854 1.001 138.228
+  angleY 0
  }
 }

@@ -17,14 +17,17 @@ class ADM_PhysicalShopPurchaseAction : ScriptedUserAction
 			return;
 		}
 		
-		array<ref ADM_ShopMerchandise> shopConfigs = m_Shop.GetMerchandise();
-		if (!shopConfigs) return;
+		array<ref ADM_ShopMerchandise> shopMerchandise = m_Shop.GetMerchandise();
+		if (!shopMerchandise) return;
 		
-		ADM_ShopMerchandise shopConfig;
-		if (shopConfigs.Count() > 0) shopConfig = shopConfigs[0];
-		if (!shopConfig) return;
+		ADM_ShopMerchandise merchandise;
+		if (shopMerchandise.Count() > 0) merchandise = shopMerchandise[0];
+		if (!merchandise) return;
 		
-		m_ItemName = ADM_Utils.GetPrefabDisplayName(shopConfig.GetMerchandise().GetPrefab());
+		ADM_MerchandiseType merchandiseType = merchandise.GetMerchandise();
+		if (!merchandiseType) return;
+		
+		m_ItemName = ADM_Utils.GetPrefabDisplayName(merchandiseType.GetPrefab());
 	}
 	
 	//------------------------------------------------------------------------------------------------

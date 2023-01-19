@@ -90,6 +90,7 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
+		SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
 		SetState(true);
 	}
 	
@@ -98,10 +99,10 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 	{
 		if (m_LastStateChangeTime == -1) return;
 		
+		//TODO: better understand the delay from buying -> spawning and what could cause the model to not disappear
 		float dt = GetTimeUntilRespawn();
 		if (dt > m_RespawnTime * 1000 && m_Merchandise.Count() > 0 && m_Merchandise[0].GetMerchandise().CanRespawn(this))
 		{
-			Print(dt);
 			SetState(true);
 		}
 	}

@@ -28,7 +28,7 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 		if (!canDeliver) return false;
 		
 		array<IEntity> deliveredItems = {};
-		for (int i = 0; i++; i < quantity)
+		for (int i = 0; i < quantity; i++)
 		{
 			// give item/weapon/magazine/clothing to player	
 			IEntity item = GetGame().SpawnEntityPrefab(m_PrefabResource);	
@@ -46,7 +46,6 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 			if (!m_AllowSaleWithFullInventory && !putInInventory)
 			{
 				SCR_EntityHelper.DeleteEntityAndChildren(item);
-				//return false; -- dont return false so we can return all payments and remove any items added before this failed
 			} else {
 				deliveredItems.Insert(item);
 			}
@@ -56,14 +55,10 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 		{
 			foreach (IEntity item : deliveredItems)
 			{
-				// Delete item
 				SCR_EntityHelper.DeleteEntityAndChildren(item);
-				
-				// Return all payments
-				
 			}
 			
-			return false; // now return false
+			return false;
 		}
 		
 		return true;

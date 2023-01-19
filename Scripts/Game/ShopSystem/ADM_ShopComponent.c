@@ -118,12 +118,6 @@ class ADM_ShopComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	override void EOnFrame(IEntity owner, float timeSlice)
-	{
-		
-	}
-	
-	//------------------------------------------------------------------------------------------------
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
@@ -143,7 +137,7 @@ class ADM_ShopComponent: ScriptComponent
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
-		SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
+		SetEventMask(owner, EntityEvent.INIT);
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
 }
