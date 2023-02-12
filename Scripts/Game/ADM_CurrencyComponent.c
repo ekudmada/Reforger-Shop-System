@@ -18,7 +18,7 @@ class ADM_CurrencyComponentClass: ScriptComponentClass {}
 //! This should help with quickly understanding the script's purpose.
 class ADM_CurrencyComponent: ScriptComponent
 {
-	[Attribute(uiwidget: UIWidgets.EditBox, params: "0 inf")]
+	[Attribute(uiwidget: UIWidgets.EditBox, params: "0 inf"), RplProp()]
 	protected int m_Value;
 	
 	int GetValue()

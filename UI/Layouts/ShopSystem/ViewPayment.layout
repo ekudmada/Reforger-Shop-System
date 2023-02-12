@@ -1,6 +1,20 @@
 FrameWidgetClass {
  Name "rootFrame"
  {
+  BlurWidgetClass "{5C982A20F3BDB23A}" {
+   Name "Blur0"
+   Slot FrameWidgetSlot "{5C982A20FA1F4810}" {
+    PositionX -5000
+    OffsetLeft -5000
+    PositionY -5000
+    OffsetTop -5000
+    SizeX 10000
+    OffsetRight -5000
+    SizeY 10000
+    OffsetBottom -5000
+   }
+   Intensity 0.75
+  }
   OverlayWidgetClass "{5C5013E0C6C89B3D}" {
    Name "Overlay0"
    Slot FrameWidgetSlot "{5C5013E0C6C89BC4}" {
@@ -48,7 +62,7 @@ FrameWidgetClass {
             HorizontalAlign 3
             VerticalAlign 3
            }
-           Color 0.761 0.386 0.078 1
+           Color 0.761 0.384 0.078 1
           }
           RichTextWidgetClass "{5C5013E0BB214F96}" {
            Name "RichText0"

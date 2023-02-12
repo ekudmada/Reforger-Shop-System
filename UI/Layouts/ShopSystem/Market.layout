@@ -1,0 +1,329 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ {
+  BlurWidgetClass "{5C982A210892C639}" {
+   Name "Blur0"
+   Slot FrameWidgetSlot "{5C982A2000952242}" {
+    PositionX -5000
+    OffsetLeft -5000
+    PositionY -5000
+    OffsetTop -5000
+    SizeX 10000
+    OffsetRight -5000
+    SizeY 10000
+    OffsetBottom -5000
+   }
+   Intensity 0.75
+  }
+  OverlayWidgetClass "{5C982A367A907DD7}" {
+   Name "Confirmation"
+   Slot FrameWidgetSlot "{5C982A367A907DE9}" {
+    PositionX 710
+    OffsetLeft 710
+    PositionY 390
+    OffsetTop 390
+    SizeX 500
+    OffsetRight -1210
+    SizeY 200
+    OffsetBottom -590
+   }
+   "Is Visible" 0
+   {
+    ImageWidgetClass "{5C982A362DE441C4}" {
+     Name "Background"
+     Slot OverlayWidgetSlot "{5C982A362DE441E1}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Color 0 0 0 0.498
+    }
+    VerticalLayoutWidgetClass "{5C982A360D77C1C1}" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5C982A360D77C1D9}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      OverlayWidgetClass "{5C982A2FD7F72F96}" {
+       Name "Header"
+       Slot LayoutSlot "{5C982A2FD7F72FAD}" {
+       }
+       {
+        ImageWidgetClass "{5C982A2833D87614}" {
+         Name "Image0"
+         Slot OverlayWidgetSlot "{5C982A2F882CAE04}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+         Color 0.075 0.075 0.075 1
+        }
+        HorizontalLayoutWidgetClass "{5C982A283529910B}" {
+         Name "HorizontalLayout1"
+         Slot OverlayWidgetSlot "{5C982A2F882CAE19}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+         {
+          TextWidgetClass "{5C982A28276F9E0D}" {
+           Name "Text0"
+           Slot LayoutSlot "{5C982A28276F9E2A}" {
+            Padding 10 0 10 0
+            SizeMode Fill
+           }
+           Text "Confirm"
+           "Font Size" 20
+           "Min Font Size" 20
+           "Vertical Alignment" Center
+          }
+          ButtonWidgetClass "{5C982A2FE0B16B37}" {
+           Name "Button0"
+           Slot LayoutSlot "{5C982A2FE0B16B53}" {
+            HorizontalAlign 2
+            Padding 0 0 10 0
+           }
+           Color 1 1 1 0
+           {
+            TextWidgetClass "{5C982A2F933F9F50}" {
+             Name "Text0"
+             Slot ButtonWidgetSlot "{5C982A2F933F9F72}" {
+             }
+             Text "x"
+             "Horizontal Alignment" Center
+             "Vertical Alignment" Center
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+      OverlayWidgetClass "{5C982A2FAC07C0D1}" {
+       Name "Overlay0"
+       Slot LayoutSlot "{5C982A2FAC07C0E8}" {
+       }
+       {
+        RichTextWidgetClass "{5C982A2FA9429D07}" {
+         Name "RichText0"
+         Slot OverlayWidgetSlot "{5C982A2FA9429D22}" {
+          Padding 50 25 50 0
+         }
+         Text "Are you sure you want to buy 500 ak47 for $2000?"
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         Wrap 1
+        }
+       }
+      }
+      HorizontalLayoutWidgetClass "{5C982A28481E0EFB}" {
+       Name "HorizontalLayout0"
+       Slot LayoutSlot "{5C982A28481E0F18}" {
+        Padding 50 25 50 0
+       }
+       {
+        ButtonWidgetClass "{5C982A2874036FE1}" {
+         Name "Button1"
+         Slot LayoutSlot "{5C982A2874036800}" {
+          Padding 0 0 10 0
+          SizeMode Fill
+         }
+         Color 0 0 0 0.498
+         {
+          TextWidgetClass "{5C982A2861AC2564}" {
+           Name "Text0"
+           Slot ButtonWidgetSlot "{5C982A2861AC2581}" {
+            Padding 0 5 0 5
+           }
+           Text "YES"
+          }
+         }
+        }
+        ButtonWidgetClass "{5C982A28776EC9FD}" {
+         Name "Button0"
+         Slot LayoutSlot "{5C982A28776ECA1C}" {
+          Padding 10 0 0 0
+          SizeMode Fill
+         }
+         Color 0 0 0 0.498
+         {
+          TextWidgetClass "{5C982A286F51842B}" {
+           Name "Text0"
+           Slot ButtonWidgetSlot "{5C982A286F518445}" {
+            Padding 0 5 0 5
+           }
+           Text "NO"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+  OverlayWidgetClass "{5C982A39D1EEDA87}" {
+   Name "Overlay"
+   Slot FrameWidgetSlot "{5C982A39D1EEDAA5}" {
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX 1920
+    OffsetRight -1920
+    SizeY 1080
+    OffsetBottom -1080
+   }
+   {
+    HorizontalLayoutWidgetClass "{5C982A399EB8BBE1}" {
+     Name "Container"
+     Slot OverlayWidgetSlot "{5C982A399EB8BB99}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      VerticalLayoutWidgetClass "{5C982A399C78BB5E}" {
+       Name "Categories"
+       Slot LayoutSlot "{5C982A2F882CAEE2}" {
+        Padding 50 50 10 50
+        SizeMode Fill
+       }
+       {
+        EditBoxWidgetClass "{5C982A3E287CCA63}" {
+         Name "Search"
+         Slot LayoutSlot "{5C982A3E287CCA8A}" {
+          Padding 0 0 10 0
+         }
+         text "Search for item"
+        }
+        ScrollLayoutWidgetClass "{5C982A3D9826B006}" {
+         Name "ScrollLayout0"
+         Slot LayoutSlot "{5C982A3D9826B025}" {
+          Padding 0 15 0 0
+          SizeMode Fill
+         }
+         {
+          VerticalLayoutWidgetClass "{5C982A3D7519A6F6}" {
+           Name "CategoriesContainer"
+           Slot AlignableSlot "{5C982A3D2420D1F3}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            ButtonWidgetClass "{5C982A27823A1DEE}" : "{5429F3944440C60B}UI/Layouts/ShopSystem/MarketCategory.layout" {
+             Name "Category0"
+             Slot LayoutSlot "{5C982A2F882CAF37}" {
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+      VerticalLayoutWidgetClass "{5C982A399BDC9F9B}" {
+       Name "Content"
+       Slot LayoutSlot "{5C982A399BDC9FE0}" {
+        Padding 10 50 50 50
+        SizeMode Fill
+        FillWeight 3
+       }
+       {
+        OverlayWidgetClass "{5C982A391688DE4F}" {
+         Name "Header"
+         Slot LayoutSlot "{5C982A2F882CAF67}" {
+          Padding 0 0 6 0
+          SizeMode Auto
+         }
+         {
+          HorizontalLayoutWidgetClass "{5C982A393636FA8A}" {
+           Name "Header"
+           Slot OverlayWidgetSlot "{5C982A2F882CAF72}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            ButtonWidgetClass "{5C982A391EA06731}" {
+             Name "Button"
+             Slot LayoutSlot "{5C982A2F882CAF7F}" {
+              Padding 0 0 0 0
+              SizeMode Fill
+              FillWeight 2
+             }
+             Color 0 0 0 0.498
+             {
+              TextWidgetClass "{5C982A39206C5F2A}" {
+               Name "Text0"
+               Slot ButtonWidgetSlot "{5C982A39206C5FC3}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+                Padding 5 5 5 5
+               }
+               Text "Offer"
+               "Horizontal Alignment" Center
+               "Vertical Alignment" Center
+              }
+             }
+            }
+            ButtonWidgetClass "{5C982A388BCE9369}" {
+             Name "Button0"
+             Slot LayoutSlot "{5C982A388BCE92A5}" {
+              Padding 0 0 0 0
+              SizeMode Fill
+             }
+             Color 0 0 0 0.498
+             {
+              TextWidgetClass "{5C982A388BCE9316}" {
+               Name "Text0"
+               Slot ButtonWidgetSlot "{5C982A39206C5FC3}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+                Padding 5 5 5 5
+               }
+               Text "Price"
+               "Horizontal Alignment" Center
+               "Vertical Alignment" Center
+              }
+             }
+            }
+            ImageWidgetClass "{5C982A38604B3CD1}" {
+             Name "Image0"
+             Slot LayoutSlot "{5C982A38604B3CF6}" {
+              SizeMode Fill
+             }
+             Color 0 0 0 0.498
+            }
+           }
+          }
+         }
+        }
+        ScrollLayoutWidgetClass "{5C982A39B86FEA55}" {
+         Name "Scroll"
+         Slot LayoutSlot "{5C982A39B86FEA48}" {
+          SizeMode Fill
+         }
+         style Small
+         {
+          VerticalLayoutWidgetClass "{5C982A3820F3F121}" {
+           Name "ContentContainer"
+           Slot AlignableSlot "{5C982A3820F3F1D9}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+            Padding 0 1 0 0
+           }
+           {
+            HorizontalLayoutWidgetClass "{5C982A36AE87CFD9}" : "{7C575A0E989A1B9E}UI/Layouts/ShopSystem/MarketItem.layout" {
+             Name "Row0"
+             Slot LayoutSlot "{5C982A382EF1EF82}" {
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

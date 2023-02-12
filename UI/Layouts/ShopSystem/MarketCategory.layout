@@ -1,0 +1,21 @@
+ButtonWidgetClass "{5C982A3DA945FBB5}" {
+ Name "Category"
+ Slot LayoutSlot "{5C982A2F882CAF37}" {
+  HorizontalAlign 3
+  Padding 0 0 0 1
+  SizeMode Fill
+ }
+ Color 0 0 0 0.498
+ {
+  TextWidgetClass "{5C982A3D5DC55E3E}" {
+   Name "Text0"
+   Slot ButtonWidgetSlot "{5C982A3D5DC55E42}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 10 5 10 5
+   }
+   Text "Category"
+   "Vertical Alignment" Center
+  }
+ }
+}

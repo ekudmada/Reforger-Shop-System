@@ -1,4 +1,4 @@
-class ADM_PhysicalShopPurchaseAction : ScriptedUserAction
+class ADM_PhysicalShopAction : ScriptedUserAction
 {
 	protected IEntity m_Owner;
 	protected ADM_PhysicalShopComponent m_Shop;
@@ -34,12 +34,21 @@ class ADM_PhysicalShopPurchaseAction : ScriptedUserAction
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
 	{	
 		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return;
+				
+		PlayerController playerController = GetGame().GetPlayerController();
+		if (pUserEntity != playerController.GetControlledEntity()) return;
 		
+		// Physical shops should only have one item defined, so just grab the first one in the merchandise array	
 		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandise()[0];
-		if (m_Shop.IsPaymentOnlyCurrency(merchandise) || !(merchandise.GetRequiredPaymentToBuy().Count() > 0))
-			m_Shop.AskPurchase(merchandise);
-		else
+		if (ADM_ShopComponent.IsPaymentOnlyCurrency(merchandise) || !(merchandise.GetRequiredPaymentToBuy().Count() > 0))
+		{
+			ADM_PlayerShopManagerComponent playerShopManager = ADM_PlayerShopManagerComponent.Cast(playerController.FindComponent(ADM_PlayerShopManagerComponent));
+			if (!playerShopManager) return;
+			
+			playerShopManager.AskPurchase(m_Shop, merchandise);
+		} else {
 			m_Shop.ViewPayment();
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -72,7 +81,7 @@ class ADM_PhysicalShopPurchaseAction : ScriptedUserAction
 		if (!merchandise.GetRequiredPaymentToBuy().Count() > 0) actionName = "Free";
 		if (m_ItemName.Length() > 0) actionName += string.Format(" %1", m_ItemName);
 		
-		bool currencyOnly = m_Shop.IsPaymentOnlyCurrency(merchandise);
+		bool currencyOnly = ADM_ShopComponent.IsPaymentOnlyCurrency(merchandise);
 		if (currencyOnly) {
 			int cost = ADM_PaymentMethodCurrency.Cast(merchandise.GetRequiredPaymentToBuy()[0]).GetQuantity();
 			actionName += string.Format(" ($%1)", cost);

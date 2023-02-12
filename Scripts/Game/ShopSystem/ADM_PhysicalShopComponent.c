@@ -1,19 +1,23 @@
 class ADM_PhysicalShopComponentClass: ScriptComponentClass {}
 
 //TODO: look into SCR_PreviewEntityComponent
-//TODO: don't hide entity if purchase failed from super (ADM_ShopComponent)
 //TODO: fix respawn time = 0 bug (vehicle check doesnt work)
 class ADM_PhysicalShopComponent: ADM_ShopComponent
 {	
 	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.Slider, params: "0.1 1000 et", category: "Physical Shop")]
 	protected float m_RespawnTime;
 	
+	[RplProp(onRplName: "OnStateChange")]
+	protected bool m_State = true;
+	
+	// Only used for server to determine when to spawn a new vehicle
 	protected float m_LastStateChangeTime = -1;
 	
 	//------------------------------------------------------------------------------------------------
 	void UpdateMesh(IEntity owner)
 	{
 		//TODO: look into using SCR_PreviewEntity or replicating it. Display prefab 1:1 with all slots and such
+		if (!owner) return;
 		if (!m_Merchandise || m_Merchandise.Count() <= 0) return;
 		
 		ResourceName modelPath;
@@ -40,19 +44,22 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 	//------------------------------------------------------------------------------------------------
 	void SetState(bool state)
 	{
-		IEntity owner = GetOwner();
-		if (!owner) return;
+		m_State = !m_State;
+		Replication.BumpMe();
 		
-		if (state)
+		OnStateChange();
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void OnStateChange()
+	{
+		if (m_State)
 		{
-			UpdateMesh(owner);
-			m_LastStateChangeTime = -1;
+			UpdateMesh(m_Owner);
 		} else {
-			Physics physics = owner.GetPhysics();
+			m_Owner.SetObject(null, string.Empty);
+			Physics physics = m_Owner.GetPhysics();
 			if (physics) physics.Destroy();
-			
-			owner.SetObject(null, string.Empty);
-			m_LastStateChangeTime = System.GetTickCount();
 		}
 	}
 	
@@ -79,11 +86,15 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	override void RpcAsk_Purchase(int playerId, ADM_ShopMerchandise merchandise, int quantity)
+	override bool AskPurchase(IEntity player, ADM_ShopComponent shop, ADM_ShopMerchandise merchandise, int quantity, ADM_PlayerShopManagerComponent playerManager)
 	{
-		super.RpcAsk_Purchase(playerId, merchandise, quantity);
+		bool success = super.AskPurchase(player, shop, merchandise, quantity, playerManager);
+		if (!success) return false;
+		
 		SetState(false);
+		m_LastStateChangeTime = System.GetTickCount();	
+		
+		return true;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -91,26 +102,24 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 	{
 		super.EOnInit(owner);
 		SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
-		SetState(true);
+		
+		OnStateChange();
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
+		if (RplSession.Mode() == RplMode.Client) return;
 		if (m_LastStateChangeTime == -1) return;
 		
-		//TODO: better understand the delay from buying -> spawning and what could cause the model to not disappear
+		//TODO: better understand the delay from buying -> spawning and what could cause the vehicle shop respawn detection to not work
 		float dt = GetTimeUntilRespawn();
+		if (m_RespawnTime < 1) m_RespawnTime = 1;
+		
 		if (dt > m_RespawnTime * 1000 && m_Merchandise.Count() > 0 && m_Merchandise[0].GetMerchandise().CanRespawn(this))
 		{
 			SetState(true);
+			m_LastStateChangeTime = -1;
 		}
-	}
-	
-	void ADM_PhysicalShopComponent()
-	{
-		if (!m_Merchandise || m_Merchandise.Count() <= 0) return;
-	
-		m_Merchandise.Resize(1);
 	}
 }

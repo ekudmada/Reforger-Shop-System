@@ -2,17 +2,42 @@ class ADM_ShopComponentClass: ScriptComponentClass {}
 
 class ADM_ShopComponent: ScriptComponent
 {
-	[Attribute(defvalue: "", desc: "Merchandise to sell", uiwidget: UIWidgets.Object, params: "et", category: "Shop")]
+	/*
+		TODO:
+			- Add limited supply 
+				- Syncronize m_Merchandise over the network
+			- Sell items
+			- Supply & Demand
+			- Hook for gamemodes to send payments somewhere
+				- e.g player owned shops
+	*/
+	
+	[Attribute()]
+	protected string m_ShopName;
+	
+	[Attribute("", UIWidgets.ResourceNamePicker, "Config", "conf", category: "Shop")]
+	protected ResourceName m_ShopConfig;
+	
+	[Attribute(defvalue: "", desc: "Merchandise to sell", uiwidget: UIWidgets.Object, category: "Shop")]
+	protected ref array<ref ADM_ShopMerchandise> m_AdditionalMerchandise;
+	
 	protected ref array<ref ADM_ShopMerchandise> m_Merchandise;
+	protected IEntity m_Owner;
 	
 	//------------------------------------------------------------------------------------------------
-	bool IsPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
+	static bool IsPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
 	{
 		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPaymentToBuy();
 		if (requiredPayment.Count() != 1) return false;
 		if (requiredPayment[0].ClassName().ToType() != ADM_PaymentMethodCurrency) return false;
 		
 		return true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	string GetName()
+	{
+		return m_ShopName;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -26,10 +51,6 @@ class ADM_ShopComponent: ScriptComponent
 	{
 		bool canPurchase = true;
 		
-		int quantityCanBuy = merchandise.GetQuantityCanBuy();
-		if (quantityCanBuy < 0 && quantityCanBuy != -1) return false;
-		if (quantityCanBuy - quantity < 0) return false;
-		
 		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPaymentToBuy();
 		foreach (ADM_PaymentMethodBase payment : requiredPayment)
 		{
@@ -40,36 +61,22 @@ class ADM_ShopComponent: ScriptComponent
 		return canPurchase;
 	}
 	
-	//------------------------------------------------------------------------------------------------
-	void AskPurchase(ADM_ShopMerchandise merchandise, int quantity = 1)
+	bool AskPurchase(IEntity player, ADM_ShopComponent shop, ADM_ShopMerchandise merchandise, int quantity, ADM_PlayerShopManagerComponent playerManager)
 	{
-		int playerId = GetGame().GetPlayerController().GetPlayerId();
-		Rpc(RpcAsk_Purchase, playerId, merchandise, quantity);
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void RpcAsk_Purchase(int playerId, ADM_ShopMerchandise merchandise, int quantity)
-	{
-		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerId);
-		if (!player) 
-		{
-			Rpc(RpcDo_Transaction, "Couldn't find player entity");
-			return;
-		}
+		int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player);
 		
-		bool canPay = CanPurchase(player, merchandise, quantity);
+		bool canPay = shop.CanPurchase(player, merchandise, quantity);
 		if (!canPay) 
 		{
-			Rpc(RpcDo_Transaction, "Payment not met");
-			return;
+			playerManager.SetPurchaseMessage("Payment not met");
+			return false;
 		}
 		
-		bool canDeliver = merchandise.GetMerchandise().CanDeliver(player, this, quantity);
+		bool canDeliver = merchandise.GetMerchandise().CanDeliver(player, shop, quantity);
 		if (!canDeliver) 
 		{
-			Rpc(RpcDo_Transaction, "Can't deliver item");
-			return;
+			playerManager.SetPurchaseMessage("Can't deliver item");
+			return false;
 		}
 		
 		array<ADM_PaymentMethodBase> collectedPaymentMethods = {};
@@ -91,11 +98,11 @@ class ADM_ShopComponent: ScriptComponent
 				if (!returnedPayment) PrintFormat("Error returning payment! %s", paymentMethod.Type().ToString());
 			}
 			
-			Rpc(RpcDo_Transaction, "Error collecting payment");
-			return;
+			playerManager.SetPurchaseMessage("Error collecting payment");
+			return false;
 		}
 		
-		bool deliver = merchandise.GetMerchandise().Deliver(player, this, quantity);
+		bool deliver = merchandise.GetMerchandise().Deliver(player, shop, quantity);
 		if (!deliver) 
 		{
 			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)
@@ -104,23 +111,24 @@ class ADM_ShopComponent: ScriptComponent
 				if (!returnedPayment) PrintFormat("Error returning payment! %1", paymentMethod.Type().ToString());
 			}
 			
-			Rpc(RpcDo_Transaction, "Error delivering item");
-			return;
+			playerManager.SetPurchaseMessage("Error delivering item");
+			return false;
 		}
 		
-		Rpc(RpcDo_Transaction, "success");
-	}
-	
-	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
-	void RpcDo_Transaction(string message)
-	{
-		SCR_HintManagerComponent.GetInstance().ShowCustom(message);
+		playerManager.SetPurchaseMessage("success");
+		return true;	
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
+		
+		if (!GetGame().GetWorldEntity())
+  			return;
+		
+		RplComponent rpl = RplComponent.Cast(owner.FindComponent(RplComponent));
+		if (rpl) rpl.InsertToReplication();
 		
 		foreach (ADM_ShopMerchandise merchandise : m_Merchandise)
 		{
@@ -140,4 +148,24 @@ class ADM_ShopComponent: ScriptComponent
 		SetEventMask(owner, EntityEvent.INIT);
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}
+	
+	void ADM_ShopComponent()
+	{
+		m_Owner = GetOwner();
+		
+		if (!m_Merchandise) m_Merchandise = new array<ref ADM_ShopMerchandise>();
+		
+		if (m_ShopConfig != string.Empty) {
+			ADM_ShopConfig shopConfig = ADM_ShopConfig.GetConfig(m_ShopConfig);
+			if (shopConfig && shopConfig.m_Merchandise) {
+				foreach (ADM_ShopMerchandise merch : shopConfig.m_Merchandise) {
+					m_Merchandise.Insert(merch);
+				}
+			}
+		}
+		
+		foreach (ADM_ShopMerchandise merch : m_AdditionalMerchandise) {
+			m_Merchandise.Insert(merch);
+		}
+	} 
 }

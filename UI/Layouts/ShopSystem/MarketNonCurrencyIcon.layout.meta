@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{4BCF093733E02270}UI/Layouts/ShopSystem/MarketNonCurrencyIcon.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

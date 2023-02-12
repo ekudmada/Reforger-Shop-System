@@ -1,40 +1,8 @@
 $grp GenericEntity {
  {
   components {
-   ADM_ShopComponent "{5C6643375C567CF1}" {
-    m_Merchandise {
-     ADM_ShopMerchandise "{5C6643376C5CA6E6}" {
-      m_Merchandise ADM_MerchandiseItem "{5C664337117351B1}" {
-       m_Prefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
-      }
-      m_RequiredPayment {
-       ADM_PaymentMethodCurrency "{5C664337042960B7}" {
-        m_Quantity 100
-       }
-       ADM_PaymentMethodItem "{5C6643370032E343}" {
-        m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
-       }
-      }
-     }
-     ADM_ShopMerchandise "{5C66433730A0A6FA}" {
-      m_Merchandise ADM_MerchandiseItem "{5C6643373E49D825}" {
-       m_Prefab "{06B68C58B72EAAC6}Prefabs/Items/Equipment/Backpacks/Backpack_ALICE_Medium.et"
-      }
-      m_RequiredPayment {
-       ADM_PaymentMethodCurrency "{5C664337210DE591}" {
-        m_Quantity 5
-       }
-      }
-     }
-    }
-   }
-  }
-  coords 129.108 1.001 140.942
- }
- {
-  components {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_Merchandise {
+    m_AdditionalMerchandise {
      ADM_ShopMerchandise "{5C664CA55F3929BF}" {
       m_Merchandise ADM_MerchandiseVehicle "{5C664CA55AF365B1}" {
        m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
@@ -46,7 +14,7 @@ $grp GenericEntity {
       }
      }
     }
-    m_RespawnTime 0.5
+    m_RespawnTime 0.1
    }
    MeshObject "{5C664CA5921DE9AF}" {
    }
@@ -64,7 +32,7 @@ $grp GenericEntity {
      }
     }
     additionalActions {
-     ADM_PhysicalShopPurchaseAction "{5C664CA58DB01C13}" {
+     ADM_PhysicalShopAction "{5C982A22684EB04A}" {
       ParentContextList {
        "Shop"
       }
@@ -79,7 +47,7 @@ $grp GenericEntity {
  {
   components {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_Merchandise {
+    m_AdditionalMerchandise {
      ADM_ShopMerchandise "{5C664CA55F3929BF}" {
       m_Merchandise ADM_MerchandiseVehicle "{5C664CA55AF365B1}" {
        m_Prefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
@@ -104,7 +72,7 @@ $grp GenericEntity {
      }
     }
     additionalActions {
-     ADM_PhysicalShopPurchaseAction "{5C664CA58DB01C13}" {
+     ADM_PhysicalShopAction "{5C982A22153D448C}" {
       ParentContextList {
        "Shop"
       }
@@ -116,22 +84,11 @@ $grp GenericEntity {
   }
   coords 137.777 1.001 136.165
  }
- {
+ GenericEntity_3 {
   components {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_Merchandise {
-     ADM_ShopMerchandise "{5C6716DB663C538A}" {
-      m_Merchandise ADM_MerchandiseItem "{5C6716DB6444B5D5}" {
-       m_Prefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
-      }
-      m_RequiredPayment {
-       ADM_PaymentMethodItem "{5C6716DB1F3485D9}" {
-        m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
-       }
-      }
-     }
-    }
-    m_RespawnTime 0.5
+    m_ShopConfig "{8B99E76A07E39318}Configs/Shops/AK74.conf"
+    m_RespawnTime 5
    }
    MeshObject "{5C664CA5921DE9AF}" {
    }
@@ -149,14 +106,15 @@ $grp GenericEntity {
      }
     }
     additionalActions {
-     ADM_PhysicalShopPurchaseAction "{5C664CA58DB01C13}" {
+     ADM_PhysicalShopAction "{5C982A22473DB9D3}" {
       ParentContextList {
        "Shop"
       }
+      VisibilityRange 1
      }
     }
    }
-   RplComponent "{5C664CA59F5A8A12}" {
+   RplComponent "{5C8B49BB98DD7590}" {
    }
   }
   coords 147.955 1.958 138.488
@@ -166,7 +124,7 @@ $grp GenericEntity {
  {
   components {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_Merchandise {
+    m_AdditionalMerchandise {
      ADM_ShopMerchandise "{5C6716DB663C538A}" {
       m_Merchandise ADM_MerchandiseItem "{5C6716DB6444B5D5}" {
        m_Prefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
@@ -196,10 +154,11 @@ $grp GenericEntity {
      }
     }
     additionalActions {
-     ADM_PhysicalShopPurchaseAction "{5C664CA58DB01C13}" {
+     ADM_PhysicalShopAction "{5C982A224EB7D6A1}" {
       ParentContextList {
        "Shop"
       }
+      VisibilityRange 1
      }
     }
    }
@@ -220,4 +179,61 @@ $grp StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/Tab
   coords 147.854 1.001 138.228
   angleY 0
  }
+}
+SCR_ChimeraCharacter : "{37578B1666981FCE}Prefabs/Characters/Core/Character_Base.et" {
+ components {
+  ADM_ShopComponent "{5C9037402B74E214}" {
+   m_ShopConfig "{8B99E76A07E39318}Configs/Shops/AK74.conf"
+   m_AdditionalMerchandise {
+    ADM_ShopMerchandise "{5C982A1B4CC19C7A}" {
+     m_Merchandise ADM_MerchandiseItem "{5C982A1B4A2F4876}" {
+      m_Prefab "{DAAFD15478BDE1C3}Prefabs/Characters/Footwear/CombatBoots_US_01.et"
+     }
+     m_RequiredPayment {
+      ADM_PaymentMethodCurrency "{5C982A1B7D5DEE6C}" {
+       m_Quantity 50
+      }
+     }
+    }
+    ADM_ShopMerchandise "{5C982A1806626180}" {
+     m_Merchandise ADM_MerchandiseItem "{5C982A1807C87CD2}" {
+      m_Prefab "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et"
+     }
+    }
+    ADM_ShopMerchandise "{5C982A1FBA0F8DF6}" {
+     m_Merchandise ADM_MerchandiseItem "{5C982A1FB81712D5}" {
+      m_Prefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
+     }
+     m_RequiredPayment {
+      ADM_PaymentMethodItem "{5C982A1FAE3C5FBE}" {
+       m_ItemPrefab "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et"
+      }
+      ADM_PaymentMethodItem "{5C982A1FA9624015}" {
+       m_ItemPrefab "{3A421547BC29F679}Prefabs/Items/Equipment/Flashlights/Flashlight_MX991.et"
+      }
+     }
+    }
+    ADM_ShopMerchandise "{5C99591C68C1015F}" {
+     m_Merchandise ADM_MerchandiseItem "{5C99591C169E0D34}" {
+      m_Prefab "{7CEF68E2BC68CE71}Prefabs/Items/Equipment/Compass/Compass_Adrianov.et"
+     }
+    }
+   }
+  }
+  SCR_CharacterDamageManagerComponent "{55872AD7B4E959F2}" {
+   EnableDamage 0
+   m_bPermitUnconsciousness 0
+  }
+  ActionsManagerComponent "{520EA1D2F659CE02}" {
+   additionalActions {
+    ADM_ShopAction "{5C982A21D0F94B01}" {
+     ParentContextList {
+      "Chest"
+     }
+     VisibilityRange 2.5
+    }
+   }
+  }
+ }
+ coords 147.815 0.991 137.517
 }

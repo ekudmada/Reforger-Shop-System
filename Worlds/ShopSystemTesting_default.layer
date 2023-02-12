@@ -135,8 +135,9 @@ SCR_LoadoutManager {
 SCR_MPDestructionManager DestructionManager {
 }
 SCR_SpawnPoint : "{4FEA25583D0975F7}Prefabs/MP/Spawning/SpawnPoint_USSR.et" {
+ coords 146.878 1.166 142.39
  angleY -180
 }
 SCR_SpawnPoint : "{5A2220DD0C16958B}Prefabs/MP/Spawning/SpawnPoint_US.et" {
- coords 128 1 127
+ coords 146.473 1 139.903
 }

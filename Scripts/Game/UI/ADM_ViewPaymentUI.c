@@ -64,7 +64,13 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 	{
 		if (!m_shop || m_shop.GetMerchandise().Count() <= 0) return;
 		
-		m_shop.AskPurchase(m_shop.GetMerchandise()[0]);
+		PlayerController playerController = GetGame().GetPlayerController();
+		ADM_PlayerShopManagerComponent playerShopManager = ADM_PlayerShopManagerComponent.Cast(playerController.FindComponent(ADM_PlayerShopManagerComponent));
+		if (!playerShopManager) return;
+		
+		// Physical shops should only have one item defined, so just grab the first one in the merchandise array
+		playerShopManager.AskPurchase(m_shop, m_shop.GetMerchandise()[0]);
+
 		GetGame().GetMenuManager().CloseMenu(this);
 	}
 	
