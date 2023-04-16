@@ -12,7 +12,9 @@ FrameWidgetClass {
     OffsetBottom -45
     SizeToContent 1
    }
-   Color 0 1 0.25 1
+   FontProperties FontProperties "{5D211A2EC4DC061D}" {
+    OutlineSize 1
+   }
   }
  }
 }
