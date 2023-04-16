@@ -46,7 +46,7 @@ ADM_PaymentMethodCurrency and ADM_PaymentMethodItem. Both allow you to specify a
 
 ![](https://i.imgur.com/Fidfbns.png)
 
-The mod comes with a basic currency implementation which can easily be overridden for any custom implementations. See ADM_PaymentMethodCurrency class for more information. The default currency system stores a quantity of currency as a variable in a component on an item. This item can be anything and is chosen to be a wallet for simplicity. Using individual entities as currency will work, but when dealing with large amounts such as $100,000 or $1,000,000 there would be an excessive amount of entities which would all be in the world, eventually becoming unfeasable. This is the reason for storing the currency quantity as a variable.
+The mod comes with a basic currency implementation which can easily be overridden for any custom implementations. See ADM_PaymentMethodCurrency class for more information. The default currency system stores a quantity of currency as a variable in a component on an item. This item can be anything and is chosen to be a wallet for simplicity. Using individual entities as currency will work, but when dealing with large amounts such as $100,000 or $1,000,000 there would be an excessive amount of entities which would all be in the world, eventually becoming unfeasable. This is the reason for storing the currency quantity as a variable. There is a default HUD that shows the amount of currency in a players inventory, this can be removed from the SCR_HUDManager attached to the player controller prefab.
 
 Finally you can specify a list of categories for the shop. These are configs with a list of prefabs that are within each category, a few default ones have been provided for reference.
 
