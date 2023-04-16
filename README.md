@@ -13,28 +13,37 @@ There are two main components supported right now. ADM_ShopComponent and ADM_Phy
 
 ### ADM_ShopComponent
 ![UI Based Shop](https://i.imgur.com/qAC1fED.png)
+
 To begin configuring, select the component.
 
 ![](https://i.imgur.com/lz0exBV.png)
+
 In this component you have the option to add a preconfigured shop config (this can be for having multiple traders of the same type around a map).
 
 If you don't have a config you can add items directly to the "Additional Merchandise" array.
 
 When you add a merchandise item, it will ask you to select a class.
+
 ![](https://i.imgur.com/WmjHUpz.png)
+
 There are two options (ADM_MerchandiseType is a base class and does not do anything): ADM_MerchandiseItem, and ADM_MerchandiseVehicle. ADM_MerchandiseItem is for any inventory item or weapon, ADM_MerchandiseVehicle is for any type of vehicle. 
 
 ![](https://i.imgur.com/PFEWptM.png)
+
 ADM_MerchandiseItem requires you to specify the prefab from the Resource Browser. There is also an option to allow sale with a full inventory which would instead drop the item on the ground upon purchase.
 
 ![](https://i.imgur.com/sN69lTs.png)
+
 ADM_MerchandiseVehicle also requires you to specify a prefab from the Resource Browser. The spawn position PointInfo is optional. When set it is relative to the shop. If it is unspecified then it will spawn directly where the shop is, for UI-based shops vehicles will be unable to spawn if there is any overlapping collisions with an unspecified spawn position.
 
 Next you will need to define the required payments. Currently there are two supported payment methods:
+
 ![](https://i.imgur.com/4MboLFb.png)
 
 ADM_PaymentMethodCurrency and ADM_PaymentMethodItem. Both allow you to specify a quantity. ADM_PaymentMethodItem allows you to specify the prefab of the item desired for payment.
+
 ![](https://i.imgur.com/XF5383G.png)
+
 ![](https://i.imgur.com/Fidfbns.png)
 
 The mod comes with a basic currency implementation which can easily be overridden for any custom implementations. See ADM_PaymentMethodCurrency class for more information.
