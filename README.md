@@ -5,25 +5,22 @@ This mod adds an expandable shop system to Arma Reforger, and eventually Arma 4.
 
 Currently the system allows two types of payment methods: item, and currency. As well as two types of shops: physical shop, and a traditional UI based shop. Physical shops display the merchandise being sold as they normally apear in the world, and UI shops display all items in list.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
 ## Installation
 You can use this mod as a dependency from the released version on the workshop, or you can incorporate the code into your own codebase.
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+tbd
 
 ## Support
 Reach out on the Arma Discord server under the thread on the #enf_showcases channel.
 
 ## Roadmap
 Planned Features:
- - Selling Items
-  - Need to serialize the merchandise array
- - Limited Quantity
-  - Dynamic prices based on supply & demand
- - Hooks for gamemodes to perform additional logic on transactions (ex: update database)
+    - Selling Items
+        - Need to serialize the merchandise array
+    - Limited Quantity
+    - Dynamic prices based on supply & demand
+    - Hooks for gamemodes to perform additional logic on transactions (ex: update database)
 
 ## Contributing
 Feel free to make modifications and fix bugs. Submit a push request and I'll take a look at what you've done.
