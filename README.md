@@ -16,11 +16,11 @@ Reach out on the Arma Discord server under the thread on the #enf_showcases chan
 
 ## Roadmap
 Planned Features:
-    - Selling Items
-        - Need to serialize the merchandise array
-    - Limited Quantity
-    - Dynamic prices based on supply & demand
-    - Hooks for gamemodes to perform additional logic on transactions (ex: update database)
+ - Selling Items
+   - Need to serialize the merchandise array
+ - Limited Quantity
+ - Dynamic prices based on supply & demand
+ - Hooks for gamemodes to perform additional logic on transactions (ex: update database)
 
 ## Contributing
 Feel free to make modifications and fix bugs. Submit a push request and I'll take a look at what you've done.
