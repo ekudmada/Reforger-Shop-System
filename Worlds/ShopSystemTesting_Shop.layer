@@ -300,6 +300,65 @@ $grp GenericEntity {
   }
   coords 121.723 1.001 136.165
  }
+ {
+  components {
+   ADM_CurrencyComponent "{5D211A2A4EA6E75E}" {
+    m_Value 5000
+   }
+   InventoryItemComponent "{5D211A2A9FA1BF7C}" {
+    Attributes SCR_ItemAttributeCollection "{5D211A2A9FA1BF7E}" {
+     ItemDisplayName UIInfo "{5D211A2A9FA1BF4C}" {
+      Name "Wallet"
+      Description "Protector of currency"
+     }
+     ItemPhysAttributes ItemPhysicalAttributes "{5D211A2A9FA1BF70}" {
+      Weight 0.01
+     }
+     m_Size SLOT_1x1
+     m_SlotType SLOT_LOADOUT_STORAGE
+    }
+   }
+   MeshObject "{5D211A2A9FA1BF62}" {
+    Object "{402839377B0ADE78}Assets/Wallet/Wallet.xob"
+   }
+   RigidBody "{5D211A2A9FA1BF11}" {
+    Layers 131072
+    Active Active
+    Mass 2
+    CenterOfMass 0 0.02 0
+    LinearDamping 0.5
+    AngularDamping 0.5
+    AngularSleepingThreashold 1
+    ModelGeometry 1
+    CCDRadius 0.02
+   }
+   ActionsManagerComponent "{5D211A2A9FA1BFD4}" {
+    ActionContexts {
+     UserActionContext "{5D211A2A9FA1BF30}" {
+      ContextName "default"
+      Position PointInfo "{5D211A2A9FA1BF32}" {
+      }
+     }
+    }
+    additionalActions {
+     SCR_PickUpItemAction "{5D211A2A9FA1BF2A}" {
+      ParentContextList {
+       "default"
+      }
+      UIInfo UIInfo "{5D211A2A9FA1BF2C}" {
+       Name "#AR-Inventory_PickUp"
+      }
+     }
+    }
+   }
+   RplComponent "{5D211A2A9FA1BFD1}" {
+   }
+  }
+  coords 148.455 1.918 138.251
+  angleX 90
+  angleY 180
+  angleZ -180
+ }
 }
 $grp SCR_ChimeraCharacter {
  ShopMan {
@@ -3157,11 +3216,6 @@ $grp SCR_ChimeraCharacter {
       }
       m_eHitZoneGroup LOWERTORSO
      }
-     ADM_ShopAction "{5D0614D53464EEE7}" {
-      ParentContextList {
-       "Head"
-      }
-     }
     }
    }
    CharacterAnimationComponent "{5D0614D53464EF74}" {
@@ -3422,10 +3476,12 @@ $grp SCR_ChimeraCharacter {
       m_Merchandise ADM_MerchandiseVehicle "{5D206448E8DD4A4C}" {
        m_Prefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
        m_SpawnPosition PointInfo "{5D2064488546BE1F}" {
+        Offset -0.3773 0 7.8102
        }
       }
       m_RequiredPayment {
        ADM_PaymentMethodCurrency "{5D20644842166790}" {
+        m_Quantity 5000
        }
       }
      }

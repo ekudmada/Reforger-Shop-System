@@ -46,12 +46,15 @@ ADM_PaymentMethodCurrency and ADM_PaymentMethodItem. Both allow you to specify a
 
 ![](https://i.imgur.com/Fidfbns.png)
 
-The mod comes with a basic currency implementation which can easily be overridden for any custom implementations. See ADM_PaymentMethodCurrency class for more information.
+The mod comes with a basic currency implementation which can easily be overridden for any custom implementations. See ADM_PaymentMethodCurrency class for more information. The default currency system stores a quantity of currency as a variable in a component on an item. This item can be anything and is chosen to be a wallet for simplicity. Using individual entities as currency will work, but when dealing with large amounts such as $100,000 or $1,000,000 there would be an excessive amount of entities which would all be in the world, eventually becoming unfeasable. This is the reason for storing the currency quantity as a variable.
 
 Finally you can specify a list of categories for the shop. These are configs with a list of prefabs that are within each category, a few default ones have been provided for reference.
 
 ### ADM_PhysicalShopComponent
 The setup of a physical shop is similar to a normal shop. You can define the merchandise to be sold by setting the class on the "Physical Merchandise" field, and then selecting the merchandise type. See above for options. If the physical merchandise field is set then the config is ignored. A respawn time can be set, it is measured in seconds. If set to -1 then no respawn will occur and only one item can be purchased from the shop.
+
+### Closing Remarks
+If you have your own player controller prefab you must add the ADM_PlayerShopManager component to it. This controls communicating to the server to request purchasing. The project overrides the DefaultPlayerControllerMP prefab to achieve this.
 
 ## Support
 Reach out on the Arma Discord server under the thread on the #enf_showcases channel.

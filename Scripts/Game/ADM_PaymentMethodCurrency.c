@@ -52,6 +52,6 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 	
 	override ResourceName GetDisplayEntity()
 	{
-		return "{62BEA7EDF3DA3727}Prefabs/Items/Money.et";
+		return "{51D31AB07AE3C1C7}Prefabs/Props/Commercial/CashierShop_01.et";
 	}
 }

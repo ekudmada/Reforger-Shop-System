@@ -1,13 +1,13 @@
 class ADM_ShopAction : ScriptedUserAction
 {
 	protected IEntity m_Owner;
-	protected ADM_ShopBaseComponent m_Shop;
+	protected ADM_ShopComponent m_Shop;
 	
 	//------------------------------------------------------------------------------------------------
 	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent) 
 	{
 		m_Owner = pOwnerEntity;
-		m_Shop = ADM_ShopBaseComponent.Cast(m_Owner.FindComponent(ADM_ShopBaseComponent));
+		m_Shop = ADM_ShopComponent.Cast(m_Owner.FindComponent(ADM_ShopComponent));
 		if (!m_Shop) 
 		{
 			Print("Error! Could not find shop component for this action.", LogLevel.ERROR);

@@ -1,0 +1,18 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ {
+  TextWidgetClass "{5D211A297C6E03EC}" {
+   Name "Text0"
+   Slot FrameWidgetSlot "{5D211A297C6E0382}" {
+    PositionX 15
+    OffsetLeft 15
+    PositionY 15
+    OffsetTop 15
+    OffsetRight -115
+    OffsetBottom -45
+    SizeToContent 1
+   }
+   Color 0 1 0.25 1
+  }
+ }
+}

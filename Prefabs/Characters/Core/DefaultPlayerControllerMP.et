@@ -3,5 +3,12 @@ SCR_PlayerController : "{6E2BB64764E3BE9B}Prefabs/Characters/Core/DefaultPlayerC
  components {
   ADM_PlayerShopManagerComponent "{5C8B438BBDCCBE5C}" {
   }
+  SCR_HUDManagerComponent "{2FDC275D9EBCDB8B}" {
+   InfoDisplays {
+    ADM_CurrencyHUD "{5D211A288BB3D1DB}" {
+     m_LayoutPath "{F51AFD98E06FAADB}UI/Layouts/CurrencyHUD.layout"
+    }
+   }
+  }
  }
 }

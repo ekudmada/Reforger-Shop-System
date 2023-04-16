@@ -12,10 +12,6 @@ class ADM_CurrencyPredicate: InventorySearchPredicate
 }
 
 class ADM_CurrencyComponentClass: ScriptComponentClass {}
-
-//! A brief explanation of what this component does.
-//! The explanation can be spread across multiple lines.
-//! This should help with quickly understanding the script's purpose.
 class ADM_CurrencyComponent: ScriptComponent
 {
 	[Attribute(uiwidget: UIWidgets.EditBox, params: "0 inf"), RplProp()]
@@ -76,7 +72,7 @@ class ADM_CurrencyComponent: ScriptComponent
 	static bool RemoveCurrencyFromInventory(SCR_InventoryStorageManagerComponent inventory, int amount)
 	{
 		if (!inventory) return false;
-		if (amount < 1) return false;
+		if (amount < 1) return true;
 		if (ADM_CurrencyComponent.FindTotalCurrencyInInventory(inventory) < amount) return false;
 		
 		int originalAmount = amount;

@@ -1,0 +1,4 @@
+MatPBRBasic {
+ BCRMap "{4CEC300CF56900C4}Assets/Wallet/data/Tri Fold Wallet_BCR.edds"
+ NMOMap "{74348B9E2C1E525A}Assets/Wallet/data/Tri Fold Wallet_NMO.edds"
+}
