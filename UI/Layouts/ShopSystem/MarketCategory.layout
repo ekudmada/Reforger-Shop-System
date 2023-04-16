@@ -1,4 +1,4 @@
-ButtonWidgetClass "{5C982A3DA945FBB5}" {
+ButtonWidgetClass {
  Name "Category"
  Slot LayoutSlot "{5C982A2F882CAF37}" {
   HorizontalAlign 3
@@ -6,6 +6,12 @@ ButtonWidgetClass "{5C982A3DA945FBB5}" {
   SizeMode Fill
  }
  Color 0 0 0 0.498
+ components {
+  SCR_ButtonComponent "{5D0575D3797AFBFE}" {
+  }
+  ADM_ShopUICategory "{5D0575D23F6724BD}" {
+  }
+ }
  {
   TextWidgetClass "{5C982A3D5DC55E3E}" {
    Name "Text0"

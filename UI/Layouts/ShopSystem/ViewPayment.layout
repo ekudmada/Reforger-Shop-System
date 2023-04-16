@@ -95,6 +95,12 @@ FrameWidgetClass {
            m_sElementLayout "{22895154D4717BD0}UI/layouts/ListBox/ListBoxElement_ImageText.layout"
           }
          }
+         {
+          ScrollLayoutWidgetClass "{56691148E692435A}" {
+           Prefab "{56691148E692435A}"
+           "no focus" 1
+          }
+         }
         }
        }
       }
@@ -117,12 +123,14 @@ FrameWidgetClass {
         ButtonWidgetClass "{5C5F7574C86CA1A5}" {
          Name "Cancel"
          Slot LayoutSlot "{5C5F7574C86CA642}" {
-          Padding 10 0 10 0
+          HorizontalAlign 0
+          SizeMode Fill
          }
          Clipping False
          Color 0 0 0 0
          components {
           SCR_NavigationButtonComponent "{5C5F79123F459E65}" {
+           m_bMouseOverToFocus 1
            m_BackgroundDefault 0 0 0 0.42
            m_BackgroundHovered 0 0 0 0.42
            m_BackgroundSelectedHovered 0.761 0.392 0.078 0.302
@@ -215,21 +223,17 @@ FrameWidgetClass {
           }
          }
         }
-        OverlayWidgetClass "{5C5F791327A0BFBE}" {
-         Name "Spacer"
-         Slot LayoutSlot "{5C5F791327A0BFD8}" {
-          SizeMode Fill
-         }
-        }
         ButtonWidgetClass "{5C5F791337CCC30E}" {
          Name "Confirm"
          Slot LayoutSlot "{5C5F7574C86CA642}" {
-          Padding 10 0 10 0
+          HorizontalAlign 2
+          SizeMode Fill
          }
          Clipping False
          Color 0 0 0 0
          components {
           SCR_NavigationButtonComponent "{5C5F79123F459E65}" {
+           m_bMouseOverToFocus 1
            m_BackgroundDefault 0 0 0 0.42
            m_BackgroundHovered 0 0 0 0.42
            m_BackgroundSelectedHovered 0.761 0.392 0.078 0.302

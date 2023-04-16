@@ -1,142 +1,238 @@
-HorizontalLayoutWidgetClass {
- Name "Row"
- Slot LayoutSlot "{5C982A382EF1EF82}" {
-  Padding 0 1 0 1
+SizeLayoutWidgetClass {
+ Name "SizeLayout0"
+ Slot OverlayWidgetSlot "{5C9E2A9FC993FEE7}" {
+  HorizontalAlign 3
+  VerticalAlign 3
+  Padding 0 0 0 2
  }
+ components {
+  ADM_ShopUIItem "{5CFE2E46431A7CC6}" {
+   m_quantity 3
+  }
+ }
+ AllowHeightOverride 1
+ HeightOverride 75
  {
-  OverlayWidgetClass "{5C982A3F129726CC}" {
-   Name "Item"
-   Slot LayoutSlot "{5C982A3F129726D2}" {
-    Padding 0 0 1 0
-    SizeMode Fill
-    FillWeight 2
+  HorizontalLayoutWidgetClass "{5C9E2A9FE3F49657}" {
+   Name "Row"
+   Slot AlignableSlot "{5C9E2A9FEE07C074}" {
+    HorizontalAlign 3
+    VerticalAlign 3
    }
    {
-    ImageWidgetClass "{5C982A3373E4C93E}" {
-     Name "Image0"
-     Slot OverlayWidgetSlot "{5C982A3373E4C91A}" {
-      HorizontalAlign 3
-      VerticalAlign 3
-     }
-     Color 0 0 0 0.498
-    }
-    HorizontalLayoutWidgetClass "{5C982A3F27B50EB0}" {
-     Name "Offer"
-     Slot OverlayWidgetSlot "{5C982A3F27B50ED7}" {
-      HorizontalAlign 3
-      VerticalAlign 3
+    OverlayWidgetClass "{5C9E2A9FE3F49654}" {
+     Name "Item"
+     Slot LayoutSlot "{5C982A3F129726D2}" {
+      SizeMode Fill
+      FillWeight 2
      }
      {
-      ItemPreviewWidgetClass "{5C982A19141049DA}" {
-       Name "Preview Image"
-       Slot LayoutSlot "{5C982A19141049F3}" {
-        SizeMode Fill
-       }
-      }
-      VerticalLayoutWidgetClass "{5C982A3ED963367F}" {
-       Name "Information Container"
-       Slot LayoutSlot "{5C982A3ED9633687}" {
-        Padding 5 5 5 5
-        SizeMode Fill
-        FillWeight 4
-       }
-       {
-        TextWidgetClass "{5C982A3EFB88D5C8}" {
-         Name "Name"
-         Slot LayoutSlot "{5C982A3EFB88D5EA}" {
-         }
-         Text "Item Name"
-         FontProperties FontProperties "{5C982A3EEE07FC34}" {
-          Bold 1
-         }
-        }
-        TextWidgetClass "{5C982A3EF916B10F}" {
-         Name "Description"
-         Slot LayoutSlot "{5C982A3EFB88D5EA}" {
-         }
-         Text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas cursus dolor commodo mi imperdiet, eget sagittis leo consequat. Quisque a justo eu velit."
-         "Font Size" 16
-         "Min Font Size" 16
-         Wrap 1
-        }
-       }
-      }
-     }
-    }
-   }
-  }
-  OverlayWidgetClass "{5C982A3F13FF601B}" {
-   Name "Price"
-   Slot LayoutSlot "{5C982A3F129726D2}" {
-    Padding 1 0 1 0
-    SizeMode Fill
-   }
-   {
-    ImageWidgetClass "{5C982A3364591373}" {
-     Name "Image0"
-     Slot OverlayWidgetSlot "{5C982A3373E4C91A}" {
-      HorizontalAlign 3
-      VerticalAlign 3
-     }
-     Color 0 0 0 0.498
-    }
-    HorizontalLayoutWidgetClass "{5C982A3E5AB5200D}" {
-     Name "HorizontalLayout0"
-     Slot OverlayWidgetSlot "{5C982A3E5AB5202F}" {
-      HorizontalAlign 3
-      VerticalAlign 3
-     }
-     {
-      TextWidgetClass "{5C982A3E46E393F5}" {
-       Name "Text0"
-       Slot LayoutSlot "{5C982A3E46E3921A}" {
-        SizeMode Fill
-       }
-       Text "$1234"
-       "Font Size" 28
-       "Min Font Size" 28
-       "Horizontal Alignment" Center
-       "Vertical Alignment" Center
-      }
-     }
-    }
-   }
-  }
-  OverlayWidgetClass "{5C982A3F13CFAACB}" {
-   Name "Purchase"
-   Slot LayoutSlot "{5C982A3F129726D2}" {
-    Padding 1 0 0 0
-    SizeMode Fill
-   }
-   {
-    ImageWidgetClass "{5C982A33627BE936}" {
-     Name "Image0"
-     Slot OverlayWidgetSlot "{5C982A3373E4C91A}" {
-      HorizontalAlign 3
-      VerticalAlign 3
-     }
-     Color 0 0 0 0.498
-    }
-    ButtonWidgetClass "{5C982A3E69B64080}" {
-     Name "Button0"
-     Slot OverlayWidgetSlot "{5C982A3E69B640BA}" {
-      HorizontalAlign 3
-      VerticalAlign 3
-      Padding 20 10 20 10
-     }
-     Color 0 0 0 0.498
-     {
-      TextWidgetClass "{5C982A3E0F614335}" {
-       Name "Text0"
-       Slot ButtonWidgetSlot "{5C982A3E0F614354}" {
+      ImageWidgetClass "{5C9E2A9FE3F49652}" {
+       Name "Image0"
+       Slot OverlayWidgetSlot "{5C982A3373E4C91A}" {
         HorizontalAlign 3
         VerticalAlign 3
        }
-       Text "PURCHASE"
-       "Font Size" 28
-       "Min Font Size" 28
-       "Horizontal Alignment" Center
-       "Vertical Alignment" Center
+       Color 0 0 0 0.498
+      }
+      HorizontalLayoutWidgetClass "{5C9E2A9FE3F73B3B}" {
+       Name "Offer"
+       Slot OverlayWidgetSlot "{5C982A3F27B50ED7}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        ItemPreviewWidgetClass "{5C9E2A9FE3F73B39}" {
+         Name "Preview Image"
+         Slot LayoutSlot "{5C982A19141049F3}" {
+          SizeMode Fill
+         }
+        }
+        VerticalLayoutWidgetClass "{5C9E2A9FE3F73B38}" {
+         Name "Information Container"
+         Slot LayoutSlot "{5C982A3ED9633687}" {
+          Padding 5 5 5 5
+          SizeMode Fill
+          FillWeight 4
+         }
+         {
+          TextWidgetClass "{5C9E2A9FE3F73B37}" {
+           Name "Name"
+           Slot LayoutSlot "{5C982A3EFB88D5EA}" {
+           }
+           Text "Item Name"
+           FontProperties FontProperties "{5C982A3EEE07FC34}" {
+            Bold 1
+           }
+          }
+          TextWidgetClass "{5C9E2A9FE3F73B36}" {
+           Name "Description"
+           Slot LayoutSlot "{5C982A3EFB88D5EA}" {
+           }
+           Text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas cursus dolor commodo mi imperdiet, eget sagittis leo consequat. Quisque a justo eu velit."
+           "Font Size" 16
+           "Min Font Size" 16
+           Wrap 1
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+    OverlayWidgetClass "{5C9E2A9FE3F7F584}" {
+     Name "Price"
+     Slot LayoutSlot "{5C982A3F129726D2}" {
+      Padding 2 0 2 0
+      SizeMode Fill
+     }
+     {
+      ImageWidgetClass "{5C9E2A9FE3F7F587}" {
+       Name "Image0"
+       Slot OverlayWidgetSlot "{5C982A3373E4C91A}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0 0 0 0.498
+      }
+      HorizontalLayoutWidgetClass "{5C9E2A9FE3F79D4F}" {
+       Name "HorizontalLayout0"
+       Slot OverlayWidgetSlot "{5C982A3E5AB5202F}" {
+        VerticalAlign 3
+       }
+       {
+        TextWidgetClass "{5C9E2A9FE3F79D4E}" {
+         Name "Price"
+         Slot LayoutSlot "{5C982A3E46E3921A}" {
+          SizeMode Fill
+         }
+         Text "$1234"
+         "Font Size" 28
+         "Min Font Size" 28
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+        }
+       }
+      }
+     }
+    }
+    OverlayWidgetClass "{5CCA5E79F858BD78}" {
+     Name "QuantityContainer"
+     Slot LayoutSlot "{5C982A3F129726D2}" {
+      Padding 2 0 2 0
+      SizeMode Fill
+     }
+     {
+      ImageWidgetClass "{5CCA5E79F858BD66}" {
+       Name "Image0"
+       Slot OverlayWidgetSlot "{5C982A3373E4C91A}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0 0 0 0.498
+      }
+      HorizontalLayoutWidgetClass "{5CCA5E79F858BD67}" {
+       Name "HorizontalLayout0"
+       Slot OverlayWidgetSlot "{5C982A3E5AB5202F}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        ButtonWidgetClass "{5CCA5E798BA5D83D}" {
+         Name "Less"
+         Slot LayoutSlot "{5CCA5E798BA5D8DE}" {
+          SizeMode Fill
+         }
+         Color 1 1 1 0.004
+         components {
+          ADM_ShopQuantityButton "{5CFF73565DEE35D8}" {
+           m_iAmount -1
+          }
+         }
+         {
+          ImageWidgetClass "{5CCA5E7962ADA08B}" {
+           Name "Image0"
+           Slot ButtonWidgetSlot "{5CCA5E7962ADA0A9}" {
+           }
+           Texture "{3093C92AE673BC5E}UI/Textures/Workshop/PagingArrow_UI.edds"
+           Size 24 24
+           "Flip Horizontally" 1
+          }
+         }
+        }
+        TextWidgetClass "{5CCA5E79F858BD64}" {
+         Name "Quantity"
+         Slot LayoutSlot "{5C982A3E46E3921A}" {
+          SizeMode Fill
+          FillWeight 3
+         }
+         Text "1"
+         "Font Size" 32
+         "Min Font Size" 32
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+        }
+        ButtonWidgetClass "{5CCA5E7988F23326}" {
+         Name "More"
+         Slot LayoutSlot "{5CCA5E7988F233DD}" {
+          SizeMode Fill
+         }
+         Color 1 1 1 0
+         components {
+          ADM_ShopQuantityButton "{5CFF735647C460D6}" {
+           m_iAmount 1
+          }
+         }
+         {
+          ImageWidgetClass "{5CCA5E7960315017}" {
+           Name "Image0"
+           Slot ButtonWidgetSlot "{5CCA5E796031500C}" {
+           }
+           Texture "{3093C92AE673BC5E}UI/Textures/Workshop/PagingArrow_UI.edds"
+           Size 24 24
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+    OverlayWidgetClass "{5C9E2A9FE3F79D49}" {
+     Name "Purchase"
+     Slot LayoutSlot "{5C982A3F129726D2}" {
+      SizeMode Fill
+      FillWeight 0.25
+     }
+     {
+      ImageWidgetClass "{5C9E2A9FE3F65B6F}" {
+       Name "Image0"
+       Slot OverlayWidgetSlot "{5C982A3373E4C91A}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0 0 0 0.498
+      }
+      ButtonWidgetClass "{5C9E2A9FE3F65B6E}" {
+       Name "PurchaseButton"
+       Slot OverlayWidgetSlot "{5C982A3E69B640BA}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding 20 10 20 10
+       }
+       Color 0 0 0 0
+       components {
+        SCR_ButtonComponent "{5CFF735625E993CE}" {
+        }
+       }
+       {
+        ImageWidgetClass "{5CCA5E78A1D17ABA}" {
+         Name "Image0"
+         Slot ButtonWidgetSlot "{5CCA5E78A1D17B51}" {
+         }
+         Texture "{A7AE6238A94895F8}UI/ShoppingCart_UI.edds"
+         Size 32 32
+        }
+       }
       }
      }
     }

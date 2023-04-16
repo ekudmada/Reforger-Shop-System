@@ -1,5 +1,4 @@
 class ADM_ShopComponentClass: ScriptComponentClass {}
-
 class ADM_ShopComponent: ScriptComponent
 {
 	/*
@@ -12,7 +11,8 @@ class ADM_ShopComponent: ScriptComponent
 				- e.g player owned shops
 	*/
 	
-	[Attribute()]
+	//Make RplProp so it is replicated
+	[Attribute(), RplProp()]
 	protected string m_ShopName;
 	
 	[Attribute("", UIWidgets.ResourceNamePicker, "Config", "conf", category: "Shop")]
@@ -20,6 +20,11 @@ class ADM_ShopComponent: ScriptComponent
 	
 	[Attribute(defvalue: "", desc: "Merchandise to sell", uiwidget: UIWidgets.Object, category: "Shop")]
 	protected ref array<ref ADM_ShopMerchandise> m_AdditionalMerchandise;
+	
+	[Attribute("", UIWidgets.ResourceNamePicker, "Config", "conf", category: "Shop")]
+	ref array<ResourceName> m_Categories;
+	
+	ref array<ref ADM_ShopCategory> m_LoadedCategories = {};
 	
 	protected ref array<ref ADM_ShopMerchandise> m_Merchandise;
 	protected IEntity m_Owner;
@@ -32,6 +37,11 @@ class ADM_ShopComponent: ScriptComponent
 		if (requiredPayment[0].ClassName().ToType() != ADM_PaymentMethodCurrency) return false;
 		
 		return true;
+	}
+	
+	array<ref ADM_ShopCategory> GetCategories()
+	{
+		return m_LoadedCategories;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -63,21 +73,25 @@ class ADM_ShopComponent: ScriptComponent
 	
 	bool AskPurchase(IEntity player, ADM_ShopComponent shop, ADM_ShopMerchandise merchandise, int quantity, ADM_PlayerShopManagerComponent playerManager)
 	{
+		//TODO: Should I check if merchandise is actually in the shop array?
 		int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player);
 		
 		bool canPay = shop.CanPurchase(player, merchandise, quantity);
 		if (!canPay) 
 		{
-			playerManager.SetPurchaseMessage("Payment not met");
+			playerManager.SetPurchaseMessage("Error! You do not have the required payment.");
 			return false;
 		}
 		
 		bool canDeliver = merchandise.GetMerchandise().CanDeliver(player, shop, quantity);
 		if (!canDeliver) 
 		{
-			playerManager.SetPurchaseMessage("Can't deliver item");
+			playerManager.SetPurchaseMessage("Error! Unable to deliver item(s).");
 			return false;
 		}
+		
+		if (!merchandise.GetMerchandise().CanPurchaseMultiple() && quantity > 1)
+			quantity = 1;
 		
 		array<ADM_PaymentMethodBase> collectedPaymentMethods = {};
 		array<bool> didCollectPayments = {};
@@ -87,6 +101,7 @@ class ADM_ShopComponent: ScriptComponent
 			bool didCollectPayment = paymentMethod.CollectPayment(player, quantity);
 			didCollectPayments.Insert(didCollectPayment);
 			
+			Print(didCollectPayment);
 			if (didCollectPayment) collectedPaymentMethods.Insert(paymentMethod);
 		}
 		
@@ -98,7 +113,7 @@ class ADM_ShopComponent: ScriptComponent
 				if (!returnedPayment) PrintFormat("Error returning payment! %s", paymentMethod.Type().ToString());
 			}
 			
-			playerManager.SetPurchaseMessage("Error collecting payment");
+			playerManager.SetPurchaseMessage("Error! Could not collect payment.");
 			return false;
 		}
 		
@@ -111,11 +126,11 @@ class ADM_ShopComponent: ScriptComponent
 				if (!returnedPayment) PrintFormat("Error returning payment! %1", paymentMethod.Type().ToString());
 			}
 			
-			playerManager.SetPurchaseMessage("Error delivering item");
+			playerManager.SetPurchaseMessage("Error! Can not deliver item(s).");
 			return false;
 		}
 		
-		playerManager.SetPurchaseMessage("success");
+		playerManager.SetPurchaseMessage("Purchase Successful!");
 		return true;	
 	}
 	
@@ -138,6 +153,11 @@ class ADM_ShopComponent: ScriptComponent
 			if (!merchandiseType) continue;
 			
 			merchandiseType.SetPrefabResource(Resource.Load(merchandiseType.GetPrefab()));
+		}
+		
+		foreach (ResourceName category : m_Categories)
+		{
+			m_LoadedCategories.Insert(ADM_ShopCategory.GetConfig(category));
 		}
 	}
 	

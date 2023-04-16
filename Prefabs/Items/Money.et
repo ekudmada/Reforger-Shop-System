@@ -1,0 +1,72 @@
+GenericEntity {
+ ID "5D061D62BA2C565E"
+ components {
+  SignalsManagerComponent "{5D061D632C95CB5B}" {
+  }
+  SoundComponent "{5D061D632C95CB14}" {
+   Filenames {
+    "{02B22546DD1483B8}Sounds/Items/_SharedData/PickUp/Items_PickUp_FieldDressing_US.acp" "{CC0E5A1324E761C1}Sounds/Items/_SharedData/Drop/Items_Drop_Generic.acp"
+   }
+   DistanceManagement 0
+  }
+  InventoryItemComponent "{5D061D632C95CBAE}" {
+   Attributes SCR_ItemAttributeCollection "{5D061D632C95CBA5}" {
+    ItemDisplayName UIInfo "{5D061D632C95CB23}" {
+     Name "Money"
+     Description "Money"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{5D061D632C95CBDB}" {
+     Weight 0.05
+     SizeSetupStrategy Volume
+     ItemVolume 0
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{5D061D632C95CB82}" {
+      CameraPreset Top
+      CameraOrbitAngles 0 0 0
+      CameraDistanceToItem 0.5
+      FOV 30
+     }
+    }
+    CommonItemType "NONE"
+    m_Size SLOT_1x1
+    m_SlotType SLOT_LOOT_STORAGE
+   }
+  }
+  MeshObject "{5D061D632C95C802}" {
+   Object "{DB4233F0EABAB359}Assets/Items/Money/BankNote/BankNote.xob"
+   LODFactors {
+   }
+  }
+  Hierarchy "{5D061D632C95C80A}" {
+  }
+  RigidBody "{5D061D632C95C833}" {
+   Mass 1
+   LinearDamping 0.5
+   AngularDamping 0.5
+   ModelGeometry 1
+  }
+  ActionsManagerComponent "{5D061D629A813251}" {
+   ActionContexts {
+    UserActionContext "{5D061D629BCD5647}" {
+     ContextName "default"
+     Position PointInfo "{5D061D6282902423}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{5D061D62868CFEDE}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5D061D628DD0A909}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  RplComponent "{5D061D632C95C8E3}" {
+  }
+ }
+ coords 148.766 1.001 138.983
+}

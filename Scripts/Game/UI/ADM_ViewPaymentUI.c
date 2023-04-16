@@ -46,14 +46,16 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 		
 		if (m_okayButton)
 		{
-			m_okayButton.m_OnClicked.Clear();
-			m_okayButton.m_OnClicked.Insert(Confirm);
+			m_okayButton.m_OnActivated.Clear();
+			m_okayButton.m_OnActivated.Insert(Confirm);
+			GetGame().GetWorkspace().SetFocusedWidget(m_okayButton.GetRootWidget());
 		}
 		
 		if (m_cancelButton)
 		{
-			m_cancelButton.m_OnClicked.Clear();
-			m_cancelButton.m_OnClicked.Insert(Cancel);
+			m_cancelButton.m_OnActivated.Clear();
+			m_cancelButton.m_OnActivated.Insert(Close);
+			GetGame().GetWorkspace().SetFocusedWidget(m_cancelButton.GetRootWidget());
 		}
 		
 		m_ListBoxOverlay = OverlayWidget.Cast(m_wRoot.FindAnyWidget("ListBox0"));
@@ -74,11 +76,6 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 		GetGame().GetMenuManager().CloseMenu(this);
 	}
 	
-	void Cancel()
-	{
-		GetGame().GetMenuManager().CloseMenu(this);
-	}
-	
 	void SetShop(ADM_PhysicalShopComponent shop)
 	{
 		m_shop = shop;
@@ -91,7 +88,7 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 		
 		foreach (ADM_PaymentMethodBase paymentMethod : m_shop.GetMerchandise()[0].GetRequiredPaymentToBuy())
 		{
-			m_ListBoxComponent.AddItemAndIcon(paymentMethod.GetDisplayString(), paymentMethod.GetDisplayIcon(), "");
+			m_ListBoxComponent.AddItemAndIcon(paymentMethod.GetDisplayString(), "", "");
 		}
 	}
 	

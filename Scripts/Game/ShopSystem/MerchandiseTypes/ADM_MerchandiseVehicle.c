@@ -1,11 +1,20 @@
 [BaseContainerProps()]
 class ADM_MerchandiseVehicle: ADM_MerchandiseType
 {
+	[Attribute()]
+	protected ref PointInfo m_SpawnPosition;
+	
 	EntitySpawnParams GetVehicleSpawnTransform(ADM_ShopComponent shop)
 	{
 		EntitySpawnParams params = EntitySpawnParams();
 		params.TransformMode = ETransformMode.WORLD;
-		shop.GetOwner().GetTransform(params.Transform);
+		
+		if (m_SpawnPosition && !shop.IsInherited(ADM_PhysicalShopComponent)) {
+			m_SpawnPosition.GetWorldTransform(params.Transform);
+			params.Transform[3] = shop.GetOwner().CoordToParent(params.Transform[3]);
+		} else {
+			shop.GetOwner().GetTransform(params.Transform);
+		}		
 		
 		return params;
 	}
@@ -47,5 +56,10 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 		IEntity entity = GetGame().SpawnEntityPrefab(m_PrefabResource, shop.GetOwner().GetWorld(), params);
 		
 		return true;
+	}
+	
+	void ADM_MerchandiseVehicle()
+	{
+		m_CanPurchaseMultiple = false;
 	}
 }

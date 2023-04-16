@@ -1,7 +1,7 @@
 [BaseContainerProps()]
 class ADM_ShopConfig
 {
-	[Attribute(defvalue: "", desc: "Merchandise to sell", uiwidget: UIWidgets.Object, category: "Shop")]
+	[Attribute(defvalue: "", desc: "Merchandise to sell", uiwidget: UIWidgets.Object)]
 	ref array<ref ADM_ShopMerchandise> m_Merchandise;
 	
 	static ADM_ShopConfig GetConfig(string resourcePath)

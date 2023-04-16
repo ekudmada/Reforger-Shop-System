@@ -83,6 +83,17 @@ class ADM_Utils
 		return prefab;
 	}
 	
+	static string GetPrefabDescription(ResourceName prefab)
+	{
+		SCR_EditableVehicleUIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
+		if (vehicleUIInfo) return vehicleUIInfo.GetDescription();
+		
+		UIInfo itemUIInfo = ADM_Utils.GetItemUIInfo(prefab);
+		if (itemUIInfo) return itemUIInfo.GetDescription();
+		
+		return prefab;
+	}
+	
 	static ResourceName GetPrefabDisplayIcon(ResourceName prefab)
 	{
 		SCR_EditableVehicleUIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);

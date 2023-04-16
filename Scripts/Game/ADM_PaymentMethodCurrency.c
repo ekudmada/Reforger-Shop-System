@@ -50,8 +50,8 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 		return string.Format("$%1", m_Quantity * quantity);
 	}
 	
-	override ResourceName GetDisplayIcon()
+	override ResourceName GetDisplayEntity()
 	{
-		return "{DC35FA14CD7B6750}Assets/Items/Money/BankNote/data/dinara1.edds";
+		return "{62BEA7EDF3DA3727}Prefabs/Items/Money.et";
 	}
 }

@@ -46,6 +46,7 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 	{
 		m_State = !m_State;
 		Replication.BumpMe();
+		m_LastStateChangeTime = System.GetTickCount();	
 		
 		OnStateChange();
 	}
@@ -92,7 +93,6 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 		if (!success) return false;
 		
 		SetState(false);
-		m_LastStateChangeTime = System.GetTickCount();	
 		
 		return true;
 	}
@@ -111,6 +111,7 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 	{
 		if (RplSession.Mode() == RplMode.Client) return;
 		if (m_LastStateChangeTime == -1) return;
+		if (m_RespawnTime == -1) return;
 		
 		//TODO: better understand the delay from buying -> spawning and what could cause the vehicle shop respawn detection to not work
 		float dt = GetTimeUntilRespawn();

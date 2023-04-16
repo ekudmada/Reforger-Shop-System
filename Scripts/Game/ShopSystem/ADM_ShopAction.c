@@ -19,9 +19,9 @@ class ADM_ShopAction : ScriptedUserAction
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
 	{	
 		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return;
-				
-		PlayerController playerController = GetGame().GetPlayerController();
-		if (pUserEntity != playerController.GetControlledEntity()) return;
+		
+		SCR_PlayerController playerController = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+		if (pUserEntity != playerController.GetMainEntity()) return;
 		
 		MenuBase menuBase = GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.ADM_Shop); 
 		ADM_ShopUI menu = ADM_ShopUI.Cast(menuBase);

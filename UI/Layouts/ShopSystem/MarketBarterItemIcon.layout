@@ -1,0 +1,51 @@
+ButtonWidgetClass {
+ Name "BarterIcon"
+ Slot LayoutSlot "{5D02175AE4B34915}" {
+  Padding 2 0 2 0
+ }
+ Color 0 0 0 0
+ components {
+  SCR_HoverDetectorComponent "{5D02175C4A76AD89}" {
+  }
+  ADM_ShopUIBarterItemIcon "{5D021758729EA1B6}" {
+  }
+ }
+ {
+  SizeLayoutWidgetClass "{5D02175D22C98210}" {
+   Name "Size"
+   Slot ButtonWidgetSlot "{59696D78E637F396}" {
+   }
+   AllowWidthOverride 1
+   WidthOverride 50
+   AllowHeightOverride 1
+   HeightOverride 50
+   {
+    OverlayWidgetClass "{5D02175D22C98211}" {
+     Name "m_BackendImage"
+     Slot AlignableSlot "{59696D782DE3DAB1}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      ScaleWidgetClass "{5D02175D22C9821E}" {
+       Name "ImageScale"
+       Slot OverlayWidgetSlot "{59696D781E51636A}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        ImageWidgetClass "{5D02175D22CA782B}" {
+         Name "Image"
+         Slot OverlayWidgetSlot "{59696D7866BF9A35}" {
+         }
+         Texture "{D9CFCB5E54304CED}UI/Layouts/ShopSystem/exchange.edds"
+         Size 128 128
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

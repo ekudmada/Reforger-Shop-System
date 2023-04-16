@@ -1,0 +1,87 @@
+FrameWidgetClass {
+ Name "TooltipFrame"
+ Slot FrameWidgetSlot "{596A0B1A8316A4D6}" {
+  OffsetLeft 0
+  OffsetTop 0
+  SizeX 100
+  OffsetRight -100
+  SizeY 130
+  OffsetBottom -130
+ }
+ {
+  OverlayWidgetClass "{5D02175A3F162B0A}" {
+   Name "Overlay"
+   Slot FrameWidgetSlot "{596A0B1DA5DD9A97}" {
+    OffsetLeft 0
+    OffsetTop 0
+    SizeX 0
+    OffsetRight 0
+    SizeY 0
+    OffsetBottom 0
+    SizeToContent 1
+   }
+   {
+    ImageWidgetClass "{5D02175A3F162B08}" {
+     Name "Background"
+     Slot OverlayWidgetSlot "{5D02175BAD3A53DE}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Color 0 0.001 0.001 1
+    }
+    PanelWidgetClass "{5D02175A3F160723}" {
+     Name "Panel0"
+     Slot OverlayWidgetSlot "{596A0B1DCB61F25D}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Color 0.051 0.051 0.051 1
+     style outline_2px
+    }
+    VerticalLayoutWidgetClass "{5D02175B8BF1AC0C}" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5D02175B8BF1AC16}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      SizeLayoutWidgetClass "{5D061D64C621D219}" {
+       Name "SizeLayout0"
+       Slot LayoutSlot "{5D061D64C621D233}" {
+        Padding 5 5 5 5
+       }
+       Color 0 0 0 0
+       AllowWidthOverride 1
+       WidthOverride 90
+       AllowHeightOverride 1
+       HeightOverride 90
+       {
+        ItemPreviewWidgetClass "{5D02175BCFBF7A7B}" {
+         Name "PreviewImage"
+         Slot AlignableSlot "{5D061D64C6E7946F}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+         Color 0 0 0 0
+        }
+       }
+      }
+      TextWidgetClass "{5D02175A3F162B0F}" {
+       Name "Text"
+       Slot LayoutSlot "{5D02175BAD3A4C43}" {
+       }
+       "Font Size" 16
+       "Min Font Size" 16
+       "Horizontal Alignment" Center
+       "Vertical Alignment" Center
+       Wrap 1
+       FontProperties FontProperties "{572EFC678AD96F30}" {
+        Font "{3E7733BAC8C831F6}UI/Fonts/RobotoCondensed/RobotoCondensed_Regular.fnt"
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

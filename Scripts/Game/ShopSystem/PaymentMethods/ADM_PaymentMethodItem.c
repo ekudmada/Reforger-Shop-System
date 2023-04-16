@@ -46,7 +46,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		array<IEntity> paymentItems = this.GetPaymentItemsInInventory(inventory);
 		if (!paymentItems) return false;
 		
-		return (paymentItems.Count() >= m_ItemQuantity);
+		return (paymentItems.Count() >= m_ItemQuantity*quantity);
 	}
 	
 	override bool CollectPayment(IEntity player, int quantity = 1)
@@ -78,7 +78,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 			if (didRemoveItems.Count() == m_ItemQuantity*quantity) break;
 		}
 		
-		if (didRemoveItems.Contains(false))
+		if (didRemoveItems.Contains(false) || didRemoveItems.Count() < m_ItemQuantity*quantity)
 		{
 			Print("Error! Couldn't remove items for payment. Returning items already taken", LogLevel.ERROR);
 			
@@ -118,8 +118,8 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		return string.Format("%1 x%2", ADM_Utils.GetPrefabDisplayName(m_ItemPrefab), m_ItemQuantity * quantity);
 	}
 	
-	override ResourceName GetDisplayIcon()
+	override ResourceName GetDisplayEntity()
 	{
-		return ADM_Utils.GetPrefabDisplayIcon(m_ItemPrefab);
+		return m_ItemPrefab;
 	}
 }

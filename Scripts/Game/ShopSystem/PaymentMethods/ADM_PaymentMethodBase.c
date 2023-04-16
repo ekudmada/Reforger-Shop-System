@@ -23,5 +23,5 @@ class ADM_PaymentMethodBase: ScriptAndConfig
 	/*
 		How to display this payment method in menus
 	*/
-	ResourceName GetDisplayIcon() { return string.Empty; }
+	ResourceName GetDisplayEntity() { return string.Empty; }
 }
