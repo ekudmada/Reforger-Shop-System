@@ -3,7 +3,10 @@
 ## Description
 This mod adds an expandable shop system to Arma Reforger, and eventually Arma 4. Current features include buying items using a currency, or bartering with other items. The system is designed to be expandable which allows new types of merchandise to be added if the system doesn't currently support it, as well as new types of payment methods. 
 
-Currently the system allows two types of payment methods: item, and currency. As well as two types of shops: physical shop, and a traditional UI based shop. Physical shops display the merchandise being sold as they normally apear in the world, and UI shops display all items in list.
+Currently the system allows two types of payment methods: item, and currency. As well as two types of shops: physical shop, and a traditional UI based shop. Physical shops display the merchandise being sold as they normally appear in the world, and UI shops display all items in list.
+
+## Attribution
+If you use this reference the original link to the github somewhere inside the code or any type of credits page you may display to end users. Do not rename any class prefixes.
 
 ## Installation
 You can use this mod as a dependency from the released version on the workshop, or you can incorporate the code into your own codebase.
@@ -70,8 +73,8 @@ Planned Features:
    - Weapon attachement configuration similar to Call of Duty
 
 ## Known Bugs
- - Have physical shops show all default prefab slots
- - Physical shops will respawn inside of a recently purchased item if the respawn delay is set too low.
+ - Physical shops do not show all default prefab slots
+ - Physical shops will respawn inside of a recently purchased item if the respawn delay is set too low. (this is manually fixed at a minimum respawn time of 1 second, for now)
 
 ## Contributing
 Feel free to make modifications and fix bugs. Submit a push request and I'll take a look at what you've done.
