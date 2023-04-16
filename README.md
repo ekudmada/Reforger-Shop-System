@@ -28,12 +28,12 @@ There are two options (ADM_MerchandiseType is a base class and does not do anyth
 ADM_MerchandiseItem requires you to specify the prefab from the Resource Browser. There is also an option to allow sale with a full inventory which would instead drop the item on the ground upon purchase.
 
 ![](https://i.imgur.com/sN69lTs.png)
-ADM_MerchandiseVehicle also requires you to specify a prefab from the Resource Browser. The spawn position PointInfo is optional. If it is unspecified then it will spawn directly where the shop is, for UI-based shops vehicles will be unable to spawn if there is any overlapping collisions with an unspecified spawn position.
+ADM_MerchandiseVehicle also requires you to specify a prefab from the Resource Browser. The spawn position PointInfo is optional. When set it is relative to the shop. If it is unspecified then it will spawn directly where the shop is, for UI-based shops vehicles will be unable to spawn if there is any overlapping collisions with an unspecified spawn position.
 
 Next you will need to define the required payments. Currently there are two supported payment methods:
 ![](https://i.imgur.com/4MboLFb.png)
 
-ADM_PaymentMethodCurrency and ADM_PaymentMethodItem. Both allow you to specify a quantity, and ADM_PaymentMethodItem allows you to specify the prefab of the item desired for payment.
+ADM_PaymentMethodCurrency and ADM_PaymentMethodItem. Both allow you to specify a quantity. ADM_PaymentMethodItem allows you to specify the prefab of the item desired for payment.
 ![](https://i.imgur.com/XF5383G.png)
 ![](https://i.imgur.com/Fidfbns.png)
 
@@ -42,7 +42,7 @@ The mod comes with a basic currency implementation which can easily be overridde
 Finally you can specify a list of categories for the shop. These are configs with a list of prefabs that are within each category, a few default ones have been provided for reference.
 
 ### ADM_PhysicalShopComponent
-The setup of a physical shop is identical to a normal shop. Adding multiple merchandise is unnecessary and only the first item in the merchandise array will be used for the physical shop. Categories are also unused on this component.
+The setup of a physical shop is similar to a normal shop. You can define the merchandise to be sold by setting the class on the "Physical Merchandise" field, and then selecting the merchandise type. See above for options. If the physical merchandise field is set then the config is ignored. A respawn time can be set, it is measured in seconds. If set to -1 then no respawn will occur and only one item can be purchased from the shop.
 
 ## Support
 Reach out on the Arma Discord server under the thread on the #enf_showcases channel.

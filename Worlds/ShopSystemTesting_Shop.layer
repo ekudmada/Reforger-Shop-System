@@ -2,6 +2,11 @@ $grp GenericEntity {
  jeepshop {
   components {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_PhysicalMerchandise ADM_ShopMerchandise "{5D20781947C0CF15}" {
+     m_Merchandise ADM_MerchandiseVehicle "{5D20781944DD5758}" {
+      m_Prefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
+     }
+    }
     m_RespawnTime 0.1
    }
    MeshObject "{5C664CA5921DE9AF}" {
@@ -31,39 +36,6 @@ $grp GenericEntity {
    }
   }
   coords 141.301 1.001 136.165
- }
- tankshop {
-  components {
-   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_RespawnTime 10
-   }
-   MeshObject "{5C664CA5921DE9AF}" {
-   }
-   RigidBody "{5C664CA591CC3346}" {
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{5C664CA5835A08C8}" {
-    ActionContexts {
-     UserActionContext "{5C664CA5800A49E1}" {
-      ContextName "Shop"
-      Position PointInfo "{5C664CA529C736CB}" {
-      }
-      Radius 2
-     }
-    }
-    additionalActions {
-     ADM_PhysicalShopAction "{5C982A22153D448C}" {
-      ParentContextList {
-       "Shop"
-      }
-     }
-    }
-   }
-   RplComponent "{5C664CA59F5A8A12}" {
-   }
-  }
-  coords 137.777 1.001 136.165
  }
  AKShop {
   components {
@@ -138,129 +110,14 @@ $grp GenericEntity {
   angleY -98.878
   angleZ -0.816
  }
- AKShop2 {
-  components {
-   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_RespawnTime 5
-   }
-   MeshObject "{5C664CA5921DE9AF}" {
-   }
-   RigidBody "{5C664CA591CC3346}" {
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{5C664CA5835A08C8}" {
-   }
-   RplComponent "{5C8B49BB98DD7590}" {
-   }
-  }
-  coords 156.057 2.256 138.927
-  angleY -90
-  angleZ -20.281
- }
- AKShop3 {
-  components {
-   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_RespawnTime 5
-   }
-   MeshObject "{5C664CA5921DE9AF}" {
-   }
-   RigidBody "{5C664CA591CC3346}" {
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{5C664CA5835A08C8}" {
-   }
-   RplComponent "{5C8B49BB98DD7590}" {
-   }
-  }
-  coords 154.476 2.256 138.927
-  angleY -90
-  angleZ -20.281
- }
- AKShop4 {
-  components {
-   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_RespawnTime 5
-   }
-   MeshObject "{5C664CA5921DE9AF}" {
-   }
-   RigidBody "{5C664CA591CC3346}" {
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{5C664CA5835A08C8}" {
-   }
-   RplComponent "{5C8B49BB98DD7590}" {
-   }
-  }
-  coords 152.97 2.256 138.927
-  angleY -90
-  angleZ -20.281
- }
- AKShop5 {
-  components {
-   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_RespawnTime 5
-   }
-   MeshObject "{5C664CA5921DE9AF}" {
-   }
-   RigidBody "{5C664CA591CC3346}" {
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{5C664CA5835A08C8}" {
-   }
-   RplComponent "{5C8B49BB98DD7590}" {
-   }
-  }
-  coords 152.97 2.955 138.927
-  angleY -90
-  angleZ -20.281
- }
- AKShop6 {
-  components {
-   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_RespawnTime 5
-   }
-   MeshObject "{5C664CA5921DE9AF}" {
-   }
-   RigidBody "{5C664CA591CC3346}" {
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{5C664CA5835A08C8}" {
-   }
-   RplComponent "{5C8B49BB98DD7590}" {
-   }
-  }
-  coords 154.476 2.999 138.927
-  angleY -90
-  angleZ -20.281
- }
- AKShop7 {
-  components {
-   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_RespawnTime 5
-   }
-   MeshObject "{5C664CA5921DE9AF}" {
-   }
-   RigidBody "{5C664CA591CC3346}" {
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{5C664CA5835A08C8}" {
-   }
-   RplComponent "{5C8B49BB98DD7590}" {
-   }
-  }
-  coords 155.875 3.016 138.89
-  angleY -90
-  angleZ -37.265
- }
  jeepshop2 {
   components {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_PhysicalMerchandise ADM_ShopMerchandise "{5D2078194C8DA71F}" {
+     m_Merchandise ADM_MerchandiseVehicle "{5D2078194DF284E0}" {
+      m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
+     }
+    }
     m_RespawnTime 0.1
    }
    MeshObject "{5C664CA5921DE9AF}" {
@@ -289,11 +146,16 @@ $grp GenericEntity {
    RplComponent "{5C664CA59F5A8A12}" {
    }
   }
-  coords 133.867 1.001 136.165
+  coords 136.548 1.001 136.165
  }
  jeepshop3 {
   components {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_PhysicalMerchandise ADM_ShopMerchandise "{5D2078196E8877B8}" {
+     m_Merchandise ADM_MerchandiseVehicle "{5D2078196F4C42DC}" {
+      m_Prefab "{9A0D72816DFFDB7F}Prefabs/Vehicles/Wheeled/M923A1/M923A1.et"
+     }
+    }
     m_RespawnTime 0.1
    }
    MeshObject "{5C664CA5921DE9AF}" {
@@ -322,11 +184,16 @@ $grp GenericEntity {
    RplComponent "{5C664CA59F5A8A12}" {
    }
   }
-  coords 130.091 1.001 136.165
+  coords 132.772 1.001 136.165
  }
  jeepshop4 {
   components {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_PhysicalMerchandise ADM_ShopMerchandise "{5D20781918D20637}" {
+     m_Merchandise ADM_MerchandiseVehicle "{5D20781919812CD2}" {
+      m_Prefab "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et"
+     }
+    }
     m_RespawnTime 0.1
    }
    MeshObject "{5C664CA5921DE9AF}" {
@@ -355,11 +222,16 @@ $grp GenericEntity {
    RplComponent "{5C664CA59F5A8A12}" {
    }
   }
-  coords 125.862 1.001 136.165
+  coords 128.543 1.001 136.165
  }
  jeepshop5 {
   components {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_PhysicalMerchandise ADM_ShopMerchandise "{5D207819019D6F42}" {
+     m_Merchandise ADM_MerchandiseVehicle "{5D2078190E99DE04}" {
+      m_Prefab "{259EE7B78C51B624}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469.et"
+     }
+    }
     m_RespawnTime 0.1
    }
    MeshObject "{5C664CA5921DE9AF}" {
@@ -388,7 +260,45 @@ $grp GenericEntity {
    RplComponent "{5C664CA59F5A8A12}" {
    }
   }
-  coords 122.669 1.001 136.165
+  coords 125.35 1.001 136.165
+ }
+ jeepshop6 {
+  components {
+   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_PhysicalMerchandise ADM_ShopMerchandise "{5D207819019D6F42}" {
+     m_Merchandise ADM_MerchandiseVehicle "{5D2078190E99DE04}" {
+      m_Prefab "{4597626AF36C0858}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320.et"
+     }
+    }
+    m_RespawnTime 0.1
+   }
+   MeshObject "{5C664CA5921DE9AF}" {
+   }
+   RigidBody "{5C664CA591CC3346}" {
+    ModelGeometry 1
+    Static 1
+   }
+   ActionsManagerComponent "{5C664CA5835A08C8}" {
+    ActionContexts {
+     UserActionContext "{5C664CA5800A49E1}" {
+      ContextName "Shop"
+      Position PointInfo "{5C664CA529C736CB}" {
+      }
+      Radius 2
+     }
+    }
+    additionalActions {
+     ADM_PhysicalShopAction "{5C982A22684EB04A}" {
+      ParentContextList {
+       "Shop"
+      }
+     }
+    }
+   }
+   RplComponent "{5C664CA59F5A8A12}" {
+   }
+  }
+  coords 121.723 1.001 136.165
  }
 }
 $grp SCR_ChimeraCharacter {
