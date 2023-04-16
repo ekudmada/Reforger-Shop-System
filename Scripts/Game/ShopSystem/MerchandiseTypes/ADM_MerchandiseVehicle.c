@@ -4,7 +4,7 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 	[Attribute()]
 	protected ref PointInfo m_SpawnPosition;
 	
-	EntitySpawnParams GetVehicleSpawnTransform(ADM_ShopComponent shop)
+	EntitySpawnParams GetVehicleSpawnTransform(ADM_ShopBaseComponent shop)
 	{
 		EntitySpawnParams params = EntitySpawnParams();
 		params.TransformMode = ETransformMode.WORLD;
@@ -21,7 +21,7 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 	
 	int lastCheckTime = -1;
 	bool canRespawnCache = false;
-	override bool CanRespawn(ADM_ShopComponent shop, int quantity = 1)
+	override bool CanRespawn(ADM_ShopBaseComponent shop, int quantity = 1)
 	{
 		if (quantity > 1) quantity = 1;
 		
@@ -35,14 +35,14 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 		return canRespawnCache;
 	}
 	
-	override bool CanDeliver(IEntity player, ADM_ShopComponent shop, int quantity = 1)
+	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
 	{
 		if (quantity > 1) quantity = 1;
 
 		return CanRespawn(shop, quantity);
 	}
 	
-	override bool Deliver(IEntity player, ADM_ShopComponent shop, int quantity = 1)
+	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
 	{
 		if (RplSession.Mode() == RplMode.Client) return false;
 		if (quantity > 1) quantity = 1;

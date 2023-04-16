@@ -10,7 +10,7 @@ class ADM_MerchandiseType: ScriptAndConfig
 	void SetPrefabResource(Resource res) { m_PrefabResource = res; }
 	bool CanPurchaseMultiple() { return m_CanPurchaseMultiple; }
 	
-	bool CanDeliver(IEntity player, ADM_ShopComponent shop, int quantity = 1) { return false; }
-	bool CanRespawn(ADM_ShopComponent shop, int quantity = 1) { return false; }
-	bool Deliver(IEntity player, ADM_ShopComponent shop, int quantity = 1) { return false; }
+	bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1) { return false; }
+	bool CanRespawn(ADM_ShopBaseComponent shop, int quantity = 1) { return false; }
+	bool Deliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1) { return false; }
 }

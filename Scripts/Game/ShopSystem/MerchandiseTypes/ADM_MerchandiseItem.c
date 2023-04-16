@@ -9,14 +9,14 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 		return true;
 	}
 	
-	override bool CanDeliver(IEntity player, ADM_ShopComponent shop, int quantity = 1)
+	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
 	{
 		if (!m_AllowSaleWithFullInventory) return CanFitItemInInventory(player);
 		
 		return true;
 	}
 	
-	override bool Deliver(IEntity player, ADM_ShopComponent shop, int quantity = 1)
+	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
 	{
 		if (RplSession.Mode() == RplMode.Client) return false;
 		
@@ -64,7 +64,7 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 		return true;
 	}
 	
-	override bool CanRespawn(ADM_ShopComponent shop, int quantity = 1) 
+	override bool CanRespawn(ADM_ShopBaseComponent shop, int quantity = 1) 
 	{ 
 		return true; 
 	}

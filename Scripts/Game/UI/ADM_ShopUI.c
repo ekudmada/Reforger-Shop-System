@@ -275,8 +275,7 @@ class ADM_ShopUI: ChimeraMenuBase
 		array<ADM_ShopMerchandise> matchedMerchandise = {};
 		foreach (ADM_ShopMerchandise merch : m_Shop.GetMerchandise())
 		{
-			UIInfo itemUI = ADM_Utils.GetItemUIInfo(merch.GetMerchandise().GetPrefab());
-			string itemName = itemUI.GetName();
+			string itemName = ADM_Utils.GetPrefabDisplayName(merch.GetMerchandise().GetPrefab());
 			itemName.ToLower();
 			
 			if (itemName.Contains(search))

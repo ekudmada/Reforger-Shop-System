@@ -8,7 +8,7 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 		m_sPurchaseMessage = message;
 	}
 	
-	void AskPurchase(ADM_ShopComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1)
+	void AskPurchase(ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1)
 	{
 		PlayerController player = GetGame().GetPlayerController();
 		RplId shopID = Replication.FindId(shop);
@@ -20,7 +20,7 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 	{
 		if (merchandiseIndex == -1) return;
 		
-		ADM_ShopComponent shop = ADM_ShopComponent.Cast(Replication.FindItem(shopID));
+		ADM_ShopBaseComponent shop = ADM_ShopBaseComponent.Cast(Replication.FindItem(shopID));
 		if (!shop || shopID == Replication.INVALID_ID) {
 			Print("Error! couldn't find shop entity!", LogLevel.ERROR); 
 			return;

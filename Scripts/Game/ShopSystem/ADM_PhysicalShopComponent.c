@@ -2,9 +2,12 @@ class ADM_PhysicalShopComponentClass: ScriptComponentClass {}
 
 //TODO: look into SCR_PreviewEntityComponent
 //TODO: fix respawn time = 0 bug (vehicle check doesnt work)
-class ADM_PhysicalShopComponent: ADM_ShopComponent
+class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 {	
-	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.Slider, params: "0.1 1000 et", category: "Physical Shop")]
+	[Attribute(category: "Shop")]
+	protected ref ADM_ShopMerchandise m_PhysicalMerchandise;
+	
+	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.Slider, params: "0.1 1000 et", category: "Shop")]
 	protected float m_RespawnTime;
 	
 	[RplProp(onRplName: "OnStateChange")]
@@ -87,7 +90,7 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	override bool AskPurchase(IEntity player, ADM_ShopComponent shop, ADM_ShopMerchandise merchandise, int quantity, ADM_PlayerShopManagerComponent playerManager)
+	override bool AskPurchase(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity, ADM_PlayerShopManagerComponent playerManager)
 	{
 		bool success = super.AskPurchase(player, shop, merchandise, quantity, playerManager);
 		if (!success) return false;
@@ -122,5 +125,10 @@ class ADM_PhysicalShopComponent: ADM_ShopComponent
 			SetState(true);
 			m_LastStateChangeTime = -1;
 		}
+	}
+	
+	void ADM_PhysicalShopComponent()
+	{
+		if (m_PhysicalMerchandise) m_Merchandise = {m_PhysicalMerchandise};
 	}
 }
