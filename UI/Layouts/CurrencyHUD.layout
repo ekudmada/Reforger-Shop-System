@@ -13,7 +13,7 @@ FrameWidgetClass {
     SizeToContent 1
    }
    FontProperties FontProperties "{5D211A2EC4DC061D}" {
-    OutlineSize 1
+    OutlineSize 2
    }
   }
  }
