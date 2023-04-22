@@ -9,7 +9,9 @@ Currently the system allows two types of payment methods: item, and currency. As
 If you use this reference the original link to the github somewhere inside the code or any type of credits page you may display to end users. Do not rename any class prefixes.
 
 ## Installation
-You can use this mod as a dependency from the released version on the workshop, or you can incorporate the code into your own codebase.
+You can use this mod as a dependency from the released version on the workshop, or you can incorporate the code into your own codebase (though this is not reccomended and you won't receive any updates or support on previous versions).
+
+https://reforger.armaplatform.com/workshop/5D2D1436D1FA5A13-ShopSystem
 
 ## Usage
 There are two main components supported right now. ADM_ShopComponent and ADM_PhysicalShopComponent. These should be added to an entity in the world which you want to represent the shop. This can be an AI character, or an inanimate object. In either case an ActionsManager component is required. For normal UI-based shops, add ADM_ShopAction to the "Additional Actions" section. For physical shops, add ADM_PhysicalShopAction to the "Additional Actions".
