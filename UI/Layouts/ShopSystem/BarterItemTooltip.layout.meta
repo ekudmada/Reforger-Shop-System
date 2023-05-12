@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{459F0B580A8E2CD7}UI/Layouts/Menus/ContentBrowser/AddonManager/AddonBar/BarterItemTooltip.layout"
+ Name "{FC117CCADBAB3DBA}UI/Layouts/ShopSystem/BarterItemTooltip.layout"
  Configurations {
   LayoutResourceClass PC {
   }

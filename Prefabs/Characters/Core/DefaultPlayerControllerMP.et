@@ -1,11 +1,11 @@
 SCR_PlayerController : "{6E2BB64764E3BE9B}Prefabs/Characters/Core/DefaultPlayerController.et" {
  ID "1A9BA6BEFA06E3B1"
  components {
-  ADM_PlayerShopManagerComponent "{5C8B438BBDCCBE5C}" {
+  ADM_PlayerShopManagerComponent "{5D5619609AEBE794}" {
   }
   SCR_HUDManagerComponent "{2FDC275D9EBCDB8B}" {
    InfoDisplays {
-    ADM_CurrencyHUD "{5D211A288BB3D1DB}" {
+    ADM_CurrencyHUD "{5D56196099FB42A4}" {
      m_LayoutPath "{F51AFD98E06FAADB}UI/Layouts/CurrencyHUD.layout"
     }
    }

@@ -1,13 +1,8 @@
-modded enum ChimeraMenuPreset
-{
-	ADM_Shop
-}
-
 class ADM_ShopUI: ChimeraMenuBase
 {
 	static protected ResourceName m_ItemPrefab = "{7C575A0E989A1B9D}UI/Layouts/ShopSystem/MarketItem.layout";
 	static protected ResourceName m_CategoryPrefab = "{5429F3944440C60B}UI/Layouts/ShopSystem/MarketCategory.layout";
-	static protected ResourceName m_BarterIconPrefab = "{4BCF093733E02270}UI/Layouts/ShopSystem/MarketBarterItemIcon.layout";
+	static protected ResourceName m_BarterIconPrefab = "{BBEF0EBB9F35B19F}UI/Layouts/ShopSystem/MarketBarterItemIcon.layout";
 	
 	protected ref array<IEntity> m_PreviewEntities = new array<IEntity>();
 	protected ItemPreviewManagerEntity m_PreviewManager;
@@ -23,6 +18,8 @@ class ADM_ShopUI: ChimeraMenuBase
 	{
 		m_Shop = shop;
 		Reset();
+		
+		PrintFormat("set shop to %1", shop);
 	}
 	
 	void ClearCategories()
@@ -52,6 +49,8 @@ class ADM_ShopUI: ChimeraMenuBase
 		{
 			shopCategory.SetIndex(index);
 		}
+		
+		Print(category.m_DisplayName);
 	}
 	
 	void PopulateCategories()
@@ -75,6 +74,7 @@ class ADM_ShopUI: ChimeraMenuBase
 		// Remove all children from the content list
 		while (m_wContentParent.GetChildren() != null)
 		{
+
 			delete m_wContentParent.GetChildren();
 			
 			foreach (IEntity previewEntity : m_PreviewEntities)
@@ -288,7 +288,6 @@ class ADM_ShopUI: ChimeraMenuBase
 		{
 			CreateRow(merch);
 		}
-		Print(search);
 	}
 	
 	override void OnMenuFocusGained() 

@@ -88,7 +88,6 @@ class ADM_ShopBaseComponent: ScriptComponent
 			bool didCollectPayment = paymentMethod.CollectPayment(player, quantity);
 			didCollectPayments.Insert(didCollectPayment);
 			
-			Print(didCollectPayment);
 			if (didCollectPayment) collectedPaymentMethods.Insert(paymentMethod);
 		}
 		
@@ -131,7 +130,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 		
 		RplComponent rpl = RplComponent.Cast(owner.FindComponent(RplComponent));
 		if (rpl) rpl.InsertToReplication();
-		
+	
 		foreach (ADM_ShopMerchandise merchandise : m_Merchandise)
 		{
 			if (!merchandise) continue;
@@ -149,9 +148,9 @@ class ADM_ShopBaseComponent: ScriptComponent
 		super.OnPostInit(owner);
 		SetEventMask(owner, EntityEvent.INIT);
 		owner.SetFlags(EntityFlags.ACTIVE, true);
-	}
+	}		
 	
-	void ADM_ShopBaseComponent()
+	private void ADM_ShopBaseComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
 		m_Owner = GetOwner();
 		if (!m_Merchandise) m_Merchandise = new array<ref ADM_ShopMerchandise>();
@@ -164,5 +163,5 @@ class ADM_ShopBaseComponent: ScriptComponent
 				}
 			}
 		}
-	} 
+	}
 }

@@ -1,8 +1,3 @@
-modded enum ChimeraMenuPreset
-{
-	ADM_ViewPaymentMenu
-}
-
 class ADM_ViewPaymentUI: ChimeraMenuBase
 {
 	protected Widget m_wRoot;

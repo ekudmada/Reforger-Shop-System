@@ -24,7 +24,7 @@ class ADM_ShopComponent: ADM_ShopBaseComponent
 		}
 	}
 	
-	void ADM_ShopComponent()
+	void ADM_ShopComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{		
 		foreach (ADM_ShopMerchandise merch : m_AdditionalMerchandise) {
 			m_Merchandise.Insert(merch);

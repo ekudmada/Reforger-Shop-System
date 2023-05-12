@@ -40,7 +40,7 @@ $grp GenericEntity {
  AKShop {
   components {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
-    m_ShopConfig "{8B99E76A07E39318}Configs/Shops/AK74.conf"
+    m_ShopConfig "{365845681049D78C}Configs/Shops/AK74.conf"
     m_RespawnTime 5
    }
    MeshObject "{5C664CA5921DE9AF}" {
@@ -448,7 +448,7 @@ $grp SCR_ChimeraCharacter {
     m_fMaxWeight 80
    }
    ADM_ShopComponent "{5D0614D5346522B0}" {
-    m_ShopConfig "{8B99E76A07E39318}Configs/Shops/AK74.conf"
+    m_ShopConfig "{365845681049D78C}Configs/Shops/AK74.conf"
     m_Categories {
      "{BD4950A188201509}Configs/ShopCategories/Rifles.conf" "{06CF3558777CEBF4}Configs/ShopCategories/Handguns.conf"
     }
@@ -494,7 +494,7 @@ $grp SCR_ChimeraCharacter {
       m_Merchandise ADM_MerchandiseVehicle "{5D1B675801A4C1AD}" {
        m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
        m_SpawnPosition PointInfo "{5D1B67583606FD92}" {
-        Offset -0.0002 0 4.4067
+        Offset -0.1669 0 6.4648
        }
       }
      }
@@ -1323,12 +1323,6 @@ $grp SCR_ChimeraCharacter {
     EncumbranceDrainMax -0.1
     BreathNormalFrequency 0.45
     BreathExhaustedFrequency 1.1
-    m_fStaminaDrainThreshold 100
-    m_EventParams MetabolismEventParams "{5D0614D53465A90A}" {
-     m_fCaloriesDrain 2
-     m_fHydrationDrain 2
-     m_fEnergyDrain 4
-    }
    }
    SCR_CharacterVicinityComponent "{5D0614D53465A913}" {
     DiscoveryRadius 3
@@ -1801,7 +1795,7 @@ $grp SCR_ChimeraCharacter {
      StepHeight 0.25
     }
     RagdollLayer 1024
-    Definition "{CE761502CE2E1990}Prefabs/Characters/character.ragdoll"
+    Definition "{55BA23D026D8F0F8}Prefabs/Characters/character.ragdoll"
    }
    SCR_CharacterCameraHandlerComponent "{5D0614D53464EF6E}" {
     "Camera entity prefab" "{2DF95AB3CCDF4FA5}Prefabs/Characters/Core/DefaultPlayerCamera.et"
@@ -2782,12 +2776,6 @@ $grp SCR_ChimeraCharacter {
     EncumbranceDrainMax -0.1
     BreathNormalFrequency 0.45
     BreathExhaustedFrequency 1.1
-    m_fStaminaDrainThreshold 100
-    m_EventParams MetabolismEventParams "{5D0614D53465A90A}" {
-     m_fCaloriesDrain 2
-     m_fHydrationDrain 2
-     m_fEnergyDrain 4
-    }
    }
    SCR_CharacterVicinityComponent "{5D0614D53465A913}" {
     DiscoveryRadius 3
@@ -3255,7 +3243,7 @@ $grp SCR_ChimeraCharacter {
      StepHeight 0.25
     }
     RagdollLayer 1024
-    Definition "{CE761502CE2E1990}Prefabs/Characters/character.ragdoll"
+    Definition "{55BA23D026D8F0F8}Prefabs/Characters/character.ragdoll"
    }
    SCR_CharacterCameraHandlerComponent "{5D0614D53464EF6E}" {
     "Camera entity prefab" "{2DF95AB3CCDF4FA5}Prefabs/Characters/Core/DefaultPlayerCamera.et"
@@ -4251,12 +4239,6 @@ $grp SCR_ChimeraCharacter {
     EncumbranceDrainMax -0.1
     BreathNormalFrequency 0.45
     BreathExhaustedFrequency 1.1
-    m_fStaminaDrainThreshold 100
-    m_EventParams MetabolismEventParams "{5D0614D53465A90A}" {
-     m_fCaloriesDrain 2
-     m_fHydrationDrain 2
-     m_fEnergyDrain 4
-    }
    }
    SCR_CharacterVicinityComponent "{5D0614D53465A913}" {
     DiscoveryRadius 3
@@ -4729,7 +4711,7 @@ $grp SCR_ChimeraCharacter {
      StepHeight 0.25
     }
     RagdollLayer 1024
-    Definition "{CE761502CE2E1990}Prefabs/Characters/character.ragdoll"
+    Definition "{55BA23D026D8F0F8}Prefabs/Characters/character.ragdoll"
    }
    SCR_CharacterCameraHandlerComponent "{5D0614D53464EF6E}" {
     "Camera entity prefab" "{2DF95AB3CCDF4FA5}Prefabs/Characters/Core/DefaultPlayerCamera.et"

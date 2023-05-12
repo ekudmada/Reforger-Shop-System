@@ -35,8 +35,13 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 	{	
 		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return;
 				
-		SCR_PlayerController playerController = SCR_PlayerController.Cast(GetGame().GetPlayerController());
-		if (pUserEntity != playerController.GetMainEntity()) return;
+		PlayerController playerController = GetGame().GetPlayerController();
+		if (!playerController) return;
+		
+		SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+		if (!scrPlayerController) return;
+		
+		if (pUserEntity != scrPlayerController.GetMainEntity()) return;
 		
 		// Physical shops should only have one item defined, so just grab the first one in the merchandise array	
 		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandise()[0];

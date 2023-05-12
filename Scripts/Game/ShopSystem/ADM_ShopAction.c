@@ -20,10 +20,15 @@ class ADM_ShopAction : ScriptedUserAction
 	{	
 		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return;
 		
-		SCR_PlayerController playerController = SCR_PlayerController.Cast(GetGame().GetPlayerController());
-		if (pUserEntity != playerController.GetMainEntity()) return;
+		PlayerController playerController = GetGame().GetPlayerController();
+		if (!playerController) return;
 		
-		MenuBase menuBase = GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.ADM_Shop); 
+		SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+		if (!scrPlayerController) return;
+		
+		if (pUserEntity != scrPlayerController.GetMainEntity()) return;
+		
+		MenuBase menuBase = GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.ADM_ShopMenu); 
 		ADM_ShopUI menu = ADM_ShopUI.Cast(menuBase);
 		menu.SetShop(m_Shop);
 	}

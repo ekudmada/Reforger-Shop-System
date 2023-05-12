@@ -40,9 +40,4 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 	{
 		SCR_HintManagerComponent.GetInstance().ShowCustom(message);
 	}
-	
-	void ADM_PlayerShopManagerComponent() 
-	{
-		
-	}
 }

@@ -127,7 +127,7 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		}
 	}
 	
-	void ADM_PhysicalShopComponent()
+	private void ADM_PhysicalShopComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
 		if (m_PhysicalMerchandise) m_Merchandise = {m_PhysicalMerchandise};
 	}
