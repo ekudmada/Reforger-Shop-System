@@ -100,12 +100,10 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------
-	override void EOnInit(IEntity owner)
+	override void OnPostInit(IEntity owner)
 	{
-		super.EOnInit(owner);
-		SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
-		
+		super.OnPostInit(owner);
+		SetEventMask(owner, EntityEvent.FRAME);
 		OnStateChange();
 	}
 	

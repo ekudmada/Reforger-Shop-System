@@ -121,12 +121,23 @@ class ADM_ShopBaseComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	override void EOnInit(IEntity owner)
+	override void OnPostInit(IEntity owner)
 	{
-		super.EOnInit(owner);
+		super.OnPostInit(owner);
+		SetEventMask(owner, EntityEvent.INIT);
+		owner.SetFlags(EntityFlags.ACTIVE, true);
 		
-		if (!GetGame().GetWorldEntity())
-  			return;
+		m_Owner = owner;
+		if (!m_Merchandise) m_Merchandise = new array<ref ADM_ShopMerchandise>();
+		
+		if (m_ShopConfig != string.Empty) {
+			ADM_ShopConfig shopConfig = ADM_ShopConfig.GetConfig(m_ShopConfig);
+			if (shopConfig && shopConfig.m_Merchandise) {
+				foreach (ADM_ShopMerchandise merch : shopConfig.m_Merchandise) {
+					m_Merchandise.Insert(merch);
+				}
+			}
+		}
 		
 		RplComponent rpl = RplComponent.Cast(owner.FindComponent(RplComponent));
 		if (rpl) rpl.InsertToReplication();
@@ -140,28 +151,5 @@ class ADM_ShopBaseComponent: ScriptComponent
 			
 			merchandiseType.SetPrefabResource(Resource.Load(merchandiseType.GetPrefab()));
 		}
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	override void OnPostInit(IEntity owner)
-	{
-		super.OnPostInit(owner);
-		SetEventMask(owner, EntityEvent.INIT);
-		owner.SetFlags(EntityFlags.ACTIVE, true);
 	}		
-	
-	private void ADM_ShopBaseComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
-	{
-		m_Owner = GetOwner();
-		if (!m_Merchandise) m_Merchandise = new array<ref ADM_ShopMerchandise>();
-		
-		if (m_ShopConfig != string.Empty) {
-			ADM_ShopConfig shopConfig = ADM_ShopConfig.GetConfig(m_ShopConfig);
-			if (shopConfig && shopConfig.m_Merchandise) {
-				foreach (ADM_ShopMerchandise merch : shopConfig.m_Merchandise) {
-					m_Merchandise.Insert(merch);
-				}
-			}
-		}
-	}
 }

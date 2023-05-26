@@ -485,8 +485,7 @@ $grp SCR_ChimeraCharacter {
       m_Merchandise ADM_MerchandiseVehicle "{5D1B675865EF2A96}" {
        m_Prefab "{9A0D72816DFFDB7F}Prefabs/Vehicles/Wheeled/M923A1/M923A1.et"
        m_SpawnPosition PointInfo "{5D1B67586D28CC32}" {
-        Offset 0.063 0 4.9498
-        Angles 0 -90 0
+        Offset 0.063 0.3143 7.9381
        }
       }
      }
@@ -3405,7 +3404,7 @@ $grp SCR_ChimeraCharacter {
       m_Merchandise ADM_MerchandiseVehicle "{5D206448E8DD4A4C}" {
        m_Prefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
        m_SpawnPosition PointInfo "{5D2064488546BE1F}" {
-        Offset -0.3773 0 7.8102
+        Offset -0.3773 0.9464 7.8102
        }
       }
       m_RequiredPayment {

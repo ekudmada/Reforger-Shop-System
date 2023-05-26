@@ -14,20 +14,17 @@ class ADM_ShopComponent: ADM_ShopBaseComponent
 		return m_LoadedCategories;
 	}
 	
-	override void EOnInit(IEntity owner)
+	override void OnPostInit(IEntity owner)
 	{
-		super.EOnInit(owner);
+		super.OnPostInit(owner);
+		
+		foreach (ADM_ShopMerchandise merch : m_AdditionalMerchandise) {
+			m_Merchandise.Insert(merch);
+		}
 		
 		foreach (ResourceName category : m_Categories)
 		{
 			m_LoadedCategories.Insert(ADM_ShopCategory.GetConfig(category));
-		}
-	}
-	
-	void ADM_ShopComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
-	{		
-		foreach (ADM_ShopMerchandise merch : m_AdditionalMerchandise) {
-			m_Merchandise.Insert(merch);
 		}
 	}
 }
