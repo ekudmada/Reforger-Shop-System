@@ -1,3 +1,4 @@
+[BaseContainerProps()]
 class ADM_PaymentMethodBase: ScriptAndConfig
 {
 	/*

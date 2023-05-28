@@ -75,10 +75,12 @@ class ADM_Utils
 	static string GetPrefabDisplayName(ResourceName prefab)
 	{
 		SCR_EditableVehicleUIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
-		if (vehicleUIInfo) return vehicleUIInfo.GetName();
+		if (vehicleUIInfo) 
+			return vehicleUIInfo.GetName();
 		
 		UIInfo itemUIInfo = ADM_Utils.GetItemUIInfo(prefab);
-		if (itemUIInfo) return itemUIInfo.GetName();
+		if (itemUIInfo) 
+			return itemUIInfo.GetName();
 		
 		return prefab;
 	}
@@ -86,10 +88,12 @@ class ADM_Utils
 	static string GetPrefabDescription(ResourceName prefab)
 	{
 		SCR_EditableVehicleUIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
-		if (vehicleUIInfo) return vehicleUIInfo.GetDescription();
+		if (vehicleUIInfo) 
+			return vehicleUIInfo.GetDescription();
 		
 		UIInfo itemUIInfo = ADM_Utils.GetItemUIInfo(prefab);
-		if (itemUIInfo) return itemUIInfo.GetDescription();
+		if (itemUIInfo) 
+			return itemUIInfo.GetDescription();
 		
 		return prefab;
 	}
@@ -97,10 +101,12 @@ class ADM_Utils
 	static ResourceName GetPrefabDisplayIcon(ResourceName prefab)
 	{
 		SCR_EditableVehicleUIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
-		if (vehicleUIInfo) return vehicleUIInfo.GetIconPath();
+		if (vehicleUIInfo) 
+			return vehicleUIInfo.GetIconPath();
 		
 		UIInfo itemUIInfo = ADM_Utils.GetItemUIInfo(prefab);
-		if (itemUIInfo) return itemUIInfo.GetIconPath();
+		if (itemUIInfo) 
+			return itemUIInfo.GetIconPath();
 		
 		return string.Empty;
 	}
@@ -113,7 +119,8 @@ class ADM_Utils
 		if (item.FindComponent(SCR_GadgetComponent)) purpose = EStoragePurpose.PURPOSE_GADGET_PROXY;
 		
 		bool insertedItem = inventory.TryInsertItem(item, purpose, null);
-		if (!insertedItem) insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
+		if (!insertedItem) 
+			insertedItem = inventory.TryInsertItem(item, EStoragePurpose.PURPOSE_ANY, null);
 		
 		return insertedItem;
 	}

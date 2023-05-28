@@ -23,12 +23,10 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 	bool canRespawnCache = false;
 	override bool CanRespawn(ADM_ShopBaseComponent shop, int quantity = 1)
 	{
-		if (quantity > 1) quantity = 1;
-		
 		int curTick = System.GetTickCount();
 		if (curTick - lastCheckTime >= 1000)
 		{
-			canRespawnCache = ADM_Utils.IsSpawnPositionClean(m_PrefabResource, GetVehicleSpawnTransform(shop), {shop.GetOwner()});
+			canRespawnCache = ADM_Utils.IsSpawnPositionClean(Resource.Load(m_Prefab), GetVehicleSpawnTransform(shop), {shop.GetOwner()});
 			lastCheckTime = curTick;
 		}
 		
@@ -38,13 +36,13 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
 	{
 		if (quantity > 1) quantity = 1;
-
-		return CanRespawn(shop, quantity);
+		
+		return CanRespawn(shop, quantity); // same check for respawning and delivering
 	}
 	
 	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
 	{
-		if (RplSession.Mode() == RplMode.Client) return false;
+		if (!Replication.IsServer()) return false;
 		if (quantity > 1) quantity = 1;
 		
 		// double check we can deliver
@@ -53,7 +51,7 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 		
 		// spawn vehicle
 		EntitySpawnParams params = GetVehicleSpawnTransform(shop);
-		IEntity entity = GetGame().SpawnEntityPrefab(m_PrefabResource, shop.GetOwner().GetWorld(), params);
+		IEntity entity = GetGame().SpawnEntityPrefab(Resource.Load(m_Prefab), shop.GetOwner().GetWorld(), params);
 		
 		return true;
 	}

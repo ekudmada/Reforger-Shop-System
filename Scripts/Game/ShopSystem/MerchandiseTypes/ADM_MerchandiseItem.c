@@ -11,14 +11,15 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 	
 	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
 	{
-		if (!m_AllowSaleWithFullInventory) return CanFitItemInInventory(player);
+		if (!m_AllowSaleWithFullInventory) 
+			return CanFitItemInInventory(player);
 		
 		return true;
 	}
 	
 	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
 	{
-		if (RplSession.Mode() == RplMode.Client) return false;
+		if (!Replication.IsServer()) return false;
 		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
@@ -31,7 +32,7 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 		for (int i = 0; i < quantity; i++)
 		{
 			// give item/weapon/magazine/clothing to player	
-			IEntity item = GetGame().SpawnEntityPrefab(m_PrefabResource);	
+			IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_Prefab));	
 			bool putInInventory = ADM_Utils.InsertAutoEquipItem(inventory, item);
 			
 			// Move item to location of shop if we can't fit in inventory and we allow sale with full inventory

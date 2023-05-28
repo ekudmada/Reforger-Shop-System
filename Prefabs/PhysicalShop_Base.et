@@ -1,0 +1,33 @@
+GenericEntity {
+ ID "5D774D0A15D07EB9"
+ components {
+  ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+  }
+  MeshObject "{5C664CA5921DE9AF}" {
+  }
+  RigidBody "{5C664CA591CC3346}" {
+   ModelGeometry 1
+   Static 1
+  }
+  ActionsManagerComponent "{5C664CA5835A08C8}" {
+   ActionContexts {
+    UserActionContext "{5C664CA5800A49E1}" {
+     ContextName "Shop"
+     Position PointInfo "{5C664CA529C736CB}" {
+     }
+     Radius 2
+    }
+   }
+   additionalActions {
+    ADM_PhysicalShopAction "{5C982A22684EB04A}" {
+     ParentContextList {
+      "Shop"
+     }
+    }
+   }
+  }
+  RplComponent "{5C664CA59F5A8A12}" {
+  }
+ }
+ coords 141.301 1.001 136.165
+}

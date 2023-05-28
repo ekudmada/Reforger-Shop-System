@@ -20,8 +20,8 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	void UpdateMesh(IEntity owner)
 	{
 		//TODO: look into using SCR_PreviewEntity or replicating it. Display prefab 1:1 with all slots and such
-		if (!owner) return;
-		if (!m_Merchandise || m_Merchandise.Count() <= 0) return;
+		if (!owner || !m_Merchandise || m_Merchandise.Count() <= 0) 
+			return;
 		
 		ResourceName modelPath;
 		string remapPath;
@@ -48,8 +48,8 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	void SetState(bool state)
 	{
 		m_State = !m_State;
-		Replication.BumpMe();
 		m_LastStateChangeTime = System.GetTickCount();	
+		Replication.BumpMe();
 		
 		OnStateChange();
 	}
@@ -57,13 +57,15 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	//------------------------------------------------------------------------------------------------
 	void OnStateChange()
 	{
+		IEntity owner = GetOwner();
 		if (m_State)
 		{
-			UpdateMesh(m_Owner);
+			UpdateMesh(owner);
 		} else {
-			m_Owner.SetObject(null, string.Empty);
-			Physics physics = m_Owner.GetPhysics();
-			if (physics) physics.Destroy();
+			owner.SetObject(null, string.Empty);
+			Physics physics = owner.GetPhysics();
+			if (physics) 
+				physics.Destroy();
 		}
 	}
 	
@@ -90,10 +92,11 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	override bool AskPurchase(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity, ADM_PlayerShopManagerComponent playerManager)
+	override bool AskPurchase(IEntity player, ADM_PlayerShopManagerComponent playerManager, ADM_ShopMerchandise merchandise, int quantity)
 	{
-		bool success = super.AskPurchase(player, shop, merchandise, quantity, playerManager);
-		if (!success) return false;
+		bool success = super.AskPurchase(player, playerManager, merchandise, quantity);
+		if (!success) 
+			return false;
 		
 		SetState(false);
 		
@@ -110,13 +113,13 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	//------------------------------------------------------------------------------------------------
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
-		if (RplSession.Mode() == RplMode.Client) return;
-		if (m_LastStateChangeTime == -1) return;
-		if (m_RespawnTime == -1) return;
+		if (!Replication.IsServer() || m_LastStateChangeTime == -1 || m_RespawnTime == -1) 
+			return;
 		
 		//TODO: better understand the delay from buying -> spawning and what could cause the vehicle shop respawn detection to not work
 		float dt = GetTimeUntilRespawn();
-		if (m_RespawnTime < 1) m_RespawnTime = 1;
+		if (m_RespawnTime < 1) 
+			m_RespawnTime = 1;
 		
 		if (dt > m_RespawnTime * 1000 && m_Merchandise.Count() > 0 && m_Merchandise[0].GetMerchandise().CanRespawn(this))
 		{
@@ -127,6 +130,7 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	
 	private void ADM_PhysicalShopComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
-		if (m_PhysicalMerchandise) m_Merchandise = {m_PhysicalMerchandise};
+		if (m_PhysicalMerchandise) 
+			m_Merchandise = {m_PhysicalMerchandise};
 	}
 }

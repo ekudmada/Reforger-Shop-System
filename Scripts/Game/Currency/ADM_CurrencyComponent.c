@@ -24,7 +24,7 @@ class ADM_CurrencyComponent: ScriptComponent
 
 	void SetValue(int value)
 	{
-		if (RplSession.Mode() == RplMode.Client)
+		if (!Replication.IsServer())
 			return;
 		
 		m_Value = value;
@@ -32,7 +32,7 @@ class ADM_CurrencyComponent: ScriptComponent
 	
 	bool ModifyValue(int amount, bool direction)
 	{
-		if (RplSession.Mode() == RplMode.Client)
+		if (!Replication.IsServer())
 			return false;
 		
 		if (amount < 0) return false;

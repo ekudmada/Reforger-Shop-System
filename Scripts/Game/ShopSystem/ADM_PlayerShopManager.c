@@ -1,7 +1,7 @@
 class ADM_PlayerShopManagerComponentClass: ScriptComponentClass {}
 
 class ADM_PlayerShopManagerComponent: ScriptComponent {
-	protected string m_sPurchaseMessage = string.Empty;
+	protected string m_sPurchaseMessage;
 	
 	void SetPurchaseMessage(string message)
 	{
@@ -18,19 +18,26 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void Rpc_AskPurchase(int playerId, RplId shopID, int merchandiseIndex, int quantity)
 	{
-		if (merchandiseIndex == -1) return;
+		if (merchandiseIndex == -1) 
+			return;
 		
 		ADM_ShopBaseComponent shop = ADM_ShopBaseComponent.Cast(Replication.FindItem(shopID));
-		if (!shop || shopID == Replication.INVALID_ID) {
+		if (!shop || shopID == Replication.INVALID_ID) 
+		{
 			Print("Error! couldn't find shop entity!", LogLevel.ERROR); 
 			return;
 		}
 		
-		IEntity player = GetGame().GetPlayerManager().GetPlayerController(playerId).GetControlledEntity();
-		if (!player) return;
+		SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(playerId));
+		if (!scrPlayerController) 
+			return;
+		
+		IEntity player = scrPlayerController.GetMainEntity();
+		if (!player) 
+			return;
 		
 		ADM_ShopMerchandise merchandise = shop.GetMerchandise()[merchandiseIndex];
-		bool success = shop.AskPurchase(player, shop, merchandise, quantity, this);
+		bool success = shop.AskPurchase(player, this, merchandise, quantity);
 		
 		Rpc(RpcDo_Transaction, m_sPurchaseMessage);
 	}

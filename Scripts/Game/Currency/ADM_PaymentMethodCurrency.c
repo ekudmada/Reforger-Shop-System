@@ -1,4 +1,3 @@
-[BaseContainerProps()]
 class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 {
 	[Attribute()]
@@ -12,20 +11,20 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 	override bool CheckPayment(IEntity player, int quantity = 1)
 	{
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory) return false;
+		if (!inventory) 
+			return false;
 		
 		int totalCurrency = ADM_CurrencyComponent.FindTotalCurrencyInInventory(inventory);
-		if (totalCurrency < m_Quantity * quantity) return false;
+		if (totalCurrency < m_Quantity * quantity) 
+			return false;
 		
 		return true;
 	}
 	
 	override bool CollectPayment(IEntity player, int quantity = 1)
 	{
-		if (RplSession.Mode() == RplMode.Client) return false;
-		
-		//check if player has the desired payment
-		if (!CheckPayment(player)) return false;
+		if (!Replication.IsServer() || !CheckPayment(player)) 
+			return false;
 		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
@@ -36,10 +35,12 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 	
 	override bool ReturnPayment(IEntity player, int quantity = 1)
 	{
-		if (RplSession.Mode() == RplMode.Client) return false;
+		if (!Replication.IsServer()) 
+			return false;
 		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventory) return false;
+		if (!inventory) 
+			return false;
 		
 		bool didAddCurrency = ADM_CurrencyComponent.AddCurrencyToInventory(inventory, m_Quantity * quantity);
 		return didAddCurrency;
