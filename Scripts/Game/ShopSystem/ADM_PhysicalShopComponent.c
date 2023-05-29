@@ -84,11 +84,12 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void ViewPayment()
+	void ViewPayment(ADM_PhysicalShopAction action)
 	{
 		MenuBase menuBase = GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.ADM_ViewPaymentMenu); 
 		ADM_ViewPaymentUI menu = ADM_ViewPaymentUI.Cast(menuBase);
 		menu.SetShop(this);
+		menu.SetAction(action);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -128,7 +129,8 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		}
 	}
 	
-	private void ADM_PhysicalShopComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
+	//------------------------------------------------------------------------------------------------
+	void ADM_PhysicalShopComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
 		if (m_PhysicalMerchandise) 
 			m_Merchandise = {m_PhysicalMerchandise};

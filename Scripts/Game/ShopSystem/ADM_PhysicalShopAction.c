@@ -66,7 +66,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 			
 			playerShopManager.AskPurchase(m_Shop, merchandise, m_fTargetValue);
 		} else {
-			m_Shop.ViewPayment();
+			m_Shop.ViewPayment(this);
 		}
 	}
 	
@@ -169,6 +169,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 			GetGame().GetInputManager().AddActionListener(m_sActionDecrease, EActionTrigger.VALUE, HandleActionDecrease);
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	override void OnActionDeselected()
 	{
 		super.OnActionDeselected();
@@ -181,5 +182,11 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		
 		if (!m_sActionDecrease.IsEmpty())
 			GetGame().GetInputManager().RemoveActionListener(m_sActionDecrease, EActionTrigger.VALUE, HandleActionDecrease);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	float GetTargetValue()
+	{
+		return m_fTargetValue;
 	}
 }

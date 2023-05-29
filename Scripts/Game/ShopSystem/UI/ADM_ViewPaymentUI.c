@@ -3,32 +3,13 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 	protected Widget m_wRoot;
 	
 	protected ADM_PhysicalShopComponent m_shop;
+	protected ADM_PhysicalShopAction m_originalAction;
 	
 	protected SCR_NavigationButtonComponent m_okayButton;
 	protected SCR_NavigationButtonComponent m_cancelButton;
 	
 	protected OverlayWidget m_ListBoxOverlay;
     protected SCR_ListBoxComponent m_ListBoxComponent;
-	
-	override void OnMenuFocusGained() 
-	{
-		super.OnMenuFocusGained();
-	}
-	
-	override void OnMenuFocusLost() 
-	{
-		super.OnMenuFocusLost();
-	}
-	
-	override void OnMenuShow() 
-	{
-		super.OnMenuShow();
-	}
-	
-	override void OnMenuHide() 
-	{
-		super.OnMenuHide();
-	}
 	
 	override void OnMenuOpen() 
 	{
@@ -59,14 +40,15 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 	
 	void Confirm()
 	{
-		if (!m_shop || m_shop.GetMerchandise().Count() <= 0) return;
+		if (!m_shop || m_shop.GetMerchandise().Count() <= 0 || !m_originalAction) 
+			return;
 		
 		PlayerController playerController = GetGame().GetPlayerController();
 		ADM_PlayerShopManagerComponent playerShopManager = ADM_PlayerShopManagerComponent.Cast(playerController.FindComponent(ADM_PlayerShopManagerComponent));
 		if (!playerShopManager) return;
 		
 		// Physical shops should only have one item defined, so just grab the first one in the merchandise array
-		playerShopManager.AskPurchase(m_shop, m_shop.GetMerchandise()[0]);
+		playerShopManager.AskPurchase(m_shop, m_shop.GetMerchandise()[0], m_originalAction.GetTargetValue());
 
 		GetGame().GetMenuManager().CloseMenu(this);
 	}
@@ -77,38 +59,19 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 		UpdatePaymentMethods();
 	}
 	
+	void SetAction(ADM_PhysicalShopAction action)
+	{
+		m_originalAction = action;
+	}
+	
 	void UpdatePaymentMethods()
 	{
 		if (!m_shop || m_shop.GetMerchandise().Count() <= 0) return;
 		
 		foreach (ADM_PaymentMethodBase paymentMethod : m_shop.GetMerchandise()[0].GetRequiredPaymentToBuy())
 		{
+			//TODO: fix icon
 			m_ListBoxComponent.AddItemAndIcon(paymentMethod.GetDisplayString(), "", "");
 		}
-	}
-	
-	override void OnMenuOpened() 
-	{
-		super.OnMenuOpened();
-	}
-	
-	override void OnMenuClose() 
-	{
-		super.OnMenuClose();
-	}
-	
-	override void OnMenuInit() 
-	{
-		super.OnMenuInit();
-	}
-	
-	override void OnMenuUpdate(float tDelta) 
-	{
-		super.OnMenuUpdate(tDelta);
-	}
-	
-	override void OnMenuItem(string menuItemName, bool changed, bool finished) 
-	{
-		super.OnMenuItem(menuItemName, changed, finished);
 	}
 }

@@ -203,7 +203,7 @@ FrameWidgetClass {
            }
            {
             OverlayWidgetClass "{5D594E3BC64E5CD4}" {
-             Name "Header"
+             Name "HeaderOverlay"
              Slot LayoutSlot "{5C982A2F882CAF67}" {
               Padding 0 0 6 0
               SizeMode Auto
@@ -359,9 +359,24 @@ FrameWidgetClass {
                         HorizontalLayoutWidgetClass "{5CCA5E79F858BD67}" {
                          Prefab "{5CCA5E79F858BD67}"
                          {
+                          ButtonWidgetClass "{5CCA5E798BA5D83D}" {
+                           Prefab "{5CCA5E798BA5D83D}"
+                           Color 1 1 1 0
+                           components {
+                            ADM_ShopQuantityButton "{5CFF73565DEE35D8}" {
+                            }
+                           }
+                          }
                           TextWidgetClass "{5CCA5E79F858BD64}" {
                            Prefab "{5CCA5E79F858BD64}"
                            "Font Size" 36
+                          }
+                          ButtonWidgetClass "{5CCA5E7988F23326}" {
+                           Prefab "{5CCA5E7988F23326}"
+                           components {
+                            ADM_ShopQuantityButton "{5CFF735647C460D6}" {
+                            }
+                           }
                           }
                          }
                         }

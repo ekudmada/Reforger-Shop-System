@@ -1,3 +1,123 @@
+class ADM_ShopQuantityButton : SCR_ButtonComponent
+{
+	[Attribute()]
+	protected int m_iAmount;
+	
+	int GetAmount()
+	{
+		return m_iAmount;
+	}
+}
+
+class ADM_ShopUIBarterItemIcon : ScriptedWidgetComponent
+{
+	protected SCR_HoverDetectorComponent m_HoverDetector;
+	protected ref ADM_PaymentMethodBase m_PaymentMethod;
+	protected ItemPreviewManagerEntity m_PreviewManager;
+	protected Widget m_wRoot;
+	
+	//---------------------------------------------------------------------------------------------------
+	override void HandlerAttached(Widget w)
+	{
+		m_wRoot = w;
+		m_PreviewManager = GetGame().GetItemPreviewManager();
+		m_HoverDetector = SCR_HoverDetectorComponent.Cast(w.FindHandler(SCR_HoverDetectorComponent));		
+		m_HoverDetector.m_OnHoverDetected.Insert(OnHoverDetected);
+		m_HoverDetector.m_OnMouseLeave.Insert(OnMouseLeaveTooltip);
+	}
+	
+	void SetPayment(ADM_PaymentMethodBase payment)
+	{
+		m_PaymentMethod = payment;
+	}
+	
+	//---------------------------------------------------------------------------------------------------
+	IEntity m_iPreviewEntity;
+	void OnHoverDetected()
+	{
+		Widget w = SCR_TooltipManagerEntity.CreateTooltip("{459F0B580A8E2CD7}UI/Layouts/ShopSystem/BarterItemTooltip.layout", m_wRoot);
+		TextWidget wText = TextWidget.Cast(w.FindAnyWidget("Text"));
+		ItemPreviewWidget wRenderTarget = ItemPreviewWidget.Cast(w.FindWidget("Overlay.VerticalLayout0.SizeLayout0.PreviewImage"));
+		
+		if (m_PaymentMethod) {
+			int quantity = ADM_ShopUI.FindShopUIItem(m_wRoot).GetQuantity();
+			string displayString = m_PaymentMethod.GetDisplayString(quantity);
+			wText.SetText(displayString);
+			
+			m_iPreviewEntity = GetGame().SpawnEntityPrefabLocal(Resource.Load(m_PaymentMethod.GetDisplayEntity()), null, null);
+			if (wRenderTarget && m_PreviewManager && m_iPreviewEntity) m_PreviewManager.SetPreviewItem(wRenderTarget, m_iPreviewEntity, null, true);
+		}
+	}
+	
+	void OnMouseLeaveTooltip()
+	{
+		if (m_iPreviewEntity)
+			SCR_EntityHelper.DeleteEntityAndChildren(m_iPreviewEntity);
+	}
+}
+
+class ADM_ShopUICategory : SCR_ScriptedWidgetComponent
+{
+	[Attribute(defvalue: "0")]
+	protected int m_index = 0;
+
+	int GetIndex()
+	{
+		return m_index;
+	}
+	
+	void SetIndex(int index)
+	{
+		m_index = index;
+	}
+}
+
+class ADM_ShopUIItem : SCR_ScriptedWidgetComponent
+{
+	[Attribute(defvalue: "1")]
+	protected int m_quantity = 1;
+
+	protected ADM_ShopComponent m_Shop;
+	protected ref ADM_ShopMerchandise m_Merchandise;
+	
+	int GetQuantity()
+	{
+		return m_quantity;
+	}
+	
+	void SetQuantity(int quantity)
+	{
+		m_quantity = quantity;
+		OnUpdate(this.m_wRoot);
+	}
+	
+	void UpdateQuantity(int amount)
+	{
+		m_quantity = m_quantity + amount;
+		OnUpdate(this.m_wRoot);
+	}
+	
+	ADM_ShopMerchandise GetMerchandise()
+	{
+		return m_Merchandise;
+	}
+	
+	void SetMerchandise(ADM_ShopMerchandise merch)
+	{
+		m_Merchandise = merch;
+	}
+	
+	override bool OnUpdate(Widget w)
+	{
+		if (m_quantity < 1) m_quantity = 1;
+		
+		TextWidget quantity = TextWidget.Cast(w.FindWidget("Row.QuantityContainer.HorizontalLayout0.Quantity"));
+		if (quantity) quantity.SetTextFormat("%1", m_quantity);
+	
+		return true;
+	}
+}
+
 class ADM_ShopUI: ChimeraMenuBase
 {
 	static protected ResourceName m_ItemPrefab = "{7C575A0E989A1B9D}UI/Layouts/ShopSystem/MarketItem.layout";

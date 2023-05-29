@@ -29,6 +29,7 @@ $grp GenericEntity {
       ParentContextList {
        "Shop"
       }
+      m_fAdjustmentStep -1
      }
     }
    }
@@ -67,6 +68,7 @@ $grp GenericEntity {
       ParentContextList {
        "Shop"
       }
+      m_fAdjustmentStep -1
      }
     }
    }
@@ -105,6 +107,7 @@ $grp GenericEntity {
       ParentContextList {
        "Shop"
       }
+      m_fAdjustmentStep -1
      }
     }
    }
@@ -143,6 +146,7 @@ $grp GenericEntity {
       ParentContextList {
        "Shop"
       }
+      m_fAdjustmentStep -1
      }
     }
    }
@@ -181,6 +185,7 @@ $grp GenericEntity {
       ParentContextList {
        "Shop"
       }
+      m_fAdjustmentStep -1
      }
     }
    }
@@ -219,6 +224,7 @@ $grp GenericEntity {
       ParentContextList {
        "Shop"
       }
+      m_fAdjustmentStep -1
      }
     }
    }
@@ -240,6 +246,28 @@ $grp StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/Tab
 }
 $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
  {
+  components {
+   ADM_ShopComponent "{5D775155BFB12BA4}" {
+    m_AdditionalMerchandise {
+     ADM_ShopMerchandise "{5D7A75C53FBE8DDA}" {
+      m_Merchandise ADM_MerchandiseItem "{5D7A75C53D58AA32}" {
+       m_Prefab "{3EB02CDAD5F23C82}Prefabs/Weapons/Rifles/SVD/Rifle_SVD.et"
+      }
+      m_RequiredPayment {
+       ADM_PaymentMethodItem "{5D7A75C52555E397}" {
+        m_ItemPrefab "{BBB50A815A2F916B}Prefabs/Weapons/Magazines/Magazine_545x39_AK_30rnd_Ball.et"
+        m_ItemQuantity 2
+       }
+      }
+     }
+     ADM_ShopMerchandise "{5D7A75C6D0480C75}" {
+      m_Merchandise ADM_MerchandiseItem "{5D7A75C6DF4D5ACA}" {
+       m_Prefab "{7C4D1A64D60F2C92}Prefabs/Weapons/Tripods/Tripod_6T5.et"
+      }
+     }
+    }
+   }
+  }
   coords 147.867 0.997 137.579
  }
  {
@@ -319,12 +347,4 @@ GenericEntity : "{B0E67230AEEE2DF3}Prefabs/Items/Wallet.et" {
  angleX 0
  angleY 0
  angleZ 0
-}
-Vehicle BTR1 : "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et" {
- components {
-  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
-   m_fVehicleDestroyDamage 16909
-  }
- }
- coords 142.268 1.001 144.749
 }
