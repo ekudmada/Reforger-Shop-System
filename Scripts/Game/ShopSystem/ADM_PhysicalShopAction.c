@@ -1,10 +1,23 @@
 class ADM_PhysicalShopAction : ScriptedUserAction
 {
+	//! Adjustment step of normalized value
+	[Attribute( uiwidget: UIWidgets.Auto, defvalue: "1", desc: "Adjustment Step")]
+	protected float m_fAdjustmentStep;
+	
+	//! Name of action to control the input
+	[Attribute( uiwidget: UIWidgets.Auto, defvalue: "SelectAction", desc: "Input action for increase")]
+	protected string m_sActionIncrease;
+	
+	//! Name of action to control the input
+	[Attribute( uiwidget: UIWidgets.Auto, defvalue: "", desc: "Input action for decrease")]
+	protected string m_sActionDecrease;
+	
 	protected IEntity m_Owner;
 	protected ADM_PhysicalShopComponent m_Shop;
-	
+		
 	protected string m_ItemName;
-	protected int m_ItemQuantity;
+	
+	protected float m_fTargetValue;
 	
 	//------------------------------------------------------------------------------------------------
 	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent) 
@@ -28,6 +41,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		if (!merchandiseType) return;
 		
 		m_ItemName = ADM_Utils.GetPrefabDisplayName(merchandiseType.GetPrefab());
+		m_fTargetValue = m_fAdjustmentStep;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -50,10 +64,43 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 			ADM_PlayerShopManagerComponent playerShopManager = ADM_PlayerShopManagerComponent.Cast(playerController.FindComponent(ADM_PlayerShopManagerComponent));
 			if (!playerShopManager) return;
 			
-			playerShopManager.AskPurchase(m_Shop, merchandise);
+			playerShopManager.AskPurchase(m_Shop, merchandise, m_fTargetValue);
 		} else {
 			m_Shop.ViewPayment();
 		}
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Increment by adjustment step
+	void HandleActionIncrease(float value)
+	{
+		if (m_fAdjustmentStep <= 0)
+			return;
+		
+		if (value > 0.5)
+			value = m_fAdjustmentStep;
+		else if (value < -0.5)
+			value = -m_fAdjustmentStep;
+		else
+			return;
+		
+		// Limit to normalized current value +/- adjustment limit
+		float previousValue = m_fTargetValue;
+		m_fTargetValue += value;
+		
+		// Round to adjustment step
+		m_fTargetValue = Math.Round(m_fTargetValue / m_fAdjustmentStep) * m_fAdjustmentStep;
+		if (m_fTargetValue <= m_fAdjustmentStep) m_fTargetValue = m_fAdjustmentStep; // minimum
+		
+		if (!float.AlmostEqual(m_fTargetValue, previousValue))
+			SetSendActionDataFlag();
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Decrement by adjustment step
+	void HandleActionDecrease(float value)
+	{
+		HandleActionIncrease(-value);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -91,8 +138,48 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 			int cost = ADM_PaymentMethodCurrency.Cast(merchandise.GetRequiredPaymentToBuy()[0]).GetQuantity();
 			actionName += string.Format(" ($%1)", cost);
 		}
+		
+		if (m_fAdjustmentStep > 0)
+		{
+			actionName += string.Format(" x%1", m_fTargetValue);
+		}
 		outName = actionName;
 		
 		return true;
+	}
+	
+	//----------------------------------------------------------------------------------
+	override bool CanBroadcastScript() 
+	{ 
+		return false; 
+	};
+	
+	//----------------------------------------------------------------------------------
+	override void OnActionSelected()
+	{
+		super.OnActionSelected();
+
+		if (m_fAdjustmentStep <= 0)
+			return;
+		
+		if (!m_sActionIncrease.IsEmpty())
+			GetGame().GetInputManager().AddActionListener(m_sActionIncrease, EActionTrigger.VALUE, HandleActionIncrease);
+		
+		if (!m_sActionDecrease.IsEmpty())
+			GetGame().GetInputManager().AddActionListener(m_sActionDecrease, EActionTrigger.VALUE, HandleActionDecrease);
+	}
+	
+	override void OnActionDeselected()
+	{
+		super.OnActionDeselected();
+		
+		if (m_fAdjustmentStep <= 0)
+			return;
+		
+		if (!m_sActionIncrease.IsEmpty())
+			GetGame().GetInputManager().RemoveActionListener(m_sActionIncrease, EActionTrigger.VALUE, HandleActionIncrease);
+		
+		if (!m_sActionDecrease.IsEmpty())
+			GetGame().GetInputManager().RemoveActionListener(m_sActionDecrease, EActionTrigger.VALUE, HandleActionDecrease);
 	}
 }
