@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{D9CFCB5E54304CED}UI/Layouts/ShopSystem/exchange.edds"
+ Name "{D9CFCB5E54304CED}UI/exchange.edds"
  Configurations {
   PNGResourceClass PC : "{DC555BD399D92412}Configs/System/ResourceTypes/PC/TextureUnspecified.conf" {
   }
