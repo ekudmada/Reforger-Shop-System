@@ -127,42 +127,63 @@ class ADM_Utils
 	
 	// static version of SCR_EntitySpawnerComponent::IsSpawnPositionClean
 	static autoptr Shape debugBB, debugIntersect;
-	static bool IsSpawnPositionClean(Resource resource, EntitySpawnParams params, array<IEntity> excludeArray, bool removeWrecks = true, BaseWorld world = null, vector heightOffset = vector.Zero)
+	static ref map<string, ref array<vector>> m_CachedBoundingBoxes;
+	static bool IsSpawnPositionClean(ResourceName resourceName, EntitySpawnParams params, array<IEntity> excludeArray, bool removeWrecks = true, BaseWorld world = null, vector heightOffset = vector.Zero)
 	{
 		if (!world)
 			world = GetGame().GetWorld();
 		
-		if (!resource || !resource.IsValid())
+		if (!resourceName)
 			return false;
 		
-		//Currently, material is still used for preview, even thought it shouldn't be seen, as function doesn't work correctly without it
-		SCR_PrefabPreviewEntity previewEntity = SCR_PrefabPreviewEntity.Cast(SCR_PrefabPreviewEntity.SpawnPreviewFromPrefab(resource, "SCR_PrefabPreviewEntity", world, params, "{56EBF5038622AC95}Assets/Conflict/CanBuild.emat"));
-		if (!previewEntity)
-			return false;
-		
-		excludeArray.Insert(previewEntity);
+		if (!m_CachedBoundingBoxes)
+			m_CachedBoundingBoxes = new map<string, ref array<vector>>;
 		
 		TraceOBB paramOBB = new TraceOBB();
 		Math3D.MatrixIdentity3(paramOBB.Mat);
-		vector currentMat[4];
-		previewEntity.GetTransform(currentMat);
-		paramOBB.Mat[0] = currentMat[0];
-		paramOBB.Mat[1] = currentMat[1];
-		paramOBB.Mat[2] = currentMat[2];
-		paramOBB.Start = currentMat[3] + heightOffset;
+		
+		vector traceMat[4];
+		if (m_CachedBoundingBoxes.Contains(resourceName))
+		{
+			traceMat = params.Transform;
+		} 
+		else 
+		{
+			Resource resource = Resource.Load(resourceName);
+			if (!resource.IsValid())
+				return false;
+			
+			//Currently, material is still used for preview, even thought it shouldn't be seen, as function doesn't work correctly without it
+			SCR_PrefabPreviewEntity previewEntity = SCR_PrefabPreviewEntity.Cast(SCR_PrefabPreviewEntity.SpawnPreviewFromPrefab(resource, "SCR_PrefabPreviewEntity", world, params, "{56EBF5038622AC95}Assets/Conflict/CanBuild.emat"));
+			if (!previewEntity)
+				return false;
+			
+			//excludeArray.Insert(previewEntity);
+			vector min,max;
+			previewEntity.GetTransform(traceMat);
+			previewEntity.GetPreviewBounds(min, max);
+			m_CachedBoundingBoxes.Insert(resourceName, {min, max});
+			
+			SCR_EntityHelper.DeleteEntityAndChildren(previewEntity);
+		}
+		
+		paramOBB.Mat[0] = traceMat[0];
+		paramOBB.Mat[1] = traceMat[1];
+		paramOBB.Mat[2] = traceMat[2];
+		paramOBB.Start = traceMat[3] + heightOffset;
 		paramOBB.Flags = TraceFlags.ENTS;
 		paramOBB.ExcludeArray = excludeArray;
 		paramOBB.LayerMask = EPhysicsLayerPresets.Projectile;
-		previewEntity.GetPreviewBounds(paramOBB.Mins, paramOBB.Maxs);
+		paramOBB.Mins = m_CachedBoundingBoxes.Get(resourceName)[0];
+		paramOBB.Maxs = m_CachedBoundingBoxes.Get(resourceName)[1];
 		
 		if (DEBUG)
 		{	
 			debugBB = Shape.Create(ShapeType.BBOX, COLOR_BLUE_A, ShapeFlags.VISIBLE | ShapeFlags.NOZBUFFER | ShapeFlags.WIREFRAME, paramOBB.Mins, paramOBB.Maxs);
-			debugBB.SetMatrix(currentMat);
+			debugBB.SetMatrix(traceMat);
 		}
 			
 		GetGame().GetWorld().TracePosition(paramOBB, null);
-		SCR_EntityHelper.DeleteEntityAndChildren(previewEntity);
 		
 		//If tracePosition found colliding entity, further checks will be done to determine whether can be actually something spawned
 		if (paramOBB.TraceEnt)
@@ -179,5 +200,18 @@ class ADM_Utils
 		}
 			
 		return true;
+	}
+	
+	static void GetChildrenRecursive(IEntity parent, out array<IEntity> children)
+	{
+		IEntity child = parent.GetChildren();
+		while (child)
+		{
+			children.Insert(child);
+			if (child.GetChildren())
+				GetChildrenRecursive(child, children);
+			
+			child = child.GetSibling();	
+		}
 	}
 }

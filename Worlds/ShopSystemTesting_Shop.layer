@@ -4,7 +4,7 @@ $grp GenericEntity {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
     m_PhysicalMerchandise ADM_ShopMerchandise "{5D20781947C0CF15}" {
      m_Merchandise ADM_MerchandiseVehicle "{5D20781944DD5758}" {
-      m_Prefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
+      m_sPrefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
      }
     }
     m_RespawnTime 0.1
@@ -43,7 +43,7 @@ $grp GenericEntity {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
     m_PhysicalMerchandise ADM_ShopMerchandise "{5D2078194C8DA71F}" {
      m_Merchandise ADM_MerchandiseVehicle "{5D2078194DF284E0}" {
-      m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
+      m_sPrefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
      }
     }
     m_RespawnTime 0.1
@@ -82,7 +82,7 @@ $grp GenericEntity {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
     m_PhysicalMerchandise ADM_ShopMerchandise "{5D2078196E8877B8}" {
      m_Merchandise ADM_MerchandiseVehicle "{5D2078196F4C42DC}" {
-      m_Prefab "{9A0D72816DFFDB7F}Prefabs/Vehicles/Wheeled/M923A1/M923A1.et"
+      m_sPrefab "{9A0D72816DFFDB7F}Prefabs/Vehicles/Wheeled/M923A1/M923A1.et"
      }
     }
     m_RespawnTime 0.1
@@ -121,7 +121,7 @@ $grp GenericEntity {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
     m_PhysicalMerchandise ADM_ShopMerchandise "{5D20781918D20637}" {
      m_Merchandise ADM_MerchandiseVehicle "{5D20781919812CD2}" {
-      m_Prefab "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et"
+      m_sPrefab "{5674FAEB9AB7BDD0}Prefabs/Vehicles/Wheeled/M998/M998.et"
      }
     }
     m_RespawnTime 0.1
@@ -160,7 +160,7 @@ $grp GenericEntity {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
     m_PhysicalMerchandise ADM_ShopMerchandise "{5D207819019D6F42}" {
      m_Merchandise ADM_MerchandiseVehicle "{5D2078190E99DE04}" {
-      m_Prefab "{259EE7B78C51B624}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469.et"
+      m_sPrefab "{259EE7B78C51B624}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469.et"
      }
     }
     m_RespawnTime 0.1
@@ -199,7 +199,7 @@ $grp GenericEntity {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
     m_PhysicalMerchandise ADM_ShopMerchandise "{5D207819019D6F42}" {
      m_Merchandise ADM_MerchandiseVehicle "{5D2078190E99DE04}" {
-      m_Prefab "{4597626AF36C0858}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320.et"
+      m_sPrefab "{4597626AF36C0858}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320.et"
      }
     }
     m_RespawnTime 0.1
@@ -251,18 +251,12 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
     m_AdditionalMerchandise {
      ADM_ShopMerchandise "{5D7A75C53FBE8DDA}" {
       m_Merchandise ADM_MerchandiseItem "{5D7A75C53D58AA32}" {
-       m_Prefab "{3EB02CDAD5F23C82}Prefabs/Weapons/Rifles/SVD/Rifle_SVD.et"
       }
       m_RequiredPayment {
        ADM_PaymentMethodItem "{5D7A75C52555E397}" {
         m_ItemPrefab "{BBB50A815A2F916B}Prefabs/Weapons/Magazines/Magazine_545x39_AK_30rnd_Ball.et"
         m_ItemQuantity 2
        }
-      }
-     }
-     ADM_ShopMerchandise "{5D7A75C6D0480C75}" {
-      m_Merchandise ADM_MerchandiseItem "{5D7A75C6DF4D5ACA}" {
-       m_Prefab "{7C4D1A64D60F2C92}Prefabs/Weapons/Tripods/Tripod_6T5.et"
       }
      }
     }
@@ -276,7 +270,7 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
     m_AdditionalMerchandise {
      ADM_ShopMerchandise "{5D7751557F7FEA2C}" {
       m_Merchandise ADM_MerchandiseVehicle "{5D775154C9BE7445}" {
-       m_Prefab "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et"
+       m_sPrefab "{9A0D72816DFFDB7F}Prefabs/Vehicles/Wheeled/M923A1/M923A1.et"
        m_SpawnPosition PointInfo "{5D775154FF6C7DAA}" {
         Offset 0 0 5.3733
        }
@@ -317,7 +311,6 @@ $grp GenericEntity : "{60AA76634CBBE809}Prefabs/PhysicalShop_Base.et" {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
     m_PhysicalMerchandise ADM_ShopMerchandise "{5D7A696C9597B35F}" {
      m_Merchandise ADM_MerchandiseItem "{5D7A696C92C37CE3}" {
-      m_Prefab "{BBB50A815A2F916B}Prefabs/Weapons/Magazines/Magazine_545x39_AK_30rnd_Ball.et"
      }
      m_RequiredPayment {
       ADM_PaymentMethodCurrency "{5D7A696C8FD56C1C}" {

@@ -28,6 +28,8 @@ GenericEntity {
   }
   RplComponent "{5C664CA59F5A8A12}" {
   }
+  SlotManagerComponent "{5D872ED596BD6735}" {
+  }
  }
  coords 141.301 1.001 136.165
 }

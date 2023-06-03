@@ -9,7 +9,7 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 		return true;
 	}
 	
-	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
+	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1, array<IEntity> ignoreEntities = null)
 	{
 		if (!m_AllowSaleWithFullInventory) 
 			return CanFitItemInInventory(player);
@@ -32,7 +32,7 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 		for (int i = 0; i < quantity; i++)
 		{
 			// give item/weapon/magazine/clothing to player	
-			IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_Prefab));	
+			IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_sPrefab));	
 			bool putInInventory = ADM_Utils.InsertAutoEquipItem(inventory, item);
 			
 			// Move item to location of shop if we can't fit in inventory and we allow sale with full inventory
@@ -65,7 +65,7 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 		return true;
 	}
 	
-	override bool CanRespawn(ADM_ShopBaseComponent shop, int quantity = 1) 
+	override bool CanRespawn(ADM_ShopBaseComponent shop, int quantity = 1, array<IEntity> ignoreEntities = null) 
 	{ 
 		return true; 
 	}

@@ -27,19 +27,23 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		string remapPath;
 		
 		ADM_MerchandiseType merchandise = m_Merchandise[0].GetMerchandise();
-		if (!merchandise) return;
+		if (!merchandise) 
+			return;
 		
 		bool foundModelPath = SCR_Global.GetModelAndRemapFromResource(merchandise.GetPrefab(), modelPath, remapPath);
-		if (!foundModelPath) return;
+		if (!foundModelPath) 
+			return;
 		
 		Resource resource = Resource.Load(modelPath);
-		if (!resource.IsValid()) return;
+		if (!resource.IsValid()) 
+			return;
 		
 		MeshObject model = resource.GetResource().ToMeshObject();
 		owner.SetObject(model, string.Empty);
 		
 		Physics oldPhysics = owner.GetPhysics();
-		if (oldPhysics) oldPhysics.Destroy();
+		if (oldPhysics) 
+			oldPhysics.Destroy();
 		
 		Physics.CreateStatic(owner, 0xffffffff);
 	}
@@ -117,7 +121,7 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		if (!Replication.IsServer() || m_LastStateChangeTime == -1 || m_RespawnTime == -1) 
 			return;
 		
-		//TODO: better understand the delay from buying -> spawning and what could cause the vehicle shop respawn detection to not work
+		//TODO: better understand the delay from buying -> spawning and what could cause the physical shop respawn detection to not work
 		float dt = GetTimeUntilRespawn();
 		if (m_RespawnTime < 1) 
 			m_RespawnTime = 1;
