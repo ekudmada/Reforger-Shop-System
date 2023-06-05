@@ -49,58 +49,21 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 	{	
 		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return;
 				
-		PlayerController playerController = GetGame().GetPlayerController();
-		if (!playerController) return;
-		
 		SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerController());
-		if (!scrPlayerController) return;
-		
-		if (pUserEntity != scrPlayerController.GetMainEntity()) return;
+		if (!scrPlayerController || pUserEntity != scrPlayerController.GetMainEntity()) 
+			return;
 		
 		// Physical shops should only have one item defined, so just grab the first one in the merchandise array	
 		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandise()[0];
-		if (ADM_ShopComponent.IsPaymentOnlyCurrency(merchandise) || !(merchandise.GetRequiredPaymentToBuy().Count() > 0))
+		if (ADM_ShopComponent.IsPaymentOnlyCurrency(merchandise) || !(merchandise.GetRequiredPayment().Count() > 0))
 		{
-			ADM_PlayerShopManagerComponent playerShopManager = ADM_PlayerShopManagerComponent.Cast(playerController.FindComponent(ADM_PlayerShopManagerComponent));
+			ADM_PlayerShopManagerComponent playerShopManager = ADM_PlayerShopManagerComponent.Cast(scrPlayerController.FindComponent(ADM_PlayerShopManagerComponent));
 			if (!playerShopManager) return;
 			
 			playerShopManager.AskPurchase(m_Shop, merchandise, m_fTargetValue);
 		} else {
 			m_Shop.ViewPayment(this);
 		}
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	//! Increment by adjustment step
-	void HandleActionIncrease(float value)
-	{
-		if (m_fAdjustmentStep <= 0)
-			return;
-		
-		if (value > 0.5)
-			value = m_fAdjustmentStep;
-		else if (value < -0.5)
-			value = -m_fAdjustmentStep;
-		else
-			return;
-		
-		// Limit to normalized current value +/- adjustment limit
-		float previousValue = m_fTargetValue;
-		m_fTargetValue += value;
-		
-		// Round to adjustment step
-		m_fTargetValue = Math.Round(m_fTargetValue / m_fAdjustmentStep) * m_fAdjustmentStep;
-		if (m_fTargetValue <= m_fAdjustmentStep) m_fTargetValue = m_fAdjustmentStep; // minimum
-		
-		if (!float.AlmostEqual(m_fTargetValue, previousValue))
-			SetSendActionDataFlag();
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	//! Decrement by adjustment step
-	void HandleActionDecrease(float value)
-	{
-		HandleActionIncrease(-value);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -130,12 +93,12 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		
 		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandise()[0];
 		string actionName = "Purchase";
-		if (!merchandise.GetRequiredPaymentToBuy().Count() > 0) actionName = "Free";
+		if (!merchandise.GetRequiredPayment().Count() > 0) actionName = "Free";
 		if (m_ItemName.Length() > 0) actionName += string.Format(" %1", m_ItemName);
 		
 		bool currencyOnly = ADM_ShopComponent.IsPaymentOnlyCurrency(merchandise);
 		if (currencyOnly) {
-			int cost = ADM_PaymentMethodCurrency.Cast(merchandise.GetRequiredPaymentToBuy()[0]).GetQuantity();
+			int cost = ADM_PaymentMethodCurrency.Cast(merchandise.GetRequiredPayment()[0]).GetQuantity();
 			actionName += string.Format(" ($%1)", cost);
 		}
 		
@@ -147,12 +110,6 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		
 		return true;
 	}
-	
-	//----------------------------------------------------------------------------------
-	override bool CanBroadcastScript() 
-	{ 
-		return false; 
-	};
 	
 	//----------------------------------------------------------------------------------
 	override void OnActionSelected()
@@ -182,6 +139,49 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		
 		if (!m_sActionDecrease.IsEmpty())
 			GetGame().GetInputManager().RemoveActionListener(m_sActionDecrease, EActionTrigger.VALUE, HandleActionDecrease);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	override bool HasLocalEffectOnlyScript()
+	{
+		return true;
+	}
+	
+	//----------------------------------------------------------------------------------
+	override bool CanBroadcastScript() 
+	{ 
+		return false; 
+	};
+	
+	//------------------------------------------------------------------------------------------------
+	void HandleActionIncrease(float value)
+	{
+		if (m_fAdjustmentStep <= 0)
+			return;
+		
+		if (value > 0.5)
+			value = m_fAdjustmentStep;
+		else if (value < -0.5)
+			value = -m_fAdjustmentStep;
+		else
+			return;
+		
+		// Limit to normalized current value +/- adjustment limit
+		float previousValue = m_fTargetValue;
+		m_fTargetValue += value;
+		
+		// Round to adjustment step
+		m_fTargetValue = Math.Round(m_fTargetValue / m_fAdjustmentStep) * m_fAdjustmentStep;
+		if (m_fTargetValue <= m_fAdjustmentStep) m_fTargetValue = m_fAdjustmentStep; // minimum
+		
+		if (!float.AlmostEqual(m_fTargetValue, previousValue))
+			SetSendActionDataFlag();
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void HandleActionDecrease(float value)
+	{
+		HandleActionIncrease(-value);
 	}
 	
 	//------------------------------------------------------------------------------------------------

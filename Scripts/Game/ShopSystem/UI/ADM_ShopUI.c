@@ -270,7 +270,7 @@ class ADM_ShopUI: ChimeraMenuBase
 		if (wItemDescription) wItemDescription.SetTextFormat(description);
 		
 		TextWidget wItemPrice = TextWidget.Cast(newRow.FindWidget("Row.Price.HorizontalLayout0.Price"));
-		array<ref ADM_PaymentMethodBase> paymentRequirement = merch.GetRequiredPaymentToBuy();
+		array<ref ADM_PaymentMethodBase> paymentRequirement = merch.GetRequiredPayment();
 		if (ADM_ShopComponent.IsPaymentOnlyCurrency(merch) || paymentRequirement.Count() == 0)
 		{
 			if (wItemPrice) {

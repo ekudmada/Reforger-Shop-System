@@ -68,7 +68,7 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 	{
 		if (!m_shop || m_shop.GetMerchandise().Count() <= 0) return;
 		
-		foreach (ADM_PaymentMethodBase paymentMethod : m_shop.GetMerchandise()[0].GetRequiredPaymentToBuy())
+		foreach (ADM_PaymentMethodBase paymentMethod : m_shop.GetMerchandise()[0].GetRequiredPayment())
 		{
 			//TODO: fix icon
 			m_ListBoxComponent.AddItemAndIcon(paymentMethod.GetDisplayString(), "", "");

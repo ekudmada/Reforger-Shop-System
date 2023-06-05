@@ -23,13 +23,16 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 	
 	override bool CollectPayment(IEntity player, int quantity = 1)
 	{
+		Print("collect payment");
 		if (!Replication.IsServer() || !CheckPayment(player)) 
 			return false;
 		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
 		
+		Print("found inventory");
 		bool didRemoveCurrency = ADM_CurrencyComponent.RemoveCurrencyFromInventory(inventory, m_Quantity * quantity);
+		Print(didRemoveCurrency);
 		return didRemoveCurrency;
 	}
 	

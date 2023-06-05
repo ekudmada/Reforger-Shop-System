@@ -8,13 +8,13 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	protected ref ADM_ShopMerchandise m_PhysicalMerchandise;
 	
 	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.Slider, params: "0.1 1000 et", category: "Shop")]
-	protected float m_RespawnTime;
+	protected float m_fRespawnTime;
 	
 	[RplProp(onRplName: "OnStateChange")]
-	protected bool m_State = true;
+	protected bool m_bState = true;
 	
 	// Only used for server to determine when to spawn a new vehicle
-	protected float m_LastStateChangeTime = -1;
+	protected float m_fLastStateChangeTime = -1;
 	
 	//------------------------------------------------------------------------------------------------
 	void UpdateMesh(IEntity owner)
@@ -51,8 +51,8 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	//------------------------------------------------------------------------------------------------
 	void SetState(bool state)
 	{
-		m_State = !m_State;
-		m_LastStateChangeTime = System.GetTickCount();	
+		m_bState = !m_bState;
+		m_fLastStateChangeTime = System.GetTickCount();	
 		Replication.BumpMe();
 		
 		OnStateChange();
@@ -62,7 +62,7 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	void OnStateChange()
 	{
 		IEntity owner = GetOwner();
-		if (m_State)
+		if (m_bState)
 		{
 			UpdateMesh(owner);
 		} else {
@@ -77,14 +77,14 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	// Return amount of seconds to respawn
 	float GetRespawnTime()
 	{
-		return m_RespawnTime;
+		return m_fRespawnTime;
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	// Amount of time in milliseconds until respawn
 	float GetTimeUntilRespawn()
 	{
-		return System.GetTickCount() - m_LastStateChangeTime;
+		return System.GetTickCount() - m_fLastStateChangeTime;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -118,18 +118,18 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	//------------------------------------------------------------------------------------------------
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
-		if (!Replication.IsServer() || m_LastStateChangeTime == -1 || m_RespawnTime == -1) 
+		if (!Replication.IsServer() || m_fLastStateChangeTime == -1 || m_fRespawnTime == -1) 
 			return;
 		
 		//TODO: better understand the delay from buying -> spawning and what could cause the physical shop respawn detection to not work
 		float dt = GetTimeUntilRespawn();
-		if (m_RespawnTime < 1) 
-			m_RespawnTime = 1;
+		if (m_fRespawnTime < 1) 
+			m_fRespawnTime = 1;
 		
-		if (dt > m_RespawnTime * 1000 && m_Merchandise.Count() > 0 && m_Merchandise[0].GetMerchandise().CanRespawn(this))
+		if (dt > m_fRespawnTime * 1000 && m_Merchandise.Count() > 0 && m_Merchandise[0].GetMerchandise().CanRespawn(this))
 		{
 			SetState(true);
-			m_LastStateChangeTime = -1;
+			m_fLastStateChangeTime = -1;
 		}
 	}
 	

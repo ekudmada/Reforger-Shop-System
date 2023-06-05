@@ -22,7 +22,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	static bool IsPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
 	{
-		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPaymentToBuy();
+		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPayment();
 		if (requiredPayment.Count() != 1 || requiredPayment[0].Type() != ADM_PaymentMethodCurrency) 
 			return false;
 		
@@ -46,7 +46,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 	{
 		bool canPurchase = true;
 		
-		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPaymentToBuy();
+		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPayment();
 		foreach (ADM_PaymentMethodBase payment : requiredPayment)
 		{
 			canPurchase = payment.CheckPayment(player, quantity);
@@ -83,7 +83,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 		array<ADM_PaymentMethodBase> collectedPaymentMethods = {};
 		array<bool> didCollectPayments = {};
 		
-		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPaymentToBuy();
+		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPayment();
 		foreach (ADM_PaymentMethodBase paymentMethod : requiredPayment) 
 		{
 			bool didCollectPayment = paymentMethod.CollectPayment(player, quantity);

@@ -52,4 +52,16 @@ class ADM_ShopAction : ScriptedUserAction
 		
 		return true;
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	override bool HasLocalEffectOnlyScript()
+	{
+		return true;
+	}
+	
+	//----------------------------------------------------------------------------------
+	override bool CanBroadcastScript() 
+	{ 
+		return false; 
+	};
 }

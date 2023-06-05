@@ -28,6 +28,7 @@ class ADM_CurrencyComponent: ScriptComponent
 			return;
 		
 		m_Value = value;
+		Replication.BumpMe();
 	}
 	
 	bool ModifyValue(int amount, bool direction)
@@ -40,6 +41,8 @@ class ADM_CurrencyComponent: ScriptComponent
 			m_Value += amount;
 		else
 			m_Value -= amount;
+		
+		Replication.BumpMe();
 		
 		return true;
 	}
@@ -114,7 +117,6 @@ class ADM_CurrencyComponent: ScriptComponent
 		if (!inventory) return false;
 		if (amount < 1) return false;
 		
-		int originalAmount = amount;
 		array<IEntity> currencyItems = ADM_CurrencyComponent.FindCurrencyInInventory(inventory);
 		foreach (IEntity item : currencyItems)
 		{
