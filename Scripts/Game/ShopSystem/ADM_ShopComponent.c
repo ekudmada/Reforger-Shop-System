@@ -1,4 +1,4 @@
-class ADM_ShopComponentClass: ScriptComponentClass {}
+class ADM_ShopComponentClass: ADM_ShopBaseComponentClass {}
 class ADM_ShopComponent: ADM_ShopBaseComponent
 {
 	[Attribute("", UIWidgets.ResourceNamePicker, "Config", "conf", category: "Shop")]
