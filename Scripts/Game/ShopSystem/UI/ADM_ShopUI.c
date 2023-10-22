@@ -169,8 +169,6 @@ class ADM_ShopUI: ChimeraMenuBase
 		{
 			shopCategory.SetIndex(index);
 		}
-		
-		Print(category.m_DisplayName);
 	}
 	
 	void PopulateCategories()

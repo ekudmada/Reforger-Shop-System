@@ -10,6 +10,13 @@ class ADM_ShopBaseComponent: ScriptComponent
 				- e.g player owned shops
 	*/
 	
+	/* 
+		Selling Ideas:
+			- Add a function to check for shop storage when selling to the shop, probably default to always true (this will allow overrides for player owned shops with limited storage capacity)
+			- How to deal with items that have attachements
+			- 
+	*/
+	
 	//Make RplProp so it is replicated
 	[Attribute(category: "Shop"), RplProp()]
 	protected string m_ShopName;
@@ -121,6 +128,10 @@ class ADM_ShopBaseComponent: ScriptComponent
 		}
 		
 		playerManager.SetPurchaseMessage("Purchase Successful!");
+		
+		// Invoke OnPostPurchase (event after a purchase is completed for gamemodes to hook to)
+		// Pass in the shop, player who purchased, and collectedPaymentMethods
+		
 		return true;	
 	}
 	

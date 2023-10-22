@@ -6,6 +6,7 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 	
 	bool CanFitItemInInventory(IEntity player, int quantity = 1)
 	{
+		//TODO
 		return true;
 	}
 	

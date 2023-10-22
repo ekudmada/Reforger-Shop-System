@@ -1,4 +1,4 @@
-class ADM_PhysicalShopComponentClass: ScriptComponentClass {}
+class ADM_PhysicalShopComponentClass: ADM_ShopBaseComponentClass {}
 
 //TODO: look into SCR_PreviewEntityComponent
 //TODO: fix respawn time = 0 bug (vehicle check doesnt work)

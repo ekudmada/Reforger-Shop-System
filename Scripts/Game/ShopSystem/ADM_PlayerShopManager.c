@@ -24,7 +24,7 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 		ADM_ShopBaseComponent shop = ADM_ShopBaseComponent.Cast(Replication.FindItem(shopID));
 		if (!shop || shopID == Replication.INVALID_ID) 
 		{
-			Print("Error! couldn't find shop entity!", LogLevel.ERROR); 
+			Print("Error! Couldn't find shop entity!", LogLevel.ERROR); 
 			return;
 		}
 		
