@@ -26,6 +26,8 @@ class ADM_ShopBaseComponent: ScriptComponent
 	
 	protected ref array<ref ADM_ShopMerchandise> m_Merchandise = {};
 	
+	private ref ScriptInvoker Event_OnPostPurchase = new ScriptInvoker();
+	
 	//------------------------------------------------------------------------------------------------
 	static bool IsPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
 	{
@@ -131,8 +133,28 @@ class ADM_ShopBaseComponent: ScriptComponent
 		
 		// Invoke OnPostPurchase (event after a purchase is completed for gamemodes to hook to)
 		// Pass in the shop, player who purchased, and collectedPaymentMethods
+		Event_OnPostPurchase.Invoke(this, player, collectedPaymentMethods);
 		
 		return true;	
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	bool CanSell(IEntity player, ADM_ShopMerchandise merchandise, int quantity = 1)
+	{
+		
+		
+		return true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	bool AskSell(IEntity player, ADM_PlayerShopManagerComponent playerManager, ADM_ShopMerchandise merchandise, int quantity)
+	{
+		
+		
+		// Invoke OnPostSell (event after a purchase is completed for gamemodes to hook to)
+		// Pass in the shop, player who purchased, and collectedPaymentMethods
+		
+		return true;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -143,8 +165,10 @@ class ADM_ShopBaseComponent: ScriptComponent
 		owner.SetFlags(EntityFlags.ACTIVE, true);
 		
 		if (!m_Merchandise) 
+		{
 			m_Merchandise = new array<ref ADM_ShopMerchandise>();
-		
+		}
+			
 		if (m_ShopConfig != string.Empty) {
 			ADM_ShopConfig shopConfig = ADM_ShopConfig.GetConfig(m_ShopConfig);
 			if (shopConfig && shopConfig.m_Merchandise) {
@@ -156,6 +180,8 @@ class ADM_ShopBaseComponent: ScriptComponent
 		
 		RplComponent rpl = RplComponent.Cast(owner.FindComponent(RplComponent));
 		if (rpl) 
+		{
 			rpl.InsertToReplication();
+		}
 	}		
 }

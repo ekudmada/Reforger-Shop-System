@@ -164,7 +164,7 @@ class ADM_Utils
 			previewEntity.GetPreviewBounds(min, max);
 			m_CachedBoundingBoxes.Insert(resourceName, {min, max});
 			
-			SCR_EntityHelper.DeleteEntityAndChildren(previewEntity);
+			//SCR_EntityHelper.DeleteEntityAndChildren(previewEntity);
 		}
 		
 		paramOBB.Mat[0] = traceMat[0];

@@ -73,6 +73,9 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 		EntitySpawnParams params = GetVehicleSpawnTransform(shop);
 		IEntity entity = GetGame().SpawnEntityPrefab(Resource.Load(m_sPrefab), shop.GetOwner().GetWorld(), params);
 		
+		if (entity.GetPhysics())
+			entity.GetPhysics().SetActive(true);
+		
 		return true;
 	}
 }
