@@ -9,6 +9,8 @@ GenericEntity {
    ModelGeometry 1
    Static 1
   }
+  SlotManagerComponent "{5D872ED596BD6735}" {
+  }
   ActionsManagerComponent "{5C664CA5835A08C8}" {
    ActionContexts {
     UserActionContext "{5C664CA5800A49E1}" {
@@ -27,8 +29,6 @@ GenericEntity {
    }
   }
   RplComponent "{5C664CA59F5A8A12}" {
-  }
-  SlotManagerComponent "{5D872ED596BD6735}" {
   }
  }
  coords 141.301 1.001 136.165
