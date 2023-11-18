@@ -16,11 +16,24 @@ class ADM_ShopUIBarterItemIcon : ScriptedWidgetComponent
 	protected ItemPreviewManagerEntity m_PreviewManager;
 	protected Widget m_wRoot;
 	
+	[Attribute()]
+	protected SCR_ScriptedWidgetTooltipPreset tooltipPreset;
+	
 	//---------------------------------------------------------------------------------------------------
 	override void HandlerAttached(Widget w)
 	{
 		m_wRoot = w;
-		m_PreviewManager = GetGame().GetItemPreviewManager();
+		
+		// Get manager and render preview 
+		ChimeraWorld world = ChimeraWorld.CastFrom(GetGame().GetWorld());
+		if (!world)
+			return;
+		
+		ItemPreviewManagerEntity manager = world.GetItemPreviewManager();
+		if (!manager)
+			return;
+		
+		m_PreviewManager = manager;
 		m_HoverDetector = SCR_HoverDetectorComponent.Cast(w.FindHandler(SCR_HoverDetectorComponent));		
 		m_HoverDetector.m_OnHoverDetected.Insert(OnHoverDetected);
 		m_HoverDetector.m_OnMouseLeave.Insert(OnMouseLeaveTooltip);
@@ -35,7 +48,8 @@ class ADM_ShopUIBarterItemIcon : ScriptedWidgetComponent
 	IEntity m_iPreviewEntity;
 	void OnHoverDetected()
 	{
-		Widget w = SCR_TooltipManagerEntity.CreateTooltip("{459F0B580A8E2CD7}UI/Layouts/ShopSystem/BarterItemTooltip.layout", m_wRoot);
+		ResourceName tooltip = "{459F0B580A8E2CD7}UI/Layouts/ShopSystem/BarterItemTooltip.layout";
+		Widget w = SCR_TooltipManagerEntity.CreateTooltip(tooltipPreset, m_wRoot);
 		TextWidget wText = TextWidget.Cast(w.FindAnyWidget("Text"));
 		ItemPreviewWidget wRenderTarget = ItemPreviewWidget.Cast(w.FindWidget("Overlay.VerticalLayout0.SizeLayout0.PreviewImage"));
 		
@@ -130,7 +144,7 @@ class ADM_ShopUI: ChimeraMenuBase
 	protected Widget m_wRoot;
 	protected Widget m_wCategoryParent;
 	protected Widget m_wContentParent;
-	protected SCR_NavigationButtonComponent m_closeButton;
+	protected SCR_InputButtonComponent m_closeButton;
 	
 	protected ADM_ShopComponent m_Shop;
 	
@@ -449,12 +463,21 @@ class ADM_ShopUI: ChimeraMenuBase
 	{
 		super.OnMenuInit();
 		
-		m_PreviewManager = GetGame().GetItemPreviewManager();
+		// Get manager and render preview 
+		ChimeraWorld world = ChimeraWorld.CastFrom(GetGame().GetWorld());
+		if (!world)
+			return;
+		
+		ItemPreviewManagerEntity manager = world.GetItemPreviewManager();
+		if (!manager)
+			return;
+		
+		m_PreviewManager = manager;
 		m_wWorkspace = GetGame().GetWorkspace();
 		m_wRoot = GetRootWidget();
 		m_wCategoryParent = m_wRoot.FindAnyWidget("CategoriesContainer");
 		m_wContentParent = m_wRoot.FindAnyWidget("ContentContainer");
-        m_closeButton = SCR_NavigationButtonComponent.GetNavigationButtonComponent("Close", m_wRoot);
+        m_closeButton = SCR_InputButtonComponent.GetInputButtonComponent("Close", m_wRoot);
 		
 		if (!m_wRoot) {
 			Print("ADM_ShopUI: Couldn't find m_wRoot widget!", LogLevel.ERROR);

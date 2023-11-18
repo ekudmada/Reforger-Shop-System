@@ -5,8 +5,8 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 	protected ADM_PhysicalShopComponent m_shop;
 	protected ADM_PhysicalShopAction m_originalAction;
 	
-	protected SCR_NavigationButtonComponent m_okayButton;
-	protected SCR_NavigationButtonComponent m_cancelButton;
+	protected SCR_InputButtonComponent m_okayButton;
+	protected SCR_InputButtonComponent m_cancelButton;
 	
 	protected OverlayWidget m_ListBoxOverlay;
     protected SCR_ListBoxComponent m_ListBoxComponent;
@@ -17,8 +17,8 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 		
 		m_wRoot = GetRootWidget();
 		
-        m_okayButton = SCR_NavigationButtonComponent.GetNavigationButtonComponent("Confirm", m_wRoot);
-        m_cancelButton = SCR_NavigationButtonComponent.GetNavigationButtonComponent("Cancel", m_wRoot);
+        m_okayButton = SCR_InputButtonComponent.GetInputButtonComponent("Confirm", m_wRoot);
+        m_cancelButton = SCR_InputButtonComponent.GetInputButtonComponent("Cancel", m_wRoot);
 		
 		if (m_okayButton)
 		{
