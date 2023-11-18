@@ -42,7 +42,7 @@ FrameWidgetClass {
            Clipping False
            Color 0 0 0 0
            components {
-            SCR_NavigationButtonComponent "{5C5F79123F459E65}" {
+            SCR_InputButtonComponent "{5C5F79123F459E65}" {
              m_BackgroundDefault 0 0 0 0.42
              m_BackgroundHovered 0 0 0 0.42
              m_BackgroundSelectedHovered 0.761 0.392 0.078 0.302

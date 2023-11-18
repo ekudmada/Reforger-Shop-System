@@ -305,6 +305,11 @@ GenericEntity : "{60AA76634CBBE809}Prefabs/PhysicalShop_Base.et" {
  angleZ -29.608
 }
 GenericEntity : "{B0E67230AEEE2DF3}Prefabs/Items/Wallet.et" {
+ components {
+  RigidBody "{5D211A2A9FA1BF11}" {
+   Active Inactive
+  }
+ }
  coords 150.303 1.93 128.724
  angleX 0
  angleY 0
