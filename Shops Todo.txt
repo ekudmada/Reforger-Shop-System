@@ -1,0 +1,9 @@
+Shops Todo
+==========
+ - Physical shop SlotManager
+ - Remove component on player and use actions instead for communication to server
+ - Camera for interacting with an array of physical shop items
+  - GTA V Weapon shop
+ - Display currency value in inventory
+ - Find a better way to check if a spawn area is clear, currently it causes frame stutter for every check
+ - Ability to configure shops outside of world editor, JSON config, also potenitally game master configuration that can be saved/loaded?
