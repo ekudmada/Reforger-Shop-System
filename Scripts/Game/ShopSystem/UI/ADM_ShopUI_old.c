@@ -42,17 +42,6 @@ class ADM_ShopUIItem : SCR_ScriptedWidgetComponent
 	}
 }
 
-class ADM_ShopQuantityButton : SCR_ButtonComponent
-{
-	[Attribute()]
-	protected int m_iAmount;
-	
-	int GetAmount()
-	{
-		return m_iAmount;
-	}
-}
-
 class ADM_ShopUIBarterItemIcon : ScriptedWidgetComponent
 {
 	protected SCR_HoverDetectorComponent m_HoverDetector;
@@ -92,7 +81,7 @@ class ADM_ShopUIBarterItemIcon : ScriptedWidgetComponent
 	IEntity m_iPreviewEntity;
 	void OnHoverDetected()
 	{
-		ResourceName tooltip = "{459F0B580A8E2CD7}UI/Layouts/ShopSystem/BarterItemTooltip.layout";
+		ResourceName tooltip = "{FC117CCADBAB3DBA}UI/Layouts/Menus/BasicShopMenu/BarterItemTooltip.layout";
 		Widget w = SCR_TooltipManagerEntity.CreateTooltip(tooltipPreset, m_wRoot);
 		TextWidget wText = TextWidget.Cast(w.FindAnyWidget("Text"));
 		ItemPreviewWidget wRenderTarget = ItemPreviewWidget.Cast(w.FindWidget("Overlay.VerticalLayout0.SizeLayout0.PreviewImage"));
@@ -274,14 +263,15 @@ class ADM_ShopUI_old: ChimeraMenuBase
 		TextWidget wItemDescription = TextWidget.Cast(newRow.FindWidget("Row.Item.Offer.Information Container.Description"));
 		
 		string itemName = ADM_Utils.GetPrefabDisplayName(merchType.GetPrefab());
-		string description = ADM_Utils.GetPrefabDescription(merchType.GetPrefab());
+		//string description = ADM_Utils.GetPrefabDescription(merchType.GetPrefab());
+		string description = "";
 		
 		if (wItemName) wItemName.SetTextFormat(itemName);
 		if (wItemDescription) wItemDescription.SetTextFormat(description);
 		
 		TextWidget wItemPrice = TextWidget.Cast(newRow.FindWidget("Row.Price.HorizontalLayout0.Price"));
 		array<ref ADM_PaymentMethodBase> paymentRequirement = merch.GetBuyPayment();
-		if (ADM_ShopComponent.IsPaymentOnlyCurrency(merch) || paymentRequirement.Count() == 0)
+		if (ADM_ShopComponent.IsBuyPaymentOnlyCurrency(merch) || paymentRequirement.Count() == 0)
 		{
 			if (wItemPrice) {
 				wItemPrice.SetVisible(true);

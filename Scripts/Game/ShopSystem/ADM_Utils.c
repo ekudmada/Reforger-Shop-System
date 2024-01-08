@@ -2,7 +2,7 @@ class ADM_Utils
 {
 	static bool DEBUG = false;
 	protected static ref map<ResourceName, ref UIInfo> s_mItemUIInfo = new map<ResourceName, ref UIInfo>();
-	protected static ref map<ResourceName, ref UIInfo> s_mVehicleUIInfo = new map<ResourceName, ref UIInfo>();
+	protected static ref map<ResourceName, ref Managed> s_mVehicleUIInfo = new map<ResourceName, ref Managed>();
 	
 	//------------------------------------------------------------------------------------------------
 	// The following function is MIT license and is from Everon Life
@@ -45,9 +45,6 @@ class ADM_Utils
 	static Managed GetVehicleUIInfo(ResourceName prefab)
 	{
 		Managed resultInfo = s_mVehicleUIInfo.Get(prefab);
-		
-		if (prefab != "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT.et")
-			return null;
 
 		if (!resultInfo)
 		{
@@ -68,9 +65,8 @@ class ADM_Utils
 						}
 			        }
 			    }
-			}
-			
-			//s_mVehicleUIInfo.Set(prefab, resultInfo);
+			}			
+			s_mVehicleUIInfo.Set(prefab, resultInfo);
 		}
 
 		return resultInfo;
@@ -90,19 +86,6 @@ class ADM_Utils
 		UIInfo itemUIInfo = ADM_Utils.GetItemUIInfo(prefab);
 		if (itemUIInfo) 
 			return itemUIInfo.GetName();
-		
-		return prefab;
-	}
-	
-	static string GetPrefabDescription(ResourceName prefab)
-	{
-		UIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
-		if (vehicleUIInfo) 
-			return vehicleUIInfo.GetDescription();
-		
-		UIInfo itemUIInfo = ADM_Utils.GetItemUIInfo(prefab);
-		if (itemUIInfo) 
-			return itemUIInfo.GetDescription();
 		
 		return prefab;
 	}

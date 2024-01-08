@@ -52,7 +52,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		
 		// Physical shops should only have one item defined, so just grab the first one in the merchandise array	
 		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandiseBuy()[0];
-		if (ADM_ShopComponent.IsPaymentOnlyCurrency(merchandise) || !(merchandise.GetBuyPayment().Count() > 0))
+		if (ADM_ShopComponent.IsBuyPaymentOnlyCurrency(merchandise) || !(merchandise.GetBuyPayment().Count() > 0))
 		{
 			ADM_PlayerShopManagerComponent playerShopManager = ADM_PlayerShopManagerComponent.Cast(scrPlayerController.FindComponent(ADM_PlayerShopManagerComponent));
 			if (!playerShopManager) return;
@@ -87,23 +87,34 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 	{
 		if (!m_Shop || m_Shop.GetMerchandiseBuy().Count() <= 0) return false;
 		
+		array<string> label = {"Purchase"};
 		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandiseBuy()[0];
-		string actionName = "Purchase";
-		if (!merchandise.GetBuyPayment().Count() > 0) actionName = "Free";
-		if (m_ItemName.Length() > 0) actionName += string.Format(" %1", m_ItemName);
 		
-		bool currencyOnly = ADM_ShopComponent.IsPaymentOnlyCurrency(merchandise);
+		if (m_ItemName.Length() > 0) 
+			label.Insert(m_ItemName);
+		
+		bool currencyOnly = ADM_ShopComponent.IsBuyPaymentOnlyCurrency(merchandise);
 		if (currencyOnly) 
 		{
 			int cost = ADM_PaymentMethodCurrency.Cast(merchandise.GetBuyPayment()[0]).GetQuantity();
-			actionName += string.Format(" ($%1)", cost);
+			if (cost > 0)
+			{
+				label.Insert(string.Format("($%1)", cost));
+			} else {
+				label[0] = "Free";
+			}
 		}
 		
 		if (m_fAdjustmentStep > 0)
+			label.Insert(string.Format("x%1", m_fTargetValue));
+		
+		string name = "";
+		foreach(string part : label)
 		{
-			actionName += string.Format(" x%1", m_fTargetValue);
+			name += part + " ";
 		}
-		outName = actionName;
+		
+		outName = name.Trim();
 		
 		return true;
 	}

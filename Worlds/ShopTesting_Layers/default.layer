@@ -311,6 +311,7 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
       }
       m_BuyPayment {
        ADM_PaymentMethodCurrency "{605049D5FA717D35}" {
+        m_Quantity 10
        }
       }
      }
@@ -320,6 +321,7 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
       }
       m_BuyPayment {
        ADM_PaymentMethodCurrency "{605049D215D671E1}" {
+        m_Quantity 50
        }
       }
       m_SellPayment {
@@ -342,6 +344,7 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
       }
       m_BuyPayment {
        ADM_PaymentMethodCurrency "{605049C8F823909C}" {
+        m_Quantity 5
        }
       }
       m_SellPayment {
@@ -367,6 +370,22 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
       }
       m_BuyPayment {
        ADM_PaymentMethodCurrency "{605049C81E11FF4A}" {
+        m_Quantity 10
+       }
+       ADM_PaymentMethodItem "{60514A932B566F5B}" {
+        m_ItemPrefab "{7CEF68E2BC68CE71}Prefabs/Items/Equipment/Compass/Compass_Adrianov.et"
+       }
+       ADM_PaymentMethodItem "{60514A966C4E6769}" {
+        m_ItemPrefab "{25CE9A2A7EAD5B9D}Prefabs/Weapons/Magazines/Box_127x99_M2_100rnd_AP.et"
+       }
+       ADM_PaymentMethodItem "{60514A99EA46AB2E}" {
+        m_ItemPrefab "{C98FCC6CA6C56069}Prefabs/Items/Medicine/AspirinBottle.et"
+       }
+       ADM_PaymentMethodItem "{60514A966D519506}" {
+        m_ItemPrefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
+       }
+       ADM_PaymentMethodItem "{60514A999A1D5EA6}" {
+        m_ItemPrefab "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et"
        }
       }
      }

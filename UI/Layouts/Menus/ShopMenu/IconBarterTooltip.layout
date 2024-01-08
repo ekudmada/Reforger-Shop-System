@@ -8,6 +8,7 @@ FrameWidgetClass {
   SizeY 130
   OffsetBottom -130
  }
+ Clipping False
  {
   OverlayWidgetClass "{5D02175A3F162B0A}" {
    Name "Overlay"
@@ -28,15 +29,6 @@ FrameWidgetClass {
       VerticalAlign 3
      }
      Color 0 0.001 0.001 1
-    }
-    PanelWidgetClass "{5D02175A3F160723}" {
-     Name "Panel0"
-     Slot OverlayWidgetSlot "{596A0B1DCB61F25D}" {
-      HorizontalAlign 3
-      VerticalAlign 3
-     }
-     Color 0.051 0.051 0.051 1
-     style outline_2px
     }
     VerticalLayoutWidgetClass "{5D02175B8BF1AC0C}" {
      Name "VerticalLayout0"

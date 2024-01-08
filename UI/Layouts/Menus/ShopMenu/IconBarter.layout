@@ -7,7 +7,14 @@ ButtonWidgetClass {
  components {
   SCR_HoverDetectorComponent "{5D02175C4A76AD89}" {
   }
-  ADM_ShopUIBarterItemIcon "{5D021758729EA1B6}" {
+  ADM_IconBarterTooltip "{60515D7343DCBD20}" {
+   m_wTooltipPreset SCR_ScriptedWidgetTooltipPreset "{60515D72E97D6212}" {
+    m_sContentLayout "{FC117CCADBAB3DBA}UI/Layouts/Menus/ShopMenu/IconBarterTooltip.layout"
+    m_MousePositionSettings SCR_TooltipPositionPreset "{60515D729538D4A3}" {
+    }
+    m_GamepadPositionSettings SCR_TooltipPositionPreset "{60515D7294DB0459}" {
+    }
+   }
   }
  }
  {
@@ -16,9 +23,9 @@ ButtonWidgetClass {
    Slot ButtonWidgetSlot "{59696D78E637F396}" {
    }
    AllowWidthOverride 1
-   WidthOverride 50
+   WidthOverride 36
    AllowHeightOverride 1
-   HeightOverride 50
+   HeightOverride 36
    {
     OverlayWidgetClass "{5D02175D22C98211}" {
      Name "m_BackendImage"
@@ -38,8 +45,9 @@ ButtonWidgetClass {
          Name "Image"
          Slot OverlayWidgetSlot "{59696D7866BF9A35}" {
          }
-         Texture "{D9CFCB5E54304CED}UI/Layouts/ShopSystem/exchange.edds"
-         Size 128 128
+         Texture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
+         Image "platform-crossplay"
+         Size 64 64
         }
        }
       }

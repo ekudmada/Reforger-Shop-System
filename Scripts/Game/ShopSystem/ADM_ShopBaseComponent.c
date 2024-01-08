@@ -27,9 +27,19 @@ class ADM_ShopBaseComponent: ScriptComponent
 	private ref ScriptInvoker Event_OnPostPurchase = new ScriptInvoker();
 	
 	//------------------------------------------------------------------------------------------------
-	static bool IsPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
+	static bool IsBuyPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
 	{
 		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetBuyPayment();
+		if (requiredPayment.Count() != 1 || requiredPayment[0].Type() != ADM_PaymentMethodCurrency) 
+			return false;
+		
+		return true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	static bool IsSellPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
+	{
+		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetSellPayment();
 		if (requiredPayment.Count() != 1 || requiredPayment[0].Type() != ADM_PaymentMethodCurrency) 
 			return false;
 		

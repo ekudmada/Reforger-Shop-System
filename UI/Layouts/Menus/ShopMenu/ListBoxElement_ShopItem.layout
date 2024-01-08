@@ -4,7 +4,10 @@ ButtonWidgetClass {
   HorizontalAlign 3
  }
  components {
+  ADM_ShopUI_Item "{60515D7620599A39}" {
+  }
   SCR_ListBoxElementComponent "{56CB58E7628E6533}" : "{2D2F81F501855B34}Configs/UI/ListBoxElement_ModularButtonComponent.conf" {
+   m_bFocusOnMouseEnter 1
    m_sWidgetTextName "Name"
   }
  }
@@ -93,20 +96,37 @@ ButtonWidgetClass {
          }
          Clipping True
          {
-          TextWidgetClass "{605049EBE96B88AC}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
-           Name "Cost"
-           Slot OverlayWidgetSlot "{605049E4C7A0954E}" {
-            HorizontalAlign 3
+          ScrollLayoutWidgetClass "{60514A93AB2B25F5}" {
+           Name "ScrollLayout0"
+           Slot OverlayWidgetSlot "{60514A93AB2B25EC}" {
             VerticalAlign 3
-            Padding 10 0 10 0
+            Padding 0 5 0 5
            }
-           "Z Order" 8
-           Color 0.071 0.561 0.192 1
-           Text "$1234"
-           "Font Size" 20
-           "Min Font Size" 20
-           "Horizontal Alignment" Center
-           "Vertical Alignment" Center
+           style Small
+           ScrollDirection Horizontal
+           {
+            HorizontalLayoutWidgetClass "{60514A99FD074C43}" {
+             Name "CostOverlay"
+             Slot AlignableSlot "{60514A99FD074C71}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             {
+              TextWidgetClass "{605049EBE96B88AC}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
+               Name "Cost"
+               Slot LayoutSlot "{60514A996F956BB4}" {
+               }
+               "Z Order" 8
+               Color 0.071 0.561 0.192 1
+               Text "$1234"
+               "Font Size" 20
+               "Min Font Size" 20
+               "Horizontal Alignment" Center
+               "Vertical Alignment" Center
+              }
+             }
+            }
+           }
           }
          }
         }
@@ -117,19 +137,149 @@ ButtonWidgetClass {
          }
          Clipping True
          {
-          TextWidgetClass "{605049EBE9EC6757}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
-           Name "Quantity"
-           Slot OverlayWidgetSlot "{605049E4C7A09553}" {
+          HorizontalLayoutWidgetClass "{60515D753E5E7E32}" {
+           Name "HorizontalLayout0"
+           Slot OverlayWidgetSlot "{60515D7B46186E55}" {
             HorizontalAlign 3
             VerticalAlign 3
-            Padding 10 0 10 0
            }
-           "Z Order" 8
-           Text "100"
-           "Font Size" 20
-           "Min Font Size" 20
-           "Horizontal Alignment" Center
-           "Vertical Alignment" Center
+           {
+            ButtonWidgetClass "{60517330C8A99316}" {
+             Name "QuantityLess"
+             Slot LayoutSlot "{60517330C8A9930D}" {
+              Padding 4 4 4 4
+              SizeMode Fill
+             }
+             components {
+              ADM_ShopQuantityButton "{60517330AC002427}" {
+               m_BackgroundDefault 1 1 1 0.098
+               m_BackgroundHovered 1 1 1 0.196
+               m_BackgroundSelected 0.761 0.386 0.08 1
+               m_BackgroundSelectedHovered 0.896 0.539 0.184 1
+               m_BackgroundClicked 0.761 0.386 0.08 1
+               m_sTexture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
+               m_sImageName "move"
+               m_iAmount -1
+              }
+             }
+             style blank
+             {
+              SizeLayoutWidgetClass "{60517330F295EA45}" {
+               Name "SizeLayout"
+               Slot ButtonWidgetSlot "{60517330F295EA7B}" {
+                HorizontalAlign 2
+               }
+               Clipping False
+               {
+                OverlayWidgetClass "{60517330FED535B7}" {
+                 Name "Overlay"
+                 Slot AlignableSlot "{60517330FED535AF}" {
+                  Padding 4 4 4 4
+                 }
+                 {
+                  PanelWidgetClass "{60517330FAC4D8F4}" {
+                   Name "Border"
+                   Slot OverlayWidgetSlot "{60517330FAC4D892}" {
+                    HorizontalAlign 3
+                    VerticalAlign 3
+                    Padding -4 -4 -4 -4
+                   }
+                  }
+                  ScaleWidgetClass "{60517330E6A571DB}" {
+                   Name "Scale0"
+                   Slot OverlayWidgetSlot "{60517330E6A571E6}" {
+                    HorizontalAlign 3
+                    VerticalAlign 3
+                   }
+                   {
+                    ImageWidgetClass "{60517330E361CE61}" {
+                     Name "Image"
+                     Slot AlignableSlot "{60517330E361CE1B}" {
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+            TextWidgetClass "{60515D752BE86B63}" {
+             Name "Quantity"
+             Slot LayoutSlot "{60515D752BE86B5A}" {
+              Padding 5 0 5 0
+              FillWeight 2
+             }
+             Text "123"
+             "Font Size" 20
+             "Min Font Size" 20
+             "Horizontal Alignment" Center
+             "Vertical Alignment" Center
+            }
+            ButtonWidgetClass "{6051733145DF8B64}" {
+             Name "QuantityMore"
+             Slot LayoutSlot "{60517330C8A9930D}" {
+              Padding 4 4 4 4
+              SizeMode Fill
+             }
+             components {
+              ADM_ShopQuantityButton "{60517330AC002427}" {
+               m_BackgroundDefault 1 1 1 0.098
+               m_BackgroundHovered 1 1 1 0.196
+               m_BackgroundSelected 0.761 0.386 0.08 1
+               m_BackgroundSelectedHovered 0.896 0.539 0.184 1
+               m_BackgroundClicked 0.761 0.386 0.08 1
+               m_sTexture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
+               m_sImageName "move"
+               m_iAmount 1
+              }
+             }
+             style blank
+             {
+              SizeLayoutWidgetClass "{6051733145DF8B62}" {
+               Name "SizeLayout"
+               Slot ButtonWidgetSlot "{60517330F295EA7B}" {
+                HorizontalAlign 0
+               }
+               Clipping False
+               {
+                OverlayWidgetClass "{6051733145DF8B60}" {
+                 Name "Overlay"
+                 Slot AlignableSlot "{60517330FED535AF}" {
+                  Padding 4 4 4 4
+                 }
+                 {
+                  PanelWidgetClass "{6051733145DF8B61}" {
+                   Name "Border"
+                   Slot OverlayWidgetSlot "{60517330FAC4D892}" {
+                    HorizontalAlign 3
+                    VerticalAlign 3
+                    Padding -4 -4 -4 -4
+                   }
+                  }
+                  ScaleWidgetClass "{6051733145DF8B7E}" {
+                   Name "Scale0"
+                   Slot OverlayWidgetSlot "{60517330E6A571E6}" {
+                    HorizontalAlign 3
+                    VerticalAlign 3
+                   }
+                   {
+                    ImageWidgetClass "{6051733145DF8B7F}" {
+                     Name "Image"
+                     Slot AlignableSlot "{60517330E361CE1B}" {
+                     }
+                     "Flip Horizontally" 1
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
           }
          }
         }
