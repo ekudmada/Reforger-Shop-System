@@ -1,0 +1,152 @@
+ButtonWidgetClass {
+ Name "ListBoxElement"
+ Slot AlignableSlot "{554ADB1D2D5974C0}" {
+  HorizontalAlign 3
+ }
+ components {
+  SCR_ListBoxElementComponent "{56CB58E7628E6533}" : "{2D2F81F501855B34}Configs/UI/ListBoxElement_ModularButtonComponent.conf" {
+   m_sWidgetTextName "Name"
+  }
+ }
+ style blank
+ {
+  SizeLayoutWidgetClass "{605049E852FA4FC2}" {
+   Name "SizeLayout"
+   Slot ButtonWidgetSlot "{5548E6E7E6AEDDC1}" {
+    HorizontalAlign 3
+    Padding 0 5 0 5
+   }
+   AllowHeightOverride 1
+   HeightOverride 96
+   {
+    OverlayWidgetClass "{605049E852FA4FC0}" {
+     Name "Overlay"
+     Slot ButtonWidgetSlot "{5548E6E7F213FB11}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      ImageWidgetClass "{605049DA182F5F23}" {
+       Name "Background"
+       Slot OverlayWidgetSlot "{605049DA182F5FC4}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0 0 0 0.7
+      }
+      HorizontalLayoutWidgetClass "{605049E870709DB9}" {
+       Name "HorizontalLayout0"
+       Slot OverlayWidgetSlot "{605049E870709C5F}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Clipping False
+       {
+        SizeLayoutWidgetClass "{605049E81DA7CBFA}" {
+         Name "Item Preview Overlay"
+         Slot LayoutSlot "{605049E81DA7CB9C}" {
+         }
+         AllowWidthOverride 1
+         WidthOverride 96
+         AllowHeightOverride 1
+         HeightOverride 96
+         {
+          ItemPreviewWidgetClass "{605049E866526D53}" {
+           Name "ItemPreview0"
+           Slot AlignableSlot "{605049E81A06927A}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           Filter Bilinear
+           Format LDR
+          }
+         }
+        }
+        OverlayWidgetClass "{605049EB786451CE}" {
+         Name "Name Overlay"
+         Slot LayoutSlot "{605049EB786451ED}" {
+          SizeMode Fill
+         }
+         Clipping True
+         {
+          TextWidgetClass "{605049E852F996D5}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
+           Name "Name"
+           Slot OverlayWidgetSlot "{605049E4C7A0969F}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+            Padding 10 0 10 0
+           }
+           "Z Order" 8
+           Text "Item Name"
+           "Font Size" 20
+           "Min Font Size" 20
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+           Wrap 1
+          }
+         }
+        }
+        OverlayWidgetClass "{605049EB79AEA82D}" {
+         Name "Price Overlay"
+         Slot LayoutSlot "{605049E4C7A096BF}" {
+          SizeMode Fill
+         }
+         Clipping True
+         {
+          TextWidgetClass "{605049EBE96B88AC}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
+           Name "Cost"
+           Slot OverlayWidgetSlot "{605049E4C7A0954E}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+            Padding 10 0 10 0
+           }
+           "Z Order" 8
+           Color 0.071 0.561 0.192 1
+           Text "$1234"
+           "Font Size" 20
+           "Min Font Size" 20
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+          }
+         }
+        }
+        OverlayWidgetClass "{605049EB66F26D52}" {
+         Name "Quantity Overlay"
+         Slot LayoutSlot "{605049EB66F26D7D}" {
+          SizeMode Fill
+         }
+         Clipping True
+         {
+          TextWidgetClass "{605049EBE9EC6757}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
+           Name "Quantity"
+           Slot OverlayWidgetSlot "{605049E4C7A09553}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+            Padding 10 0 10 0
+           }
+           "Z Order" 8
+           Text "100"
+           "Font Size" 20
+           "Min Font Size" 20
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+          }
+         }
+        }
+       }
+      }
+      PanelWidgetClass "{605049E852F996DA}" {
+       Name "Border"
+       Slot OverlayWidgetSlot "{5548E6E7D859FCD2}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0.761 0.386 0.08 1
+       style outline_2px
+      }
+     }
+    }
+   }
+  }
+ }
+}

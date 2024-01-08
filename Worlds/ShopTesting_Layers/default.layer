@@ -233,9 +233,50 @@ $grp GenericEntity {
   }
   coords 134.664 1.329 126.672
  }
-}
-SCR_PreviewEntity {
- coords 145.325 1 132.063
+ jeepshop7 {
+  components {
+   ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
+    m_PhysicalMerchandise ADM_ShopMerchandise "{5D20781947C0CF15}" {
+     m_Merchandise ADM_MerchandiseVehicle "{5D20781944DD5758}" {
+      m_sPrefab "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT.et"
+      m_SpawnPosition PointInfo "{60451A239E0B254C}" {
+       Offset 0 0.4966 0
+      }
+      m_bIgnorePlayer 1
+     }
+    }
+    m_bDebugBB 1
+   }
+   MeshObject "{5C664CA5921DE9AF}" {
+   }
+   RigidBody "{5C664CA591CC3346}" {
+    ModelGeometry 1
+    Static 1
+   }
+   ActionsManagerComponent "{5C664CA5835A08C8}" {
+    ActionContexts {
+     UserActionContext "{5C664CA5800A49E1}" {
+      ContextName "Shop"
+      Position PointInfo "{5C664CA529C736CB}" {
+      }
+      Radius 2
+     }
+    }
+    additionalActions {
+     ADM_PhysicalShopAction "{5C982A22684EB04A}" {
+      ParentContextList {
+       "Shop"
+      }
+      m_fAdjustmentStep -1
+     }
+    }
+   }
+   RplComponent "{5C664CA59F5A8A12}" {
+   }
+  }
+  coords 159.109 0.812 125.249
+  angleX 4.288
+ }
 }
 $grp StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/TableMilitary_USSR_01.et" {
  {
@@ -251,23 +292,7 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
  {
   components {
    ADM_ShopComponent "{5D775155BFB12BA4}" {
-    m_AdditionalMerchandise {
-     ADM_ShopMerchandise "{5D7751557F7FEA2C}" {
-      m_Merchandise ADM_MerchandiseVehicle "{5D775154C9BE7445}" {
-       m_sPrefab "{9A0D72816DFFDB7F}Prefabs/Vehicles/Wheeled/M923A1/M923A1.et"
-       m_SpawnPosition PointInfo "{5D775154FF6C7DAA}" {
-        Offset 0 0.2993 7.671
-        Angles 0 -90 0
-       }
-       m_bIgnorePlayer 1
-      }
-      m_RequiredPayment {
-       ADM_PaymentMethodCurrency "{5D77515528A3F73E}" {
-        m_Quantity 5000
-       }
-      }
-     }
-    }
+    m_ShopConfig "{365845681049D78C}Configs/Shops/AK74.conf"
    }
   }
   coords 148.211 0.984 128.086
@@ -275,13 +300,80 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
  {
   components {
    ADM_ShopComponent "{5D775155BFB12BA4}" {
+    m_ShopName "Example Shop"
+    m_Categories {
+     "{06CF3558777CEBF4}Configs/ShopCategories/Handguns.conf" "{BD4950A188201509}Configs/ShopCategories/Rifles.conf"
+    }
     m_AdditionalMerchandise {
      ADM_ShopMerchandise "{5D7A75C53FBE8DDA}" {
       m_Merchandise ADM_MerchandiseItem "{5D7A75C53D58AA32}" {
        m_sPrefab "{BBB50A815A2F916B}Prefabs/Weapons/Magazines/Magazine_545x39_AK_30rnd_Ball.et"
       }
+      m_BuyPayment {
+       ADM_PaymentMethodCurrency "{605049D5FA717D35}" {
+       }
+      }
+     }
+     ADM_ShopMerchandise "{605049DF9EC02875}" {
+      m_Merchandise ADM_MerchandiseItem "{605049DF9D769105}" {
+       m_sPrefab "{12D5AD21E383B768}Prefabs/Items/Fuel/Jerrycan_01/Jerrycan_01_item.et"
+      }
+      m_BuyPayment {
+       ADM_PaymentMethodCurrency "{605049D215D671E1}" {
+       }
+      }
+      m_SellPayment {
+       ADM_PaymentMethodItem "{605049D59BF8A399}" {
+       }
+      }
+     }
+     ADM_ShopMerchandise "{605049C8C4B5EB18}" {
+      m_Merchandise ADM_MerchandiseItem "{605049C8C5E436AC}" {
+       m_sPrefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
+      }
+      m_BuyPayment {
+       ADM_PaymentMethodCurrency "{605049C8F5B9466F}" {
+       }
+      }
+     }
+     ADM_ShopMerchandise "{605049C8F079BC0F}" {
+      m_Merchandise ADM_MerchandiseItem "{605049C8FE718082}" {
+       m_sPrefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
+      }
+      m_BuyPayment {
+       ADM_PaymentMethodCurrency "{605049C8F823909C}" {
+       }
+      }
+      m_SellPayment {
+       ADM_PaymentMethodCurrency "{605049C8E041288F}" {
+       }
+      }
+     }
+     ADM_ShopMerchandise "{605049C8E82FEF1C}" {
+      m_Merchandise ADM_MerchandiseItem "{605049C8E9FD8ED1}" {
+       m_sPrefab "{3E413771E1834D2F}Prefabs/Weapons/Rifles/M16/Rifle_M16A2.et"
+      }
+      m_SellPayment {
+       ADM_PaymentMethodCurrency "{605049C893F88081}" {
+       }
+      }
+     }
+     ADM_ShopMerchandise "{605049C8627D705B}" {
+      m_Merchandise ADM_MerchandiseVehicle "{605049C863CFA53B}" {
+       m_sPrefab "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT.et"
+       m_SpawnPosition PointInfo "{605049C868C5ECE7}" {
+        Offset 0 0 14.2208
+       }
+      }
+      m_BuyPayment {
+       ADM_PaymentMethodCurrency "{605049C81E11FF4A}" {
+       }
+      }
      }
     }
+   }
+   RigidBody "{5D774D0B94C5812B}" {
+    Static 1
    }
   }
   coords 149.759 0.984 128.086

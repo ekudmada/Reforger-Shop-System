@@ -10,6 +10,7 @@ GenericEntity {
   RigidBody "{5D774D0B94C5812B}" {
    Layers 131074
    ModelGeometry 1
+   Static 1
   }
   CharacterIdentityComponent "{5D774D0B90A914EA}" {
    Identity Identity "{5D774D0B8F6C4D13}" {

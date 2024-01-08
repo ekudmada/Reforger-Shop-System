@@ -10,6 +10,9 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	[Attribute(defvalue: "0", desc: "How many seconds for item to respawn after it has been purchased. (-1 for no respawning)", uiwidget: UIWidgets.Slider, params: "0.1 1000 et", category: "Shop")]
 	protected float m_fRespawnTime;
 	
+	[Attribute(desc: "Show bounding box for respawn check. DEBUG ONLY")]
+	protected bool m_bDebugBB;
+	
 	[RplProp(onRplName: "OnStateChange")]
 	protected bool m_bState = true;
 	
@@ -113,6 +116,31 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		super.OnPostInit(owner);
 		SetEventMask(owner, EntityEvent.FRAME);
 		OnStateChange();
+		
+		ConnectToDiagSystem(owner);
+	}
+	
+	static autoptr Shape debugBB;
+	override void EOnDiag(IEntity owner, float timeSlice)
+	{
+		if (m_PhysicalMerchandise && ADM_Utils.m_CachedBoundingBoxes && ADM_Utils.m_CachedBoundingBoxes.Contains(m_PhysicalMerchandise.GetMerchandise().GetPrefab()))
+		{
+			vector traceMat[4];
+			owner.GetTransform(traceMat);
+			
+			TraceOBB paramOBB = new TraceOBB();
+			Math3D.MatrixIdentity3(paramOBB.Mat);
+			paramOBB.Mat[0] = traceMat[0];
+			paramOBB.Mat[1] = traceMat[1];
+			paramOBB.Mat[2] = traceMat[2];
+			paramOBB.Start = traceMat[3];
+			paramOBB.Flags = TraceFlags.ENTS;
+			paramOBB.LayerMask = EPhysicsLayerPresets.Projectile;
+			paramOBB.Mins = ADM_Utils.m_CachedBoundingBoxes.Get(m_PhysicalMerchandise.GetMerchandise().GetPrefab())[0];
+			paramOBB.Maxs = ADM_Utils.m_CachedBoundingBoxes.Get(m_PhysicalMerchandise.GetMerchandise().GetPrefab())[1];
+			debugBB = Shape.Create(ShapeType.BBOX, COLOR_BLUE_A, ShapeFlags.VISIBLE | ShapeFlags.NOZBUFFER | ShapeFlags.WIREFRAME, paramOBB.Mins, paramOBB.Maxs);
+			debugBB.SetMatrix(traceMat);
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------

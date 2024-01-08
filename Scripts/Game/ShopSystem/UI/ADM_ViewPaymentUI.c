@@ -40,7 +40,7 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 	
 	void Confirm()
 	{
-		if (!m_shop || m_shop.GetMerchandise().Count() <= 0 || !m_originalAction) 
+		if (!m_shop || m_shop.GetMerchandiseAll().Count() <= 0 || !m_originalAction) 
 			return;
 		
 		PlayerController playerController = GetGame().GetPlayerController();
@@ -48,7 +48,7 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 		if (!playerShopManager) return;
 		
 		// Physical shops should only have one item defined, so just grab the first one in the merchandise array
-		playerShopManager.AskPurchase(m_shop, m_shop.GetMerchandise()[0], m_originalAction.GetTargetValue());
+		playerShopManager.AskPurchase(m_shop, m_shop.GetMerchandiseAll()[0], m_originalAction.GetTargetValue());
 
 		GetGame().GetMenuManager().CloseMenu(this);
 	}
@@ -66,9 +66,9 @@ class ADM_ViewPaymentUI: ChimeraMenuBase
 	
 	void UpdatePaymentMethods()
 	{
-		if (!m_shop || m_shop.GetMerchandise().Count() <= 0) return;
+		if (!m_shop || m_shop.GetMerchandiseAll().Count() <= 0) return;
 		
-		foreach (ADM_PaymentMethodBase paymentMethod : m_shop.GetMerchandise()[0].GetRequiredPayment())
+		foreach (ADM_PaymentMethodBase paymentMethod : m_shop.GetMerchandiseAll()[0].GetBuyPayment())
 		{
 			//TODO: fix icon
 			m_ListBoxComponent.AddItemAndIcon(paymentMethod.GetDisplayString(), "", "");

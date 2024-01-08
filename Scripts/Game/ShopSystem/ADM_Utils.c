@@ -2,7 +2,7 @@ class ADM_Utils
 {
 	static bool DEBUG = false;
 	protected static ref map<ResourceName, ref UIInfo> s_mItemUIInfo = new map<ResourceName, ref UIInfo>();
-	protected static ref map<ResourceName, ref SCR_EditableVehicleUIInfo> s_mVehicleUIInfo = new map<ResourceName, ref SCR_EditableVehicleUIInfo>();
+	protected static ref map<ResourceName, ref UIInfo> s_mVehicleUIInfo = new map<ResourceName, ref UIInfo>();
 	
 	//------------------------------------------------------------------------------------------------
 	// The following function is MIT license and is from Everon Life
@@ -42,9 +42,12 @@ class ADM_Utils
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	static SCR_EditableVehicleUIInfo GetVehicleUIInfo(ResourceName prefab)
+	static Managed GetVehicleUIInfo(ResourceName prefab)
 	{
-		SCR_EditableVehicleUIInfo resultInfo = s_mVehicleUIInfo.Get(prefab);
+		Managed resultInfo = s_mVehicleUIInfo.Get(prefab);
+		
+		if (prefab != "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT.et")
+			return null;
 
 		if (!resultInfo)
 		{
@@ -59,14 +62,15 @@ class ADM_Utils
 						BaseContainer baseUIInfo = componentSource.GetObject("m_UIInfo");
 						if (baseUIInfo)
 						{
-		                    resultInfo = SCR_EditableVehicleUIInfo.Cast(BaseContainerTools.CreateInstanceFromContainer(baseUIInfo));
+		                    resultInfo = Managed.Cast(BaseContainerTools.CreateInstanceFromContainer(baseUIInfo));
+							
 							break;
 						}
 			        }
 			    }
 			}
 			
-			s_mVehicleUIInfo.Set(prefab, resultInfo);
+			//s_mVehicleUIInfo.Set(prefab, resultInfo);
 		}
 
 		return resultInfo;
@@ -74,9 +78,14 @@ class ADM_Utils
 	
 	static string GetPrefabDisplayName(ResourceName prefab)
 	{
-		SCR_EditableVehicleUIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
-		if (vehicleUIInfo) 
-			return vehicleUIInfo.GetName();
+		Managed vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
+		UIInfo vehicleUIInfo1 = UIInfo.Cast(vehicleUIInfo);
+		if (vehicleUIInfo1) 
+			return vehicleUIInfo1.GetName();
+		
+		SCR_EditableEntityUIInfo vehicleUIInfo2 = SCR_EditableEntityUIInfo.Cast(vehicleUIInfo);
+		if (vehicleUIInfo2)
+			return vehicleUIInfo2.GetName();
 		
 		UIInfo itemUIInfo = ADM_Utils.GetItemUIInfo(prefab);
 		if (itemUIInfo) 
@@ -87,7 +96,7 @@ class ADM_Utils
 	
 	static string GetPrefabDescription(ResourceName prefab)
 	{
-		SCR_EditableVehicleUIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
+		UIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
 		if (vehicleUIInfo) 
 			return vehicleUIInfo.GetDescription();
 		
@@ -96,19 +105,6 @@ class ADM_Utils
 			return itemUIInfo.GetDescription();
 		
 		return prefab;
-	}
-	
-	static ResourceName GetPrefabDisplayIcon(ResourceName prefab)
-	{
-		SCR_EditableVehicleUIInfo vehicleUIInfo = ADM_Utils.GetVehicleUIInfo(prefab);
-		if (vehicleUIInfo) 
-			return vehicleUIInfo.GetIconPath();
-		
-		UIInfo itemUIInfo = ADM_Utils.GetItemUIInfo(prefab);
-		if (itemUIInfo) 
-			return itemUIInfo.GetIconPath();
-		
-		return string.Empty;
 	}
 	
 	static bool InsertAutoEquipItem(SCR_InventoryStorageManagerComponent inventory, IEntity item)
@@ -164,7 +160,7 @@ class ADM_Utils
 			previewEntity.GetPreviewBounds(min, max);
 			m_CachedBoundingBoxes.Insert(resourceName, {min, max});
 			
-			//SCR_EntityHelper.DeleteEntityAndChildren(previewEntity);
+			SCR_EntityHelper.DeleteEntityAndChildren(previewEntity);
 		}
 		
 		paramOBB.Mat[0] = traceMat[0];

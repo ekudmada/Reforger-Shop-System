@@ -101,7 +101,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		return true;
 	}
 	
-	override bool ReturnPayment(IEntity player, int quantity = 1)
+	override bool DistributePayment(IEntity player, int quantity = 1)
 	{
 		if (!Replication.IsServer()) 
 			return false;

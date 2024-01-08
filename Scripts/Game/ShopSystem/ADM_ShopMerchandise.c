@@ -4,8 +4,8 @@ class ADM_ShopMerchandise: ScriptAndConfig
 	[Attribute(desc: "Merchandise of shop", uiwidget: UIWidgets.Object)]
 	protected ref ADM_MerchandiseType m_Merchandise;
 	
-	[Attribute(desc: "Payment that must be made to purchase the merchandise")]
-	protected ref array<ref ADM_PaymentMethodBase> m_RequiredPayment;
+	[Attribute(desc: "Payment that a user will give to shop when buying merchandise.")]
+	protected ref array<ref ADM_PaymentMethodBase> m_BuyPayment;
 	
 	[Attribute(desc: "Payment that a user will receive when selling merchandise, if no payment is specified then selling to the shop is disabled for this merchandise.")]
 	protected ref array<ref ADM_PaymentMethodBase> m_SellPayment;
@@ -15,9 +15,9 @@ class ADM_ShopMerchandise: ScriptAndConfig
 		return m_Merchandise; 
 	}
 	
-	array<ref ADM_PaymentMethodBase> GetRequiredPayment() 
+	array<ref ADM_PaymentMethodBase> GetBuyPayment() 
 	{ 
-		return m_RequiredPayment; 
+		return m_BuyPayment; 
 	}
 	
 	array<ref ADM_PaymentMethodBase> GetSellPayment()

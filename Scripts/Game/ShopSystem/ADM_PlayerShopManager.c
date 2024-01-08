@@ -12,7 +12,7 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 	{
 		PlayerController player = GetGame().GetPlayerController();
 		RplId shopID = Replication.FindId(shop);
-		Rpc(Rpc_AskPurchase, player.GetPlayerId(), shopID, shop.GetMerchandise().Find(merchandise), quantity);
+		Rpc(Rpc_AskPurchase, player.GetPlayerId(), shopID, shop.GetMerchandiseBuy().Find(merchandise), quantity);
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
@@ -36,7 +36,7 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 		if (!player) 
 			return;
 		
-		ADM_ShopMerchandise merchandise = shop.GetMerchandise()[merchandiseIndex];
+		ADM_ShopMerchandise merchandise = shop.GetMerchandiseBuy()[merchandiseIndex];
 		bool success = shop.AskPurchase(player, this, merchandise, quantity);
 		
 		Rpc(RpcDo_Transaction, m_sPurchaseMessage);

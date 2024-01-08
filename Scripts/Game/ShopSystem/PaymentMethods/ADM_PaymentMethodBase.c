@@ -7,14 +7,14 @@ class ADM_PaymentMethodBase: ScriptAndConfig
 	bool CheckPayment(IEntity player, int quantity = 1) { return false; }
 	
 	/*
-		This function collects the payment from the player.
+		This function collects the payment from the player. Used for buying from the shop.
 	*/
 	bool CollectPayment(IEntity player, int quantity = 1) { return false; }
 	
 	/*
-		This function is used if there is an error during the transaction and the payment method needs to be returened.
+		This function distributes payment to the player. Used for selling to the shop and in case of merchandise delivery error.
 	*/
-	bool ReturnPayment(IEntity player, int quantity = 1) { return false; }
+	bool DistributePayment(IEntity player, int quantity = 1) { return false; }
 	
 	/*
 		How to display this payment method in menus

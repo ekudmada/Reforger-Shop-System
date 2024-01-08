@@ -14,10 +14,8 @@ class ADM_ShopBaseComponent: ScriptComponent
 		Selling Ideas:
 			- Add a function to check for shop storage when selling to the shop, probably default to always true (this will allow overrides for player owned shops with limited storage capacity)
 			- How to deal with items that have attachements
-			- 
 	*/
 	
-	//Make RplProp so it is replicated
 	[Attribute(category: "Shop"), RplProp()]
 	protected string m_ShopName;
 	
@@ -31,7 +29,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	static bool IsPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
 	{
-		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPayment();
+		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetBuyPayment();
 		if (requiredPayment.Count() != 1 || requiredPayment[0].Type() != ADM_PaymentMethodCurrency) 
 			return false;
 		
@@ -45,9 +43,39 @@ class ADM_ShopBaseComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	array<ref ADM_ShopMerchandise> GetMerchandise()
+	array<ref ADM_ShopMerchandise> GetMerchandiseAll()
 	{
 		return m_Merchandise;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	array<ref ADM_ShopMerchandise> GetMerchandiseBuy()
+	{
+		array<ref ADM_ShopMerchandise> merchandiseBuy = {};
+		foreach (ADM_ShopMerchandise merch : m_Merchandise)
+		{
+			if (merch.GetBuyPayment().Count() > 0)
+			{
+				merchandiseBuy.Insert(merch);
+			}
+		}
+	
+		return merchandiseBuy;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	array<ref ADM_ShopMerchandise> GetMerchandiseSell()
+	{
+		array<ref ADM_ShopMerchandise> merchandiseSell = {};
+		foreach (ADM_ShopMerchandise merch : m_Merchandise)
+		{
+			if (merch.GetSellPayment().Count() > 0)
+			{
+				merchandiseSell.Insert(merch);
+			}
+		}
+	
+		return merchandiseSell;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -55,7 +83,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 	{
 		bool canPurchase = true;
 		
-		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPayment();
+		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetBuyPayment();
 		foreach (ADM_PaymentMethodBase payment : requiredPayment)
 		{
 			canPurchase = payment.CheckPayment(player, quantity);
@@ -92,7 +120,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 		array<ADM_PaymentMethodBase> collectedPaymentMethods = {};
 		array<bool> didCollectPayments = {};
 		
-		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetRequiredPayment();
+		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetBuyPayment();
 		foreach (ADM_PaymentMethodBase paymentMethod : requiredPayment) 
 		{
 			bool didCollectPayment = paymentMethod.CollectPayment(player, quantity);
@@ -106,7 +134,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 		{
 			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)
 			{
-				bool returnedPayment = paymentMethod.ReturnPayment(player, quantity);
+				bool returnedPayment = paymentMethod.DistributePayment(player, quantity);
 				if (!returnedPayment) 
 					PrintFormat("Error returning payment! %s", paymentMethod.Type().ToString());
 			}
@@ -120,7 +148,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 		{
 			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)
 			{
-				bool returnedPayment = paymentMethod.ReturnPayment(player, quantity);
+				bool returnedPayment = paymentMethod.DistributePayment(player, quantity);
 				if (!returnedPayment) 
 					PrintFormat("Error returning payment! %1", paymentMethod.Type().ToString());
 			}
@@ -169,6 +197,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 			m_Merchandise = new array<ref ADM_ShopMerchandise>();
 		}
 			
+		// Copy config into merchandise array
 		if (m_ShopConfig != string.Empty) {
 			ADM_ShopConfig shopConfig = ADM_ShopConfig.GetConfig(m_ShopConfig);
 			if (shopConfig && shopConfig.m_Merchandise) {

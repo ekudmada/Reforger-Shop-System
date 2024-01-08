@@ -1,371 +1,64 @@
-class ADM_ShopQuantityButton : SCR_ButtonComponent
-{
-	[Attribute()]
-	protected int m_iAmount;
-	
-	int GetAmount()
-	{
-		return m_iAmount;
-	}
-}
-
-class ADM_ShopUIBarterItemIcon : ScriptedWidgetComponent
-{
-	protected SCR_HoverDetectorComponent m_HoverDetector;
-	protected ref ADM_PaymentMethodBase m_PaymentMethod;
-	protected ItemPreviewManagerEntity m_PreviewManager;
-	protected Widget m_wRoot;
-	
-	[Attribute()]
-	protected SCR_ScriptedWidgetTooltipPreset tooltipPreset;
-	
-	//---------------------------------------------------------------------------------------------------
-	override void HandlerAttached(Widget w)
-	{
-		m_wRoot = w;
-		
-		// Get manager and render preview 
-		ChimeraWorld world = ChimeraWorld.CastFrom(GetGame().GetWorld());
-		if (!world)
-			return;
-		
-		ItemPreviewManagerEntity manager = world.GetItemPreviewManager();
-		if (!manager)
-			return;
-		
-		m_PreviewManager = manager;
-		m_HoverDetector = SCR_HoverDetectorComponent.Cast(w.FindHandler(SCR_HoverDetectorComponent));		
-		m_HoverDetector.m_OnHoverDetected.Insert(OnHoverDetected);
-		m_HoverDetector.m_OnMouseLeave.Insert(OnMouseLeaveTooltip);
-	}
-	
-	void SetPayment(ADM_PaymentMethodBase payment)
-	{
-		m_PaymentMethod = payment;
-	}
-	
-	//---------------------------------------------------------------------------------------------------
-	IEntity m_iPreviewEntity;
-	void OnHoverDetected()
-	{
-		ResourceName tooltip = "{459F0B580A8E2CD7}UI/Layouts/ShopSystem/BarterItemTooltip.layout";
-		Widget w = SCR_TooltipManagerEntity.CreateTooltip(tooltipPreset, m_wRoot);
-		TextWidget wText = TextWidget.Cast(w.FindAnyWidget("Text"));
-		ItemPreviewWidget wRenderTarget = ItemPreviewWidget.Cast(w.FindWidget("Overlay.VerticalLayout0.SizeLayout0.PreviewImage"));
-		
-		if (m_PaymentMethod) {
-			int quantity = ADM_ShopUI.FindShopUIItem(m_wRoot).GetQuantity();
-			string displayString = m_PaymentMethod.GetDisplayString(quantity);
-			wText.SetText(displayString);
-			
-			m_iPreviewEntity = GetGame().SpawnEntityPrefabLocal(Resource.Load(m_PaymentMethod.GetDisplayEntity()), null, null);
-			if (wRenderTarget && m_PreviewManager && m_iPreviewEntity) m_PreviewManager.SetPreviewItem(wRenderTarget, m_iPreviewEntity, null, true);
-		}
-	}
-	
-	void OnMouseLeaveTooltip()
-	{
-		if (m_iPreviewEntity)
-			SCR_EntityHelper.DeleteEntityAndChildren(m_iPreviewEntity);
-	}
-}
-
-class ADM_ShopUICategory : SCR_ScriptedWidgetComponent
-{
-	[Attribute(defvalue: "0")]
-	protected int m_index = 0;
-
-	int GetIndex()
-	{
-		return m_index;
-	}
-	
-	void SetIndex(int index)
-	{
-		m_index = index;
-	}
-}
-
-class ADM_ShopUIItem : SCR_ScriptedWidgetComponent
-{
-	[Attribute(defvalue: "1")]
-	protected int m_quantity = 1;
-
-	protected ADM_ShopComponent m_Shop;
-	protected ref ADM_ShopMerchandise m_Merchandise;
-	
-	int GetQuantity()
-	{
-		return m_quantity;
-	}
-	
-	void SetQuantity(int quantity)
-	{
-		m_quantity = quantity;
-		OnUpdate(this.m_wRoot);
-	}
-	
-	void UpdateQuantity(int amount)
-	{
-		m_quantity = m_quantity + amount;
-		OnUpdate(this.m_wRoot);
-	}
-	
-	ADM_ShopMerchandise GetMerchandise()
-	{
-		return m_Merchandise;
-	}
-	
-	void SetMerchandise(ADM_ShopMerchandise merch)
-	{
-		m_Merchandise = merch;
-	}
-	
-	override bool OnUpdate(Widget w)
-	{
-		if (m_quantity < 1) m_quantity = 1;
-		
-		TextWidget quantity = TextWidget.Cast(w.FindWidget("Row.QuantityContainer.HorizontalLayout0.Quantity"));
-		if (quantity) quantity.SetTextFormat("%1", m_quantity);
-	
-		return true;
-	}
-}
-
 class ADM_ShopUI: ChimeraMenuBase
 {
-	static protected ResourceName m_ItemPrefab = "{7C575A0E989A1B9D}UI/Layouts/ShopSystem/MarketItem.layout";
-	static protected ResourceName m_CategoryPrefab = "{5429F3944440C60B}UI/Layouts/ShopSystem/MarketCategory.layout";
-	static protected ResourceName m_BarterIconPrefab = "{BBEF0EBB9F35B19F}UI/Layouts/ShopSystem/MarketBarterItemIcon.layout";
-	
-	protected ref array<IEntity> m_PreviewEntities = new array<IEntity>();
-	protected ItemPreviewManagerEntity m_PreviewManager;
-	protected WorkspaceWidget m_wWorkspace;
-	protected Widget m_wRoot;
-	protected Widget m_wCategoryParent;
-	protected Widget m_wContentParent;
-	protected SCR_InputButtonComponent m_closeButton;
+	static const ResourceName m_ListBoxPrefab = "{906F7BCCC662C19D}UI/Layouts/Menus/ShopMenu/ListBoxElement_ShopItem.layout";
 	
 	protected ADM_ShopComponent m_Shop;
+	protected ItemPreviewManagerEntity m_ItemPreviewManager;
+	
+	protected bool m_bFocused = false;
+	protected int m_iCategoryBuy = -1;
+	protected int m_iCategorySell = -1;
+	protected string m_sSearchBuy = "";
+	protected string m_sSearchSell = "";
+	
+	protected Widget m_wRoot;
+	protected Widget m_wBuySellTabWidget;
+	protected TextWidget m_wHeaderText;
+	protected TextWidget m_wMoneyText;
+	protected SCR_TabViewComponent m_BuySellTabView;
+	protected SCR_TabViewContent m_wBuyTabView;
+	protected SCR_TabViewContent m_wSellTabView;
 	
 	void SetShop(ADM_ShopComponent shop)
 	{
 		m_Shop = shop;
-		Reset();
 		
-		PrintFormat("set shop to %1", shop);
-	}
-	
-	void ClearCategories()
-	{
-		// Remove all children from the categories list
-		while (m_wCategoryParent.GetChildren() != null)
+		if (m_wHeaderText)
 		{
-			delete m_wCategoryParent.GetChildren();
-		}
-	}
-	
-	void CreateCategory(ADM_ShopCategory category, int index)
-	{
-		Widget wCategory = m_wWorkspace.CreateWidgets(m_CategoryPrefab, m_wCategoryParent);
-		TextWidget wName = TextWidget.Cast(wCategory.FindWidget("Text0"));
-		wName.SetText(category.m_DisplayName);
-		
-		SCR_ButtonComponent bCategory = SCR_ButtonComponent.Cast(wCategory.FindHandler(SCR_ButtonComponent));
-		if (bCategory)
-		{
-			bCategory.m_OnClicked.Clear();
-			bCategory.m_OnClicked.Insert(SelectCategoryButton);
+			m_wHeaderText.SetText(m_Shop.GetName());
 		}
 		
-		ADM_ShopUICategory shopCategory = ADM_ShopUICategory.Cast(wCategory.FindHandler(ADM_ShopUICategory));
-		if (shopCategory)
-		{
-			shopCategory.SetIndex(index);
-		}
+		ConfigureTabs();
 	}
 	
-	void PopulateCategories()
+	protected void ConfigureCategory(SCR_SpinBoxComponent component, array<ADM_ShopCategory> categories)
 	{
-		if (!m_Shop) return;
-		ClearCategories();
+		if (!component || !categories || categories.Count() < 1)
+			return;
 		
-		ADM_ShopCategory allCategory = new ADM_ShopCategory();
-		allCategory.m_DisplayName = "All";
-		CreateCategory(allCategory, -1);
+		component.ClearAll();	
 		
-		array<ref ADM_ShopCategory> categories = m_Shop.GetCategories();
+		component.AddItem("All");
 		foreach (int i, ADM_ShopCategory category : categories)
 		{
-			CreateCategory(category, i);
+			component.AddItem(category.m_DisplayName);
 		}
 	}
 	
-	void ClearContent()
+	protected void SelectCategory(SCR_TabViewContent wTabView, int index, array<ref ADM_ShopMerchandise> items, string search = "")
 	{
-		// Remove all children from the content list
-		while (m_wContentParent.GetChildren() != null)
-		{
-
-			delete m_wContentParent.GetChildren();
-			
-			foreach (IEntity previewEntity : m_PreviewEntities)
-			{
-				delete previewEntity;
-			}
-			m_PreviewEntities.Clear();
-		}
-	}
-
-	static ADM_ShopUIItem FindShopUIItem(Widget w)
-	{
-		Widget parent = w.GetParent();
-		while (parent)
-		{
-			ADM_ShopUIItem uiItem = ADM_ShopUIItem.Cast(parent.FindHandler(ADM_ShopUIItem));
-			if (uiItem)
-				return uiItem;
-			else
-				parent = parent.GetParent();
-		}
+		if (!m_Shop || !items || items.Count() < 1) 
+			return;
 		
-		return null;
-	}
-	
-	void PurchaseItem(SCR_ButtonComponent button)
-	{
-		ADM_ShopUIItem uiItem = FindShopUIItem(button.GetRootWidget());
-		if (uiItem)
-		{
-			PlayerController playerController = GetGame().GetPlayerController();
-			ADM_PlayerShopManagerComponent playerShopManager = ADM_PlayerShopManagerComponent.Cast(playerController.FindComponent(ADM_PlayerShopManagerComponent));
-			if (!playerShopManager) return;
-			
-			ADM_ShopMerchandise merch = uiItem.GetMerchandise();
-			playerShopManager.AskPurchase(m_Shop, merch, uiItem.GetQuantity());
-		}
-	}
-	
-	void UpdateItemQuantity(ADM_ShopQuantityButton button)
-	{
-		ADM_ShopUIItem uiItem = FindShopUIItem(button.GetRootWidget());
-		if (uiItem) uiItem.UpdateQuantity(button.GetAmount());
-	}
-		
-	void SelectCategoryButton(SCR_ButtonComponent button)
-	{
-		ADM_ShopUICategory shopCategory = ADM_ShopUICategory.Cast(button.GetRootWidget().FindHandler(ADM_ShopUICategory));
-		if (shopCategory)
-		{
-			SelectCategory(shopCategory.GetIndex());
-		}
-	}
-	
-	void CreateRow(ADM_ShopMerchandise merch)
-	{
-		ADM_MerchandiseType merchType = merch.GetMerchandise();
-		Widget newRow = m_wWorkspace.CreateWidgets(m_ItemPrefab, m_wContentParent);
-		
-		IEntity previewEntity = GetGame().SpawnEntityPrefabLocal(Resource.Load(merchType.GetPrefab()), null, null);
-		m_PreviewEntities.Insert(previewEntity);
-		
-		ItemPreviewWidget wRenderTarget = ItemPreviewWidget.Cast(newRow.FindWidget("Row.Item.Offer.Preview Image"));
-		if (wRenderTarget && m_PreviewManager) m_PreviewManager.SetPreviewItem(wRenderTarget, previewEntity, null, true);
-		
-		TextWidget wItemName = TextWidget.Cast(newRow.FindWidget("Row.Item.Offer.Information Container.Name"));
-		TextWidget wItemDescription = TextWidget.Cast(newRow.FindWidget("Row.Item.Offer.Information Container.Description"));
-		
-		string itemName = ADM_Utils.GetPrefabDisplayName(merchType.GetPrefab());
-		string description = ADM_Utils.GetPrefabDescription(merchType.GetPrefab());
-		
-		if (wItemName) wItemName.SetTextFormat(itemName);
-		if (wItemDescription) wItemDescription.SetTextFormat(description);
-		
-		TextWidget wItemPrice = TextWidget.Cast(newRow.FindWidget("Row.Price.HorizontalLayout0.Price"));
-		array<ref ADM_PaymentMethodBase> paymentRequirement = merch.GetRequiredPayment();
-		if (ADM_ShopComponent.IsPaymentOnlyCurrency(merch) || paymentRequirement.Count() == 0)
-		{
-			if (wItemPrice) {
-				wItemPrice.SetVisible(true);
-				if (paymentRequirement.Count() == 0)
-				{
-					wItemPrice.SetTextFormat("Free");
-				} else {
-					ADM_PaymentMethodCurrency paymentMethod = ADM_PaymentMethodCurrency.Cast(paymentRequirement[0]);
-					wItemPrice.SetTextFormat("$%1", paymentMethod.GetQuantity());
-				}
-			}
-		} else {
-			Widget priceParent = newRow.FindWidget("Row.Price.HorizontalLayout0");
-			if (wItemPrice) wItemPrice.SetVisible(false);
-			
-			int numIcons = Math.Clamp(paymentRequirement.Count(), 0, 5);
-			for (int i = 0; i < numIcons; i++)
-			{
-				Widget icon = m_wWorkspace.CreateWidgets(m_BarterIconPrefab, priceParent);
-				ADM_ShopUIBarterItemIcon barterItemIcon = ADM_ShopUIBarterItemIcon.Cast(icon.FindHandler(ADM_ShopUIBarterItemIcon));
-				if (barterItemIcon)
-				{
-					barterItemIcon.SetPayment(paymentRequirement[i]);
-				}
-			}
-		}
-		
-		ADM_ShopUIItem item = ADM_ShopUIItem.Cast(newRow.FindHandler(ADM_ShopUIItem));
-		if (item) {
-			item.SetQuantity(1);
-			item.SetMerchandise(merch);
-		}
-			
-		Widget lessBtnWidget = newRow.FindWidget("Row.QuantityContainer.HorizontalLayout0.Less");
-		Widget moreBtnWidget = newRow.FindWidget("Row.QuantityContainer.HorizontalLayout0.More");
-		
-		if (!merch.GetMerchandise().CanPurchaseMultiple()) {
-			lessBtnWidget.SetEnabled(false);
-			moreBtnWidget.SetEnabled(false);
-			lessBtnWidget.SetVisible(false);
-			moreBtnWidget.SetVisible(false);
-		} else {
-			ADM_ShopQuantityButton lessQuantityBtn = ADM_ShopQuantityButton.Cast(lessBtnWidget.FindHandler(ADM_ShopQuantityButton));
-			if (lessQuantityBtn)
-			{
-				lessQuantityBtn.m_OnClicked.Clear();
-				lessQuantityBtn.m_OnClicked.Insert(UpdateItemQuantity);
-			}
-			
-			ADM_ShopQuantityButton moreQuantityBtn = ADM_ShopQuantityButton.Cast(moreBtnWidget.FindHandler(ADM_ShopQuantityButton));
-			if (moreQuantityBtn)
-			{
-				moreQuantityBtn.m_OnClicked.Clear();
-				moreQuantityBtn.m_OnClicked.Insert(UpdateItemQuantity);
-			}
-		}
-		
-		Widget purchaseBtnWidget = newRow.FindWidget("Row.Purchase.PurchaseButton");
-		SCR_ButtonComponent purchaseButton = SCR_ButtonComponent.Cast(purchaseBtnWidget.FindHandler(SCR_ButtonComponent));
-		if (purchaseButton)
-		{
-			purchaseButton.m_OnClicked.Clear();
-			purchaseButton.m_OnClicked.Insert(PurchaseItem);
-		}
-	}
-	
-	int m_iCurrentCategory = -1;
-	void SelectCategory(int index = 0)
-	{
-		if (!m_Shop) return;
-		ClearContent();
-
 		array<ref ADM_ShopCategory> categories = m_Shop.GetCategories();
-		array<ref ADM_ShopMerchandise> items = m_Shop.GetMerchandise();
 		array<ref ADM_ShopMerchandise> sortedItems = {};
-		array<ResourceName> validItems = {};
 		
 		// All category
 		if (index == -1) 
 		{
 			sortedItems = items;
 		} else {
+			array<ResourceName> validItems = {};
 			if (categories[index])
 				validItems = categories[index].GetItems();
 			
@@ -377,35 +70,147 @@ class ADM_ShopUI: ChimeraMenuBase
 			}
 		}
 		
-		foreach (ADM_ShopMerchandise merch : sortedItems)
+		if (search != string.Empty)
+			sortedItems = ProcessSearch(search, sortedItems);
+		
+		PopulateTab(wTabView, sortedItems);
+	}
+	
+	protected void SelectCategoryBuy(string search = "")
+	{		
+		SelectCategory(m_wBuyTabView, m_iCategoryBuy, m_Shop.GetMerchandiseBuy(), search);
+	}
+	
+	protected void SelectCategorySell(string search = "")
+	{		
+		SelectCategory(m_wSellTabView, m_iCategorySell, m_Shop.GetMerchandiseSell(), search);
+	}
+	
+	protected void ChangeCategoryBuy(SCR_SpinBoxComponent comp, int itemIndex)
+	{
+		m_iCategoryBuy = itemIndex - 1;
+		SelectCategoryBuy(m_sSearchBuy);
+	}
+	
+	protected void ChangeCategorySell(SCR_SpinBoxComponent comp, int itemIndex)
+	{
+		m_iCategorySell = itemIndex - 1;
+		SelectCategorySell(m_sSearchSell);
+	}
+	
+	protected void ConfigureTabs()
+	{
+		if (!m_wBuyTabView || !m_wSellTabView || !m_Shop)
+			return;
+		
+		array<ADM_ShopCategory> categories = {};
+		foreach (ADM_ShopCategory category : m_Shop.GetCategories())
 		{
-			CreateRow(merch);
+			categories.Insert(category);
 		}
 		
-		m_iCurrentCategory = index;
+		Widget wCategoryBuy = m_wBuyTabView.m_wTab.FindAnyWidget("CategoriesBox");
+		SCR_SpinBoxComponent spinBoxComponentBuy = SCR_SpinBoxComponent.Cast(wCategoryBuy.FindHandler(SCR_SpinBoxComponent));
+		ConfigureCategory(spinBoxComponentBuy, categories);
+		spinBoxComponentBuy.m_OnChanged.Insert(ChangeCategoryBuy);
+			
+		Widget wCategorySell = m_wSellTabView.m_wTab.FindAnyWidget("CategoriesBox");
+		SCR_SpinBoxComponent spinBoxComponentSell = SCR_SpinBoxComponent.Cast(wCategorySell.FindHandler(SCR_SpinBoxComponent));
+		ConfigureCategory(spinBoxComponentSell, categories);
+		spinBoxComponentSell.m_OnChanged.Insert(ChangeCategorySell);
+		
+		Widget wSearchBuy = m_wBuyTabView.m_wTab.FindAnyWidget("EditBoxSearch0");
+		SCR_EditBoxSearchComponent searchBuy = SCR_EditBoxSearchComponent.Cast(wSearchBuy.FindHandler(SCR_EditBoxSearchComponent));
+		if (searchBuy && searchBuy.m_OnConfirm)
+		{
+			searchBuy.m_OnConfirm.Insert(ProcessSearchBuy);
+		}
+		
+		Widget wSearchSell = m_wSellTabView.m_wTab.FindAnyWidget("EditBoxSearch0");
+		SCR_EditBoxSearchComponent searchSell = SCR_EditBoxSearchComponent.Cast(wSearchSell.FindHandler(SCR_EditBoxSearchComponent));
+		if (searchSell && searchSell.m_OnConfirm)
+		{
+			searchSell.m_OnConfirm.Insert(ProcessSearchSell);
+		}
+		
+		SelectCategoryBuy(m_sSearchBuy);
+		SelectCategorySell(m_sSearchSell);
 	}
 	
-	void Reset()
+	protected void ClearTab(SCR_TabViewContent wTabView)
 	{
-		PopulateCategories();
-		SelectCategory(-1);
+		if (!wTabView)
+			return;
+		
+		Widget wListbox = wTabView.m_wTab.FindAnyWidget("ListBox0");
+		if (!wListbox)
+			return;
+		
+		SCR_ListBoxComponent listbox = SCR_ListBoxComponent.Cast(wListbox.FindHandler(SCR_ListBoxComponent));
+		if (!listbox)
+			return;
+		
+		listbox.Clear();
 	}
 	
-	void ProcessSearch(SCR_EditBoxSearchComponent searchbox, string search)
+	protected void PopulateTab(SCR_TabViewContent wTabView, array<ref ADM_ShopMerchandise> merchandise)
+	{
+		Widget wListbox = wTabView.m_wTab.FindAnyWidget("ListBox0");
+		if (!wListbox)
+			return;
+		
+		SCR_ListBoxComponent listbox = SCR_ListBoxComponent.Cast(wListbox.FindHandler(SCR_ListBoxComponent));
+		if (!listbox)
+			return;
+		
+		ClearTab(wTabView);
+		foreach (ADM_ShopMerchandise merch : merchandise)
+		{
+			if (!merch)
+				continue;
+			
+			ADM_MerchandiseType merchType = merch.GetMerchandise();
+			if (!merchType)
+				continue;
+			
+			// Item Name
+			string itemName = ADM_Utils.GetPrefabDisplayName(merchType.GetPrefab());
+			if (!itemName)
+				itemName = "Item";
+			
+			int itemIdx = listbox.AddItem(itemName);
+			
+			// Item Preview
+			SCR_ListBoxElementComponent item = listbox.GetElementComponent(itemIdx);
+			if (item)
+			{
+				ItemPreviewWidget wItemPreview = ItemPreviewWidget.Cast(item.GetRootWidget().FindAnyWidget("ItemPreview0"));
+				if (wItemPreview)
+				{
+					m_ItemPreviewManager.SetPreviewItemFromPrefab(wItemPreview, merchType.GetPrefab(), null, false);
+				}
+			}
+			
+			// Cost
+			
+			
+			// Quantity
+			
+		}
+	}
+	
+	protected array<ref ADM_ShopMerchandise> ProcessSearch(string search, array<ref ADM_ShopMerchandise> merchandise)
 	{
 		search = search.Trim();
 		search.ToLower();
 		
 		if (search.IsEmpty())
 		{
-			SelectCategory(m_iCurrentCategory);
-			return;
+			return merchandise;
 		}
 		
-		ClearContent();
-		
-		array<ADM_ShopMerchandise> matchedMerchandise = {};
-		foreach (ADM_ShopMerchandise merch : m_Shop.GetMerchandise())
+		array<ref ADM_ShopMerchandise> matchedMerchandise = {};
+		foreach (ADM_ShopMerchandise merch : merchandise)
 		{
 			string itemName = ADM_Utils.GetPrefabDisplayName(merch.GetMerchandise().GetPrefab());
 			itemName.ToLower();
@@ -416,102 +221,119 @@ class ADM_ShopUI: ChimeraMenuBase
 			}
 		}
 		
-		foreach (ADM_ShopMerchandise merch : matchedMerchandise)
+		return matchedMerchandise;
+	}
+	
+	protected void ProcessSearchBuy(SCR_EditBoxSearchComponent searchbox, string search)
+	{
+		m_sSearchBuy = search;
+		SelectCategoryBuy(m_sSearchBuy);
+	}
+	
+	protected void ProcessSearchSell(SCR_EditBoxSearchComponent searchbox, string search)
+	{
+		m_sSearchSell = search;
+		SelectCategorySell(m_sSearchSell);
+	}
+	
+	private int m_iCachedMoneyCount = 0;
+	private float m_fCachedMoneyTime = -5000000;
+	protected void UpdateMoneyText()
+	{
+		if (!m_wMoneyText)
+			return;
+		
+		SCR_PlayerController playerController = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+		if (!playerController)
+			return;
+		
+		IEntity player = playerController.GetMainEntity();
+		if (!player)
+			return;
+		
+		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventoryManager)
+			return;
+		
+		float time = System.GetTickCount();
+		if (time - m_fCachedMoneyTime > 1000)
 		{
-			CreateRow(merch);
+			m_iCachedMoneyCount = ADM_CurrencyComponent.FindTotalCurrencyInInventory(inventoryManager);
+			m_fCachedMoneyTime = time;
+		}
+			
+		string money = string.Format("$%1", m_iCachedMoneyCount);
+		m_wMoneyText.SetText(money);
+	}
+	
+	override void OnMenuFocusLost()
+	{
+		m_bFocused = false;
+		
+		InputManager inputManager = GetGame().GetInputManager();
+		if (inputManager)
+		{
+			inputManager.RemoveActionListener("MenuOpen", EActionTrigger.DOWN, Close);
+			inputManager.RemoveActionListener("MenuBack", EActionTrigger.DOWN, Close);
+			#ifdef WORKBENCH
+				inputManager.RemoveActionListener("MenuOpenWB", EActionTrigger.DOWN, Close);
+				inputManager.RemoveActionListener("MenuBackWB", EActionTrigger.DOWN, Close);
+			#endif
+		}
+	}
+
+	override void OnMenuFocusGained()
+	{
+		m_bFocused = true;
+		
+		InputManager inputManager = GetGame().GetInputManager();
+		if (inputManager)
+		{
+			inputManager.AddActionListener("MenuOpen", EActionTrigger.DOWN, Close);
+			inputManager.AddActionListener("MenuBack", EActionTrigger.DOWN, Close);
+			#ifdef WORKBENCH
+				inputManager.AddActionListener("MenuOpenWB", EActionTrigger.DOWN, Close);
+				inputManager.AddActionListener("MenuBackWB", EActionTrigger.DOWN, Close);
+			#endif
 		}
 	}
 	
-	override void OnMenuFocusGained() 
+	override void HandlerAttached(Widget w)
 	{
-		super.OnMenuFocusGained();
+		super.HandlerAttached(w);
+		m_wRoot = w;
+		
+		m_wBuySellTabWidget = GetRootWidget().FindAnyWidget("BuySellTabView");
+		if (!m_wBuySellTabWidget) return;
+		
+		m_BuySellTabView = SCR_TabViewComponent.Cast(m_wBuySellTabWidget.FindHandler(SCR_TabViewComponent));
+		if (!m_BuySellTabView) return;
+		
+		m_wBuyTabView = m_BuySellTabView.GetEntryContent(0);
+		m_wSellTabView = m_BuySellTabView.GetEntryContent(1);
+		
+		ConfigureTabs();
+		
+		m_wHeaderText = TextWidget.Cast(m_wRoot.FindAnyWidget("HeaderText"));
+		m_wMoneyText = TextWidget.Cast(m_wRoot.FindAnyWidget("TotalMoneyText"));
+		
+		UpdateMoneyText();
+		
+		ChimeraWorld world = ChimeraWorld.CastFrom(GetGame().GetWorld());
+		if (world)
+		{
+			m_ItemPreviewManager = world.GetItemPreviewManager();
+		}
 	}
 	
-	override void OnMenuFocusLost() 
+	override void HandlerDeattached(Widget w)
 	{
-		super.OnMenuFocusLost();
-	}
-	
-	override void OnMenuShow() 
-	{
-		super.OnMenuShow();
-	}
-	
-	override void OnMenuHide() 
-	{
-		super.OnMenuHide();
-	}
-	
-	override void OnMenuOpen() 
-	{
-		super.OnMenuOpen();
-	}
-	
-	override void OnMenuOpened() 
-	{
-		super.OnMenuOpened();
-	}
-	
-	override void OnMenuClose() 
-	{
-		super.OnMenuClose();
-		ClearContent();
-		ClearCategories();
+		super.HandlerDeattached(w);
 	}
 	
 	override void OnMenuInit() 
 	{
 		super.OnMenuInit();
-		
-		// Get manager and render preview 
-		ChimeraWorld world = ChimeraWorld.CastFrom(GetGame().GetWorld());
-		if (!world)
-			return;
-		
-		ItemPreviewManagerEntity manager = world.GetItemPreviewManager();
-		if (!manager)
-			return;
-		
-		m_PreviewManager = manager;
-		m_wWorkspace = GetGame().GetWorkspace();
-		m_wRoot = GetRootWidget();
-		m_wCategoryParent = m_wRoot.FindAnyWidget("CategoriesContainer");
-		m_wContentParent = m_wRoot.FindAnyWidget("ContentContainer");
-        m_closeButton = SCR_InputButtonComponent.GetInputButtonComponent("Close", m_wRoot);
-		
-		if (!m_wRoot) {
-			Print("ADM_ShopUI: Couldn't find m_wRoot widget!", LogLevel.ERROR);
-			return;
-		}
-		
-		if (!m_wCategoryParent) {
-			Print("ADM_ShopUI: Couldn't find m_wCategoryParent widget!", LogLevel.ERROR);
-			return;
-		}
-		
-		if (!m_wContentParent) {
-			Print("ADM_ShopUI: Couldn't find m_wContentParent widget!", LogLevel.ERROR);
-			return;
-		}
-	
-#ifdef WORKBENCH
-		GetGame().GetInputManager().AddActionListener("MenuBackWB", EActionTrigger.DOWN, Close);
-#else
-		GetGame().GetInputManager().AddActionListener("MenuBack", EActionTrigger.DOWN, Close);
-#endif
-		
-		if (m_closeButton)
-		{
-			m_closeButton.m_OnClicked.Clear();
-			m_closeButton.m_OnClicked.Insert(Close);
-		}
-		
-		SCR_EditBoxSearchComponent search = SCR_EditBoxSearchComponent.Cast(SCR_EditBoxSearchComponent.GetEditBoxComponent("Searchbar", m_wRoot));
-		if (search)
-		{
-			if (search.m_OnConfirm)
-				search.m_OnConfirm.Insert(ProcessSearch);
-		}
 	}
 	
 	override void OnMenuUpdate(float tDelta) 
@@ -519,8 +341,8 @@ class ADM_ShopUI: ChimeraMenuBase
 		super.OnMenuUpdate(tDelta);
 	}
 	
-	override void OnMenuItem(string menuItemName, bool changed, bool finished) 
+	override void OnMenuClose() 
 	{
-		super.OnMenuItem(menuItemName, changed, finished);
+		super.OnMenuClose();
 	}
 }

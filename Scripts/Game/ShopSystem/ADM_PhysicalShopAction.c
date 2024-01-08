@@ -1,14 +1,11 @@
 class ADM_PhysicalShopAction : ScriptedUserAction
 {
-	//! Adjustment step of normalized value
 	[Attribute( uiwidget: UIWidgets.Auto, defvalue: "1", desc: "Adjustment Step")]
 	protected float m_fAdjustmentStep;
 	
-	//! Name of action to control the input
 	[Attribute( uiwidget: UIWidgets.Auto, defvalue: "SelectAction", desc: "Input action for increase")]
 	protected string m_sActionIncrease;
 	
-	//! Name of action to control the input
 	[Attribute( uiwidget: UIWidgets.Auto, defvalue: "", desc: "Input action for decrease")]
 	protected string m_sActionDecrease;
 	
@@ -30,7 +27,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 			return;
 		}
 		
-		array<ref ADM_ShopMerchandise> shopMerchandise = m_Shop.GetMerchandise();
+		array<ref ADM_ShopMerchandise> shopMerchandise = m_Shop.GetMerchandiseBuy();
 		if (!shopMerchandise) return;
 		
 		ADM_ShopMerchandise merchandise;
@@ -47,15 +44,15 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
 	{	
-		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return;
+		if (!m_Shop || m_Shop.GetMerchandiseBuy().Count() <= 0) return;
 				
 		SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerController());
 		if (!scrPlayerController || pUserEntity != scrPlayerController.GetMainEntity()) 
 			return;
 		
 		// Physical shops should only have one item defined, so just grab the first one in the merchandise array	
-		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandise()[0];
-		if (ADM_ShopComponent.IsPaymentOnlyCurrency(merchandise) || !(merchandise.GetRequiredPayment().Count() > 0))
+		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandiseBuy()[0];
+		if (ADM_ShopComponent.IsPaymentOnlyCurrency(merchandise) || !(merchandise.GetBuyPayment().Count() > 0))
 		{
 			ADM_PlayerShopManagerComponent playerShopManager = ADM_PlayerShopManagerComponent.Cast(scrPlayerController.FindComponent(ADM_PlayerShopManagerComponent));
 			if (!playerShopManager) return;
@@ -69,7 +66,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
 	{
-		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return false;
+		if (!m_Shop || m_Shop.GetMerchandiseBuy().Count() <= 0) return false;
 		
 		VObject model = m_Shop.GetOwner().GetVObject();
 		if (!model) return false;
@@ -80,25 +77,25 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
 	{
-		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return false;
+		if (!m_Shop || m_Shop.GetMerchandiseBuy().Count() <= 0) return false;
 		
-		//return m_Shop.CanPurchase(user);
 		return true;
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	override bool GetActionNameScript(out string outName)
 	{
-		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return false;
+		if (!m_Shop || m_Shop.GetMerchandiseBuy().Count() <= 0) return false;
 		
-		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandise()[0];
+		ADM_ShopMerchandise merchandise = m_Shop.GetMerchandiseBuy()[0];
 		string actionName = "Purchase";
-		if (!merchandise.GetRequiredPayment().Count() > 0) actionName = "Free";
+		if (!merchandise.GetBuyPayment().Count() > 0) actionName = "Free";
 		if (m_ItemName.Length() > 0) actionName += string.Format(" %1", m_ItemName);
 		
 		bool currencyOnly = ADM_ShopComponent.IsPaymentOnlyCurrency(merchandise);
-		if (currencyOnly) {
-			int cost = ADM_PaymentMethodCurrency.Cast(merchandise.GetRequiredPayment()[0]).GetQuantity();
+		if (currencyOnly) 
+		{
+			int cost = ADM_PaymentMethodCurrency.Cast(merchandise.GetBuyPayment()[0]).GetQuantity();
 			actionName += string.Format(" ($%1)", cost);
 		}
 		

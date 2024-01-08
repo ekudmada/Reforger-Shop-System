@@ -22,6 +22,7 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 		return params;
 	}
 	
+	// This causes a noticable studder in workbench, if many vehicle locations getting checked this could be an issue for large servers
 	int lastCheckTime = -1;
 	bool canRespawnCache = false;
 	override bool CanRespawn(ADM_ShopBaseComponent shop, int quantity = 1, array<IEntity> ignoreEntities = null)

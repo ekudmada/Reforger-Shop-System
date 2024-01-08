@@ -16,7 +16,7 @@ class ADM_ShopAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
 	{	
-		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) return;
+		if (!m_Shop || m_Shop.GetMerchandiseBuy().Count() <= 0) return;
 		
 		SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerController());
 		if (!scrPlayerController || pUserEntity != scrPlayerController.GetMainEntity()) 
@@ -30,7 +30,7 @@ class ADM_ShopAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
 	{
-		if (!m_Shop || !m_Shop.GetMerchandise() || m_Shop.GetMerchandise().Count() <= 0) 
+		if (!m_Shop || !m_Shop.GetMerchandiseAll() || m_Shop.GetMerchandiseAll().Count() <= 0) 
 			return false;
 			
 		return true;
@@ -39,7 +39,7 @@ class ADM_ShopAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
 	{
-		if (!m_Shop || m_Shop.GetMerchandise().Count() <= 0) 
+		if (!m_Shop || m_Shop.GetMerchandiseAll().Count() <= 0) 
 			return false;
 		
 		return true;
@@ -63,5 +63,5 @@ class ADM_ShopAction : ScriptedUserAction
 	override bool CanBroadcastScript() 
 	{ 
 		return false; 
-	};
+	}
 }

@@ -1,0 +1,147 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ {
+  OverlayWidgetClass "{605028C4E12773CA}" {
+   Name "Overlay0"
+   Slot FrameWidgetSlot "{605028C4E12773E2}" {
+    Anchor 0 0 1 1
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX -1820
+    OffsetRight 0
+    SizeY -1050
+    OffsetBottom 0
+   }
+   {
+    SizeLayoutWidgetClass "{605028C48528AABD}" {
+     Name "SizeLayout0"
+     Slot OverlayWidgetSlot "{605028C48528AB54}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      VerticalLayoutWidgetClass "{605028C329F16F4C}" {
+       Name "HorizontalLayout0"
+       Slot AlignableSlot "{605028C329F16F63}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        HorizontalLayoutWidgetClass "{605028CCA7724237}" {
+         Name "HorizontalLayout0"
+         Slot LayoutSlot "{605028CCA772422E}" {
+         }
+         {
+          ButtonWidgetClass "{605049F48606972E}" : "{C9DF0E6590F6C388}UI/layouts/WidgetLibrary/SpinBox/WLib_SpinBox.layout" {
+           Name "CategoriesBox"
+           Slot LayoutSlot "{58A4CCA8E9BE41A8}" {
+            HorizontalAlign 3
+            Padding 0 10 0 0
+            SizeMode Fill
+           }
+           components {
+            SCR_SpinBoxComponent "{5472C6CBC0640458}" {
+             m_bUseLabel 0
+             m_sLabel "#AR-Settings_Keybind-Category"
+             m_fSizeWithLabel 52
+             m_fSizeWithoutLabel 52
+             m_sLabelLayout "{F003823FF141983C}UI/layouts/Menus/SettingsMenu/CustomWidgets/SettingsLabel.layout"
+             m_aElementNames {
+              "a" "b"
+             }
+             m_bUseLightArrows 0
+             m_bCycleMode 1
+            }
+           }
+           {
+            SizeLayoutWidgetClass "{55367D829C978ED4}" {
+             Prefab "{55367D829C978ED4}"
+             HeightOverride 48
+             {
+              OverlayWidgetClass "{55367D8E531FD623}" {
+               Prefab "{55367D8E531FD623}"
+               Slot AlignableSlot "{55367D8E531FD640}" {
+                Padding 0 0 0 0
+               }
+               {
+                ImageWidgetClass "{5E4C99CA3A026F65}" {
+                 Prefab "{5E4C99CA3A026F65}"
+                 "Is Visible" 0
+                }
+                PanelWidgetClass "{55367D8E4A135500}" {
+                 Prefab "{55367D8E4A135500}"
+                 "Is Visible" 0
+                }
+                HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
+                 Prefab "{55367D8E4592BC6E}"
+                 Slot OverlayWidgetSlot "{55367D8E4592B383}" {
+                 }
+                 {
+                  HorizontalLayoutWidgetClass "{55367D828911C318}" {
+                   Prefab "{55367D828911C318}"
+                   Slot LayoutSlot "{55367D828911C327}" {
+                   }
+                   {
+                    VerticalLayoutWidgetClass "{55367D82D7AA2C56}" {
+                     Prefab "{55367D82D7AA2C56}"
+                     Slot LayoutSlot "{55367D82D7AA2C75}" {
+                      Padding 0 8 0 8
+                     }
+                     {
+                      RichTextWidgetClass "{55367D82CFCF3406}" {
+                       Prefab "{55367D82CFCF3406}"
+                       "Font Size" 24
+                       "Min Font Size" 24
+                       FontProperties FontProperties "{546AF489DFD25402}" {
+                        Font "{EABA4FE9D014CCEF}UI/Fonts/RobotoCondensed/RobotoCondensed_Bold.fnt"
+                       }
+                      }
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+          ButtonWidgetClass "{605028CCD1E58FA0}" : "{67B4F07635959DC7}UI/layouts/WidgetLibrary/EditBox/WLib_EditBoxSearch.layout" {
+           Name "EditBoxSearch0"
+           Slot LayoutSlot "{605028CCD1E58C55}" {
+            HorizontalAlign 3
+            Padding 0 10 0 0
+            SizeMode Fill
+            FillWeight 1
+           }
+          }
+         }
+        }
+        OverlayWidgetClass "{605049D7E7013B81}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
+         Name "ListBox0"
+         Slot LayoutSlot "{605049D7E7013BAC}" {
+         }
+         components {
+          SCR_ListBoxComponent "{566C9415BAA54E1B}" {
+           m_sElementLayout "{906F7BCCC662C19D}UI/Layouts/Menus/ShopMenu/ListBoxElement_ShopItem.layout"
+          }
+         }
+         {
+          ImageWidgetClass "{5DB6D18100D38307}" {
+           Prefab "{5DB6D18100D38307}"
+           "Is Visible" 0
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
