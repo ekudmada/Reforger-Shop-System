@@ -1,0 +1,175 @@
+ButtonWidgetClass {
+ Name "SpinBox"
+ Slot AlignableSlot "{5534FAB1662D77B1}" {
+  HorizontalAlign 3
+ }
+ Clipping False
+ Color 1 1 1 0
+ components {
+  SCR_SpinBoxComponent "{5472C6CBC0640458}" {
+   m_sSoundClicked "SOUND_FE_BUTTON_SELECT"
+   m_bUseLabel 0
+   m_sLabel "#AR-Settings_Keybind-Category"
+   m_fSizeWithLabel 56
+   m_fSizeWithoutLabel 56
+   m_sLabelLayout "{F003823FF141983C}UI/layouts/Menus/SettingsMenu/CustomWidgets/SettingsLabel.layout"
+   m_aElementNames {
+    "a"
+   }
+   m_bUseLightArrows 0
+   m_bCycleMode 1
+   m_sMenuActionLeft "MenuNavLeft"
+   m_sMenuActionRight "MenuNavRight"
+  }
+  SCR_ModularButtonComponent "{5E4C99C9EEA65996}" {
+   m_aEffects {
+    SCR_ButtonEffectSound "{5D9E89455EE4B68D}" {
+     m_eEvents EVENT_MOUSE_ENTER
+     m_eInputDevices 50
+     m_sSound "SOUND_FE_BUTTON_HOVER"
+    }
+    SCR_ButtonEffectSound "{5D9E89455EE4B687}" {
+     m_eEvents EVENT_FOCUS_GAINED
+     m_eInputDevices 61
+     m_sSound "SOUND_FE_BUTTON_HOVER"
+    }
+    SCR_ButtonEffectSound "{5D9E89455EE4B681}" {
+     m_eEvents EVENT_CLICKED
+    }
+    SCR_ButtonEffectColor "{5DB885898296DF89}" {
+     m_eEvents 6144
+     m_sWidgetName "LineHighlight"
+     m_cDefault 0 0 0 0
+     m_cHovered 0 0 0 0
+     m_cActivated 0 0 0 0
+     m_cActivatedHovered 0 0 0 0
+     m_cDisabled 0 0 0 0
+     m_cDisabledActivated 0 0 0 0
+     m_cClicked 0 0 0 0
+     m_cFocusGained 1 0.597 0.198 0.3
+     m_cFocusLost 0 0 0 0
+     m_cToggledOn 0 0 0 0
+     m_cToggledOff 0 0 0 0
+    }
+    SCR_ButtonEffectColor "{5D9EFC157A1E1706}" {
+     m_eEvents 24581
+     m_sWidgetName "Background"
+     m_fAnimationTime 0.1
+     m_cDefault 0 0 0 0.5
+     m_cHovered 0 0 0 0
+     m_cActivated 0 0 0 0
+     m_cActivatedHovered 0 0 0 0
+     m_cDisabled 0 0 0 0
+     m_cDisabledActivated 0 0 0 0
+     m_cClicked 0 0 0 0
+     m_cFocusGained 0 0 0 0
+     m_cFocusLost 0 0 0 0
+     m_cToggledOn 0 0 0 0
+     m_cToggledOff 0 0 0 0.5
+    }
+   }
+   m_bCanBeToggled 1
+   m_bToggledOnlyThroughApi 1
+   m_eEventReturnValue 2147483644
+   m_bFocusOnMouseEnter 1
+  }
+ }
+ style blank
+ {
+  SizeLayoutWidgetClass "{60545C9EB0916DCE}" : "{37F2B4CB4DDDD310}UI/layouts/WidgetLibrary/BaseElements/WLib_Base.layout" {
+   Name "SizeLayout"
+   Slot ButtonWidgetSlot "{55367D829C978EC9}" {
+    HorizontalAlign 3
+   }
+   HeightOverride 38
+   {
+    OverlayWidgetClass "{55367D8E531FD623}" {
+     Prefab "{55367D8E531FD623}"
+     {
+      ImageWidgetClass "{60545C9EB0916DCD}" : "{E679D416053194D7}UI/layouts/WidgetLibrary/BaseElements/WLib_LineHighlight.layout" {
+       Name "LineHighlight"
+       Slot OverlayWidgetSlot "{5DB8C57A14F7A8AF}" {
+       }
+       Progress 0.4
+      }
+      PanelWidgetClass "{55367D8E4A135500}" {
+       Prefab "{55367D8E4A135500}"
+       "Is Visible" 0
+      }
+      HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
+       Prefab "{55367D8E4592BC6E}"
+       {
+        HorizontalLayoutWidgetClass "{60545C9EB0916DCA}" {
+         Name "ContentLayout"
+         Slot LayoutSlot "{55367D828911C327}" {
+          SizeMode Fill
+         }
+         {
+          ButtonWidgetClass "{60545C9FCACC588B}" : "{DA657C7DB8D3DEBA}UI/Layouts/Menus/ShopMenu/CategorySpinBoxPagingButton.layout" {
+           Name "ButtonLeft"
+           Slot LayoutSlot "{60545C9FCACC589D}" {
+            HorizontalAlign 1
+            VerticalAlign 1
+           }
+           components {
+            ADM_VisualPagingButton "{60545C9FC4652D39}" {
+             m_bIsPositive 0
+             m_bUseActionHint 1
+             m_sActionName "MenuNavLeft"
+            }
+           }
+          }
+          VerticalLayoutWidgetClass "{60545C9EB0916DC9}" {
+           Name "VerticalLayout0"
+           Slot LayoutSlot "{55367D82D7AA2C75}" {
+            SizeMode Fill
+           }
+           {
+            RichTextWidgetClass "{60545C9EB0916DF6}" : "{45BA2EA46F09C0FF}UI/layouts/WidgetLibrary/RichTextWidgets/RichText_InteractiveSmall.layout" {
+             Name "SelectionText"
+             Slot LayoutSlot "{55367D82CFCF3437}" {
+              SizeMode Fill
+             }
+             "Horizontal Alignment" Center
+             "Vertical Alignment" Center
+            }
+            SizeLayoutWidgetClass "{60545C9EB0916DF7}" {
+             Name "SizeLayout0"
+             Slot LayoutSlot "{55367D82C1A73CD0}" {
+             }
+             AllowWidthOverride 1
+             WidthOverride 300
+             HeightOverride 4
+             {
+              HorizontalLayoutWidgetClass "{60545C9EB092BA2A}" {
+               Name "HintBar"
+               Slot AlignableSlot "{55367D823C04A23F}" {
+               }
+              }
+             }
+            }
+           }
+          }
+          ButtonWidgetClass "{60545C9F9E443932}" : "{DA657C7DB8D3DEBA}UI/Layouts/Menus/ShopMenu/CategorySpinBoxPagingButton.layout" {
+           Name "ButtonRight"
+           Slot LayoutSlot "{60545C9F9E443959}" {
+            HorizontalAlign 1
+            VerticalAlign 1
+           }
+           components {
+            ADM_VisualPagingButton "{60545C9FC4652D39}" {
+             m_bUseActionHint 1
+             m_sActionName "MenuNavRight"
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

@@ -3,13 +3,6 @@ SCR_PlayerController : "{225E51284CC95CFA}Prefabs/Characters/Core/DefaultPlayerC
  components {
   ADM_PlayerShopManagerComponent "{5D7A7C1172635B35}" {
   }
-  SCR_HUDManagerComponent "{2FDC275D9EBCDB8B}" {
-   InfoDisplays {
-    ADM_CurrencyHUD "{5D7A7C1170A3A5AE}" {
-     m_LayoutPath "{F51AFD98E06FAADB}UI/Layouts/CurrencyHUD.layout"
-    }
-   }
-  }
  }
  coords 150.21 1.001 140.193
 }

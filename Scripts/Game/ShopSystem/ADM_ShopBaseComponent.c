@@ -3,11 +3,10 @@ class ADM_ShopBaseComponent: ScriptComponent
 {
 	/*
 		TODO:
-			- Add limited supply
-			- Sell items
-			- Supply & Demand
+			- Add hook for gamemodes to control costs
 			- Hook for gamemodes to send payments somewhere
 				- e.g player owned shops
+			- Rather than delete payment or sold item have option for it to go into storage
 	*/
 	
 	/* 
@@ -23,8 +22,8 @@ class ADM_ShopBaseComponent: ScriptComponent
 	protected ResourceName m_ShopConfig;
 	
 	protected ref array<ref ADM_ShopMerchandise> m_Merchandise = {};
-	
 	private ref ScriptInvoker Event_OnPostPurchase = new ScriptInvoker();
+	private ref ScriptInvoker Event_OnPostSell = new ScriptInvoker();
 	
 	//------------------------------------------------------------------------------------------------
 	static bool IsBuyPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
@@ -181,7 +180,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 	{
 		
 		
-		return true;
+		return false;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -190,7 +189,8 @@ class ADM_ShopBaseComponent: ScriptComponent
 		
 		
 		// Invoke OnPostSell (event after a purchase is completed for gamemodes to hook to)
-		// Pass in the shop, player who purchased, and collectedPaymentMethods
+		// Pass in the shop, player who purchased, and sold item
+		Event_OnPostSell.Invoke(this, player, null);
 		
 		return true;
 	}

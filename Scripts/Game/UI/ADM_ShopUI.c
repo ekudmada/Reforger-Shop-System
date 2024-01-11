@@ -1,8 +1,25 @@
-class ADM_ShopUI_Item : SCR_ScriptedWidgetComponent
+class ADM_ShopUI_Item : SCR_ModularButtonComponent
 {
+	[Attribute(defvalue: "MenuNavLeft")]
+	protected string m_sQuantityActionLess;
+	
+	[Attribute(defvalue: "MenuNavRight")]
+	protected string m_sQuantityActionMore;
+	
+	[Attribute(defvalue: "MenuLeft")]
+	protected string m_sScrollActionLeft;
+	
+	[Attribute(defvalue: "MenuRight")]
+	protected string m_sScrollActionRight;
+	
 	[Attribute(defvalue: "1")]
 	protected int m_quantity = 1;
+	
+	protected bool m_bHasActionListeners;
 	protected ref ADM_ShopMerchandise m_Merchandise;
+	protected SCR_PagingButtonComponent m_ButtonLeft;
+	protected SCR_PagingButtonComponent m_ButtonRight;
+	protected ScrollLayoutWidget m_wPriceScrollLayout;
 	
 	int GetQuantity()
 	{
@@ -18,6 +35,9 @@ class ADM_ShopUI_Item : SCR_ScriptedWidgetComponent
 	void UpdateQuantity(int amount)
 	{
 		m_quantity = m_quantity + amount;
+		if (m_quantity < 1)
+			m_quantity = 1;
+		
 		OnUpdate(this.m_wRoot);
 	}
 	
@@ -29,6 +49,139 @@ class ADM_ShopUI_Item : SCR_ScriptedWidgetComponent
 	void SetMerchandise(ADM_ShopMerchandise merch)
 	{
 		m_Merchandise = merch;
+	}
+	
+	protected void OnQuantityLess()
+	{
+		if (GetGame().GetWorkspace().GetFocusedWidget() != m_wRoot)
+			return;
+
+		UpdateQuantity(-1);
+	}
+
+	protected void OnQuantityMore()
+	{
+		if (GetGame().GetWorkspace().GetFocusedWidget() != m_wRoot)
+			return;
+
+		UpdateQuantity(1);
+	}
+	
+	protected void OnScrollLeft()
+	{
+		if (GetGame().GetWorkspace().GetFocusedWidget() != m_wRoot || !m_wPriceScrollLayout)
+			return;
+		
+		float x,y;
+		m_wPriceScrollLayout.GetSliderPos(x,y);
+		m_wPriceScrollLayout.SetSliderPos(x-0.1,y);
+	}
+	
+	protected void OnScrollRight()
+	{
+		if (GetGame().GetWorkspace().GetFocusedWidget() != m_wRoot || !m_wPriceScrollLayout)
+			return;
+		
+		float x,y;
+		m_wPriceScrollLayout.GetSliderPos(x,y);
+		m_wPriceScrollLayout.SetSliderPos(x+0.1,y);
+	}
+	
+	override void HandlerAttached(Widget w)
+	{
+		super.HandlerAttached(w);
+		
+		Widget left = w.FindAnyWidget("ButtonLeft");
+		Widget right = w.FindAnyWidget("ButtonRight");
+		m_wPriceScrollLayout = ScrollLayoutWidget.Cast(w.FindAnyWidget("ScrollLayout0"));
+
+		if (left)
+		{
+			left.SetVisible(false);
+			m_ButtonLeft = SCR_PagingButtonComponent.Cast(left.FindHandler(SCR_PagingButtonComponent));
+			if (m_ButtonLeft)
+				m_ButtonLeft.m_OnActivated.Insert(OnQuantityLess);
+		}
+
+		if (right)
+		{
+			right.SetVisible(false);
+			m_ButtonRight = SCR_PagingButtonComponent.Cast(right.FindHandler(SCR_PagingButtonComponent));
+			if (m_ButtonRight)
+				m_ButtonRight.m_OnActivated.Insert(OnQuantityMore);
+		}
+		
+		OnUpdate(m_wRoot);
+	}
+	
+	void AddActionListeners()
+	{
+		if (m_bHasActionListeners)
+			return;
+		
+		GetGame().GetInputManager().AddActionListener(m_sQuantityActionLess, EActionTrigger.DOWN, OnQuantityLess);
+		GetGame().GetInputManager().AddActionListener(m_sQuantityActionMore, EActionTrigger.DOWN, OnQuantityMore);
+		
+		GetGame().GetInputManager().AddActionListener(m_sScrollActionLeft, EActionTrigger.DOWN, OnScrollLeft);
+		GetGame().GetInputManager().AddActionListener(m_sScrollActionRight, EActionTrigger.DOWN, OnScrollRight);
+		
+		m_bHasActionListeners = true;
+	}
+	
+	void RemoveActionListeners()
+	{
+		if (!m_bHasActionListeners)
+			return;
+		
+		GetGame().GetInputManager().RemoveActionListener(m_sQuantityActionLess, EActionTrigger.DOWN, OnQuantityLess);
+		GetGame().GetInputManager().RemoveActionListener(m_sQuantityActionMore, EActionTrigger.DOWN, OnQuantityMore);
+		
+		GetGame().GetInputManager().RemoveActionListener(m_sScrollActionLeft, EActionTrigger.DOWN, OnScrollLeft);
+		GetGame().GetInputManager().RemoveActionListener(m_sScrollActionRight, EActionTrigger.DOWN, OnScrollRight);
+		
+		m_bHasActionListeners = false;
+	}
+	
+	override bool OnFocus(Widget w, int x, int y)
+	{
+		super.OnFocus(w, x, y);
+
+		AddActionListeners();
+
+		Widget left = w.FindAnyWidget("ButtonLeft");
+		if (left)
+		{
+			left.SetVisible(true);
+		}
+
+		Widget right = w.FindAnyWidget("ButtonRight");
+		if (right)
+		{
+			right.SetVisible(true);
+		}
+		
+		return false;
+	}
+
+	override bool OnFocusLost(Widget w, int x, int y)
+	{
+		super.OnFocusLost(w, x, y);
+
+		RemoveActionListeners();
+
+		Widget left = w.FindAnyWidget("ButtonLeft");
+		if (left)
+		{
+			left.SetVisible(false);
+		}
+
+		Widget right = w.FindAnyWidget("ButtonRight");
+		if (right)
+		{
+			right.SetVisible(false);
+		}
+
+		return false;
 	}
 	
 	override bool OnUpdate(Widget w)
@@ -43,22 +196,14 @@ class ADM_ShopUI_Item : SCR_ScriptedWidgetComponent
 	}
 }
 
-class ADM_ShopQuantityButton : SCR_ButtonImageComponent
-{
-	[Attribute()]
-	protected int m_iAmount;
-	
-	int GetAmount()
-	{
-		return m_iAmount;
-	}
-}
-
 class ADM_IconBarterTooltip : ScriptedWidgetComponent
 {
 	protected Widget m_wRoot;
 	protected SCR_HoverDetectorComponent m_HoverDetector;
 	protected ref ADM_PaymentMethodBase m_PaymentMethod;
+	
+	protected ItemPreviewWidget m_wPreviewWidget;
+	protected TextWidget m_wQuantityWidget;
 	
 	[Attribute()]
 	protected ref SCR_ScriptedWidgetTooltipPreset m_wTooltipPreset;
@@ -67,8 +212,7 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 	override void HandlerAttached(Widget w)
 	{
 		m_wRoot = w;
-		
-		// Get manager and render preview 
+		 
 		ChimeraWorld world = ChimeraWorld.CastFrom(GetGame().GetWorld());
 		if (!world)
 			return;
@@ -77,7 +221,9 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 		if (!manager)
 			return;
 		
-		m_HoverDetector = SCR_HoverDetectorComponent.Cast(w.FindHandler(SCR_HoverDetectorComponent));		
+		m_HoverDetector = SCR_HoverDetectorComponent.Cast(w.FindHandler(SCR_HoverDetectorComponent));	
+		m_wPreviewWidget = ItemPreviewWidget.Cast(w.FindAnyWidget("ItemPreview0"));	
+		m_wQuantityWidget = TextWidget.Cast(w.FindAnyWidget("Quantity"));		
 		m_HoverDetector.m_OnHoverDetected.Insert(OnHoverDetected);
 		m_HoverDetector.m_OnMouseLeave.Insert(OnMouseLeaveTooltip);
 	}
@@ -85,6 +231,36 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 	void SetPayment(ADM_PaymentMethodBase payment)
 	{
 		m_PaymentMethod = payment;
+		
+		if (!m_wPreviewWidget)
+			return;
+		
+		ChimeraWorld world = ChimeraWorld.CastFrom(GetGame().GetWorld());
+		if (!world)
+			return;
+		
+		ItemPreviewManagerEntity manager = world.GetItemPreviewManager();
+		if (!manager)
+			return;
+		
+		manager.SetPreviewItemFromPrefab(m_wPreviewWidget, m_PaymentMethod.GetDisplayEntity(), null, false);		
+		
+		if (!m_wQuantityWidget)
+			return;
+		
+		int quantity = 1;
+		ADM_ShopUI_Item item = ADM_ShopUI.FindShopUIItem(m_wRoot);
+		if (item)
+			quantity = item.GetQuantity();
+			
+		string displayString = m_PaymentMethod.GetDisplayString(quantity);
+		if (m_PaymentMethod.Type() == ADM_PaymentMethodItem)
+		{
+			ADM_PaymentMethodItem paymentMethodItem = ADM_PaymentMethodItem.Cast(m_PaymentMethod);
+			displayString = string.Format("x%1", paymentMethodItem.GetItemQuantity() * item.GetQuantity());
+		}
+		
+		m_wQuantityWidget.SetText(string.Format("%1", displayString));
 	}
 	
 	void OnHoverDetected()
@@ -102,7 +278,7 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 		
 		Widget w = SCR_TooltipManagerEntity.CreateTooltip(m_wTooltipPreset, m_wRoot);
 		TextWidget wText = TextWidget.Cast(w.FindAnyWidget("Text"));
-		ItemPreviewWidget wRenderTarget = ItemPreviewWidget.Cast(w.FindWidget("Overlay.VerticalLayout0.SizeLayout0.PreviewImage"));
+		ItemPreviewWidget wRenderTarget = ItemPreviewWidget.Cast(w.FindAnyWidget("ItemPreview"));
 		if (m_PaymentMethod) {
 			int quantity = 1;
 			ADM_ShopUI_Item item = ADM_ShopUI.FindShopUIItem(m_wRoot);
@@ -113,7 +289,7 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 			wText.SetText(displayString);
 			
 			if (wRenderTarget && previewManager) 
-				previewManager.SetPreviewItemFromPrefab(wRenderTarget, m_PaymentMethod.GetDisplayEntity(), null, true);
+				previewManager.SetPreviewItemFromPrefab(wRenderTarget, m_PaymentMethod.GetDisplayEntity(), null, false);
 		}
 	}
 	
@@ -361,34 +537,6 @@ class ADM_ShopUI: ChimeraMenuBase
 				item.SetQuantity(1);
 				item.SetMerchandise(merch);
 			}
-				
-			Widget lessBtnWidget = lbItem.GetRootWidget().FindAnyWidget("QuantityLess");
-			Widget moreBtnWidget = lbItem.GetRootWidget().FindAnyWidget("QuantityMore");
-			
-			if (lessBtnWidget && moreBtnWidget)
-			{
-				if (!merch.GetMerchandise().CanPurchaseMultiple()) 
-				{
-					lessBtnWidget.SetEnabled(false);
-					moreBtnWidget.SetEnabled(false);
-					lessBtnWidget.SetVisible(false);
-					moreBtnWidget.SetVisible(false);
-				} else {
-					ADM_ShopQuantityButton lessQuantityBtn = ADM_ShopQuantityButton.Cast(lessBtnWidget.FindHandler(ADM_ShopQuantityButton));
-					if (lessQuantityBtn)
-					{
-						lessQuantityBtn.m_OnClicked.Clear();
-						lessQuantityBtn.m_OnClicked.Insert(UpdateItemQuantity);
-					}
-					
-					ADM_ShopQuantityButton moreQuantityBtn = ADM_ShopQuantityButton.Cast(moreBtnWidget.FindHandler(ADM_ShopQuantityButton));
-					if (moreQuantityBtn)
-					{
-						moreQuantityBtn.m_OnClicked.Clear();
-						moreQuantityBtn.m_OnClicked.Insert(UpdateItemQuantity);
-					}
-				}
-			}
 		}
 	}
 	
@@ -457,13 +605,6 @@ class ADM_ShopUI: ChimeraMenuBase
 			
 		string money = string.Format("$%1", m_iCachedMoneyCount);
 		m_wMoneyText.SetText(money);
-	}
-	
-	void UpdateItemQuantity(ADM_ShopQuantityButton button)
-	{
-		ADM_ShopUI_Item uiItem = FindShopUIItem(button.GetRootWidget());
-		if (uiItem) 
-			uiItem.UpdateQuantity(button.GetAmount());
 	}
 	
 	static ADM_ShopUI_Item FindShopUIItem(Widget w)

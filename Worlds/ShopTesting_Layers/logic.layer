@@ -6,7 +6,7 @@ SCR_BaseGameMode GameMode_Plain1 : "{1B76F75A3175E85C}Prefabs/MP/Modes/Plain/Gam
   }
  }
  coords 0 0 0
- PlayerControllerPrefab "{49893B38064865FC}Prefabs/Characters/Core/PlayerController_ShopAndCurrencyHUD.et"
+ PlayerControllerPrefab "{49893B38064865FC}Prefabs/Characters/Core/PlayerControllerShop.et"
 }
 SCR_FactionManager FactionManager : "{589540B35EBA8CDC}Prefabs/MP/Managers/Factions/FactionManager_USxUSSR.et" {
 }

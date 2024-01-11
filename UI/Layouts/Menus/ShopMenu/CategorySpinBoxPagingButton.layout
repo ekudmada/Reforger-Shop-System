@@ -1,0 +1,91 @@
+ButtonWidgetClass {
+ Name "PagingButton"
+ Slot AlignableSlot "{553D0561F54898F3}" {
+  Padding 4 4 4 4
+ }
+ Clipping True
+ Color 0 0 0 0
+ components {
+  ADM_VisualPagingButton "{60545C9FC4652D39}" {
+   m_sSoundClicked "SOUND_FE_BUTTON_SELECT"
+   m_fDisabledOpacity 0.2
+   m_BackgroundDefault 0.76 0.392 0.078 1
+   m_BackgroundHovered 1 0.597 0.198 1
+   m_BackgroundSelected 0.896 0.539 0.184 1
+   m_BackgroundSelectedHovered 0.896 0.539 0.184 1
+   m_BackgroundClicked 0.896 0.539 0.184 1
+   m_bIsPositive 1
+  }
+  SCR_ModularButtonComponent "{5E5AE5E18040294E}" {
+   m_aEffects {
+    SCR_ButtonEffectColor "{5E5AE5E07D2680D3}" {
+     m_eEvents 98323
+     m_sWidgetName "Panel"
+     m_cDefault 1 1 1 0.7
+     m_cHovered 1 0.597 0.198 1
+     m_cActivated 1 0.597 0.198 1
+     m_cActivatedHovered 1 0.597 0.198 1
+     m_cDisabled 0.074 0.074 0.074 0
+     m_cClicked 1 0.597 0.198 0
+    }
+   }
+  }
+ }
+ "no focus" 1
+ {
+  SizeLayoutWidgetClass "{60545C9FD462BB71}" {
+   Name "SizeLayout"
+   Slot ButtonWidgetSlot "{5452C531C2876D63}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 0 0 0 0
+   }
+   AllowWidthOverride 1
+   WidthOverride 30
+   AllowHeightOverride 1
+   HeightOverride 30
+   AllowAspectRatioForce 1
+   {
+    OverlayWidgetClass "{60545C9FD462BB77}" {
+     Name "Overlay"
+     Slot ButtonWidgetSlot "{5452C531C2876D63}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+      Padding 0 0 0 0
+     }
+     {
+      ImageWidgetClass "{60545C9FD462BB76}" {
+       Name "BackgroundImage"
+       Slot OverlayWidgetSlot "{5472DDC6B9D4EDB1}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+      }
+      ImageWidgetClass "{60545C9FD462BB75}" {
+       Name "Panel"
+       Slot OverlayWidgetSlot "{54988404A7EF82FD}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 1 1 1 0.7
+       Texture "{3262679C50EF4F01}UI/Textures/Icons/icons_wrapperUI.imageset"
+       Image "sortArrowRight"
+       Size 128 128
+      }
+      RichTextWidgetClass "{60545C9FD462BB74}" : "{AF1955F09606B450}UI/layouts/WidgetLibrary/RichTextWidgets/RichText_Interactive.layout" {
+       Name "ActionText"
+       Slot OverlayWidgetSlot "{553D05660AD2BC60}" {
+        Padding 0 0 0 4
+       }
+       "Is Visible" 0
+       Clipping False
+       Color 0.761 0.392 0.078 1
+       Text "<action name = \"MenuSearch\"/>"
+       "Min Font Size" 14
+      }
+     }
+    }
+   }
+  }
+ }
+}

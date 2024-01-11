@@ -1,5 +1,6 @@
 FrameWidgetClass {
  Name "rootFrame"
+ "Left rule" Stop
  {
   OverlayWidgetClass "{605028C4E12773CA}" {
    Name "Overlay0"
@@ -34,80 +35,12 @@ FrameWidgetClass {
          Slot LayoutSlot "{605028CCA772422E}" {
          }
          {
-          ButtonWidgetClass "{605049F48606972E}" : "{C9DF0E6590F6C388}UI/layouts/WidgetLibrary/SpinBox/WLib_SpinBox.layout" {
+          ButtonWidgetClass "{60545C9EA4AA2EE7}" : "{FC2639E8024276DC}UI/Layouts/Menus/ShopMenu/CategorySpinBox.layout" {
            Name "CategoriesBox"
-           Slot LayoutSlot "{58A4CCA8E9BE41A8}" {
+           Slot LayoutSlot "{60545C9EA4AA2E09}" {
             HorizontalAlign 3
             Padding 0 10 0 0
             SizeMode Fill
-           }
-           components {
-            SCR_SpinBoxComponent "{5472C6CBC0640458}" {
-             m_bUseLabel 0
-             m_sLabel "#AR-Settings_Keybind-Category"
-             m_fSizeWithLabel 52
-             m_fSizeWithoutLabel 52
-             m_sLabelLayout "{F003823FF141983C}UI/layouts/Menus/SettingsMenu/CustomWidgets/SettingsLabel.layout"
-             m_aElementNames {
-              "a" "b"
-             }
-             m_bUseLightArrows 0
-             m_bCycleMode 1
-            }
-           }
-           {
-            SizeLayoutWidgetClass "{55367D829C978ED4}" {
-             Prefab "{55367D829C978ED4}"
-             HeightOverride 48
-             {
-              OverlayWidgetClass "{55367D8E531FD623}" {
-               Prefab "{55367D8E531FD623}"
-               Slot AlignableSlot "{55367D8E531FD640}" {
-                Padding 0 0 0 0
-               }
-               {
-                ImageWidgetClass "{5E4C99CA3A026F65}" {
-                 Prefab "{5E4C99CA3A026F65}"
-                 "Is Visible" 0
-                }
-                PanelWidgetClass "{55367D8E4A135500}" {
-                 Prefab "{55367D8E4A135500}"
-                 "Is Visible" 0
-                }
-                HorizontalLayoutWidgetClass "{55367D8E4592BC6E}" {
-                 Prefab "{55367D8E4592BC6E}"
-                 Slot OverlayWidgetSlot "{55367D8E4592B383}" {
-                 }
-                 {
-                  HorizontalLayoutWidgetClass "{55367D828911C318}" {
-                   Prefab "{55367D828911C318}"
-                   Slot LayoutSlot "{55367D828911C327}" {
-                   }
-                   {
-                    VerticalLayoutWidgetClass "{55367D82D7AA2C56}" {
-                     Prefab "{55367D82D7AA2C56}"
-                     Slot LayoutSlot "{55367D82D7AA2C75}" {
-                      Padding 0 8 0 8
-                     }
-                     {
-                      RichTextWidgetClass "{55367D82CFCF3406}" {
-                       Prefab "{55367D82CFCF3406}"
-                       "Font Size" 24
-                       "Min Font Size" 24
-                       FontProperties FontProperties "{546AF489DFD25402}" {
-                        Font "{EABA4FE9D014CCEF}UI/Fonts/RobotoCondensed/RobotoCondensed_Bold.fnt"
-                       }
-                      }
-                     }
-                    }
-                   }
-                  }
-                 }
-                }
-               }
-              }
-             }
-            }
            }
           }
           ButtonWidgetClass "{605028CCD1E58FA0}" : "{67B4F07635959DC7}UI/layouts/WidgetLibrary/EditBox/WLib_EditBoxSearch.layout" {
@@ -118,12 +51,14 @@ FrameWidgetClass {
             SizeMode Fill
             FillWeight 1
            }
+           "Down target" "ScrollLayout0"
           }
          }
         }
         OverlayWidgetClass "{605049D7E7013B81}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
          Name "ListBox0"
          Slot LayoutSlot "{605049D7E7013BAC}" {
+          SizeMode Fill
          }
          components {
           SCR_ListBoxComponent "{566C9415BAA54E1B}" {
@@ -131,6 +66,19 @@ FrameWidgetClass {
           }
          }
          {
+          ScrollLayoutWidgetClass "{56691148E692435A}" {
+           Prefab "{56691148E692435A}"
+           "Down target" "ScrollLayout0"
+           "Scrollbar Always Visible" 1
+           {
+            VerticalLayoutWidgetClass "{56691148E013D981}" {
+             Prefab "{56691148E013D981}"
+             Slot AlignableSlot "{56691148E013D9A9}" {
+              Padding 0 0 15 0
+             }
+            }
+           }
+          }
           ImageWidgetClass "{5DB6D18100D38307}" {
            Prefab "{5DB6D18100D38307}"
            "Is Visible" 0

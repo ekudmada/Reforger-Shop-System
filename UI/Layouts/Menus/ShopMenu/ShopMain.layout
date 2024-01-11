@@ -254,30 +254,48 @@ FrameWidgetClass {
                  "Right rule" Explicit
                  "Right target" "MiddleArea"
                  {
-                  VerticalLayoutWidgetClass "{6050050FFEE19495}" : "{D1CAF877446C66DE}UI/layouts/WidgetLibrary/TabView/WLib_TabViewCoreMenus.layout" {
-                   Name "BuySellTabView"
-                   Slot LayoutSlot "{589F093AB3EA94D8}" {
-                   }
-                   components {
-                    SCR_TabViewComponent "{546B27D01CA8A38D}" {
-                     m_aElements {
-                      SCR_TabViewContent "{6050050F33E4E8B5}" {
-                       m_ElementLayout "{7513528C6C68D18A}UI/Layouts/Menus/ShopMenu/ShopList.layout"
-                       m_sTabButtonContent "Buy"
-                      }
-                      SCR_TabViewContent "{6050050F241B75AC}" {
-                       m_ElementLayout "{7513528C6C68D18A}UI/Layouts/Menus/ShopMenu/ShopList.layout"
-                       m_sTabButtonContent "Sell"
-                      }
-                     }
-                     m_bKeepHiddenTabs 1
-                     m_bCreateAllTabsAtStart 1
-                    }
+                  VerticalLayoutWidgetClass "{60528403C7EF1AAB}" {
+                   Name "HorizontalLayout0"
+                   Slot LayoutSlot "{60528403C7EF1B4E}" {
+                    SizeMode Fill
                    }
                    {
-                    ImageWidgetClass "{00000000DB4F9EA9}" {
-                     Prefab "{00000000DB4F9EA9}"
+                    VerticalLayoutWidgetClass "{6050050FFEE19495}" : "{D1CAF877446C66DE}UI/layouts/WidgetLibrary/TabView/WLib_TabViewCoreMenus.layout" {
+                     Name "BuySellTabView"
+                     Slot LayoutSlot "{589F093AB3EA94D8}" {
+                     }
+                     components {
+                      SCR_TabViewComponent "{546B27D01CA8A38D}" {
+                       m_aElements {
+                        SCR_TabViewContent "{6050050F33E4E8B5}" {
+                         m_ElementLayout "{7513528C6C68D18A}UI/Layouts/Menus/ShopMenu/ShopList.layout"
+                         m_sTabButtonContent "Buy"
+                        }
+                        SCR_TabViewContent "{6050050F241B75AC}" {
+                         m_ElementLayout "{7513528C6C68D18A}UI/Layouts/Menus/ShopMenu/ShopList.layout"
+                         m_sTabButtonContent "Sell"
+                        }
+                       }
+                       m_bKeepHiddenTabs 1
+                       m_bCreateAllTabsAtStart 1
+                      }
+                     }
+                     {
+                      ImageWidgetClass "{00000000DB4F9EA9}" {
+                       Prefab "{00000000DB4F9EA9}"
+                       "Is Visible" 1
+                      }
+                     }
+                    }
+                    ImageWidgetClass "{60527D4294F2A92D}" {
+                     Name "SeparatorBottom"
+                     Slot LayoutSlot "{60527D406DF5A633}" {
+                      SizeMode Fill
+                      FillWeight 0.005
+                     }
                      "Is Visible" 1
+                     Color 0.133 0.133 0.133 1
+                     Size 32 4
                     }
                    }
                   }
@@ -310,6 +328,44 @@ FrameWidgetClass {
                Slot OverlayWidgetSlot "{5A1E5D94F5D784DE}" {
                 HorizontalAlign 3
                 VerticalAlign 3
+               }
+               {
+                VerticalLayoutWidgetClass "{6052766FE653CC6E}" : "{D1CAF877446C66DE}UI/layouts/WidgetLibrary/TabView/WLib_TabViewCoreMenus.layout" {
+                 Name "CartTabView"
+                 Slot LayoutSlot "{589F093AB3EA94D8}" {
+                 }
+                 components {
+                  SCR_TabViewComponent "{546B27D01CA8A38D}" {
+                   m_aElements {
+                    SCR_TabViewContent "{6052766FEFD49854}" {
+                     m_ElementLayout "{8C726E31F48200A5}UI/Layouts/Menus/ShopMenu/ShopCart.layout"
+                     m_sTabButtonContent "Cart"
+                    }
+                   }
+                   m_bKeepHiddenTabs 1
+                   m_bCreateAllTabsAtStart 1
+                   m_sActionLeft ""
+                   m_sActionRight ""
+                  }
+                 }
+                 {
+                  ImageWidgetClass "{00000000DB4F9EA9}" {
+                   Prefab "{00000000DB4F9EA9}"
+                   "Is Visible" 1
+                  }
+                 }
+                }
+                ImageWidgetClass "{60527D42A2F9C2CF}" {
+                 Name "SeparatorBottom"
+                 Slot LayoutSlot "{60527D406DF5A6A5}" {
+                  Padding 0 5 0 0
+                  SizeMode Fill
+                  FillWeight 0.005
+                 }
+                 "Is Visible" 1
+                 Color 0.133 0.133 0.133 1
+                 Size 32 4
+                }
                }
               }
              }

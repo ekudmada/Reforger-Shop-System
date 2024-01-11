@@ -1,0 +1,133 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ {
+  OverlayWidgetClass "{6052766E2C12308D}" {
+   Name "Overlay0"
+   Slot FrameWidgetSlot "{605028C4E12773E2}" {
+    Anchor 0 0 1 1
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX -1820
+    OffsetRight 0
+    SizeY -1050
+    OffsetBottom 0
+   }
+   {
+    SizeLayoutWidgetClass "{6052766E2C12308B}" {
+     Name "SizeLayout0"
+     Slot OverlayWidgetSlot "{605028C48528AB54}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     {
+      VerticalLayoutWidgetClass "{6052766E2C123088}" {
+       Name "HorizontalLayout0"
+       Slot AlignableSlot "{605028C329F16F63}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       {
+        OverlayWidgetClass "{6052766E2C11C0B2}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
+         Name "ListBox0"
+         Slot LayoutSlot "{605049D7E7013BAC}" {
+          SizeMode Fill
+         }
+         components {
+          SCR_ListBoxComponent "{566C9415BAA54E1B}" {
+           m_sElementLayout "{B5B8AA917CD89225}UI/Layouts/Menus/ShopMenu/ListBoxElement_ShopCartItem.layout"
+          }
+         }
+         {
+          ScrollLayoutWidgetClass "{56691148E692435A}" {
+           Prefab "{56691148E692435A}"
+           "Scrollbar Always Visible" 1
+           {
+            VerticalLayoutWidgetClass "{56691148E013D981}" {
+             Prefab "{56691148E013D981}"
+             Slot AlignableSlot "{56691148E013D9A9}" {
+              Padding 0 0 15 0
+             }
+            }
+           }
+          }
+          ImageWidgetClass "{5DB6D18100D38307}" {
+           Prefab "{5DB6D18100D38307}"
+           "Is Visible" 0
+          }
+         }
+        }
+        SizeLayoutWidgetClass "{60527D4267925D2C}" {
+         Name "SizeLayout0"
+         Slot LayoutSlot "{60527D4267925DDB}" {
+          VerticalAlign 2
+         }
+         AllowMinDesiredHeight 1
+         MinDesiredHeight 100
+         AllowMaxDesiredHeight 1
+         MaxDesiredHeight 300
+         {
+          OverlayWidgetClass "{60527D43DB61F543}" {
+           Name "Overlay0"
+           Slot AlignableSlot "{60527D43DB61F57F}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+            Padding 4 4 4 4
+           }
+           Clipping False
+           {
+            ImageWidgetClass "{60527D42289542AE}" {
+             Name "Image0"
+             Slot OverlayWidgetSlot "{60527D43EC746B2A}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             Color 0 0 0 0.519
+            }
+            HorizontalLayoutWidgetClass "{60527D42723A33A9}" {
+             Name "HorizontalLayout1"
+             Slot OverlayWidgetSlot "{60527D43EC746BE1}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             {
+              TextWidgetClass "{60527D420BD7DB5A}" {
+               Name "Text0"
+               Slot LayoutSlot "{60527D420BD7DB6A}" {
+                HorizontalAlign 0
+                Padding 20 0 20 0
+               }
+               Text "Total:"
+               "Font Size" 32
+               "Min Font Size" 32
+               "Horizontal Alignment" Center
+               "Vertical Alignment" Center
+               FontProperties FontProperties "{60527D4369C1297D}" {
+                Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+               }
+              }
+             }
+            }
+            PanelWidgetClass "{60527D43CFB45990}" {
+             Name "Border"
+             Slot OverlayWidgetSlot "{60527D43CFB45988}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+              Padding -4 -4 -4 -4
+             }
+             Color 0.761 0.386 0.08 1
+             style outline_2px
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

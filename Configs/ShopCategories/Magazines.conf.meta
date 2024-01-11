@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{3F39EFFFE7E8E753}Configs/ShopCategories/Magazines.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

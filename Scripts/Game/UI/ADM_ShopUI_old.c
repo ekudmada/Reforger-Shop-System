@@ -1,4 +1,4 @@
-class ADM_ShopUIItem : SCR_ScriptedWidgetComponent
+/*class ADM_ShopUIItem : SCR_ScriptedWidgetComponent
 {
 	[Attribute(defvalue: "1")]
 	protected int m_quantity = 1;
@@ -317,15 +317,15 @@ class ADM_ShopUI_old: ChimeraMenuBase
 			ADM_ShopQuantityButton lessQuantityBtn = ADM_ShopQuantityButton.Cast(lessBtnWidget.FindHandler(ADM_ShopQuantityButton));
 			if (lessQuantityBtn)
 			{
-				lessQuantityBtn.m_OnClicked.Clear();
-				lessQuantityBtn.m_OnClicked.Insert(UpdateItemQuantity);
+				//lessQuantityBtn.m_OnClicked.Clear();
+				//lessQuantityBtn.m_OnClicked.Insert(UpdateItemQuantity);
 			}
 			
 			ADM_ShopQuantityButton moreQuantityBtn = ADM_ShopQuantityButton.Cast(moreBtnWidget.FindHandler(ADM_ShopQuantityButton));
 			if (moreQuantityBtn)
 			{
-				moreQuantityBtn.m_OnClicked.Clear();
-				moreQuantityBtn.m_OnClicked.Insert(UpdateItemQuantity);
+				//moreQuantityBtn.m_OnClicked.Clear();
+				//moreQuantityBtn.m_OnClicked.Insert(UpdateItemQuantity);
 			}
 		}
 		

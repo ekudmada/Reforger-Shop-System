@@ -23,33 +23,40 @@ ButtonWidgetClass {
    Slot ButtonWidgetSlot "{59696D78E637F396}" {
    }
    AllowWidthOverride 1
-   WidthOverride 36
+   WidthOverride 64
    AllowHeightOverride 1
-   HeightOverride 36
+   HeightOverride 64
    {
-    OverlayWidgetClass "{5D02175D22C98211}" {
-     Name "m_BackendImage"
-     Slot AlignableSlot "{59696D782DE3DAB1}" {
+    OverlayWidgetClass "{60545763F170C749}" {
+     Name "Overlay0"
+     Slot AlignableSlot "{60545763F170C76F}" {
       HorizontalAlign 3
       VerticalAlign 3
      }
      {
-      ScaleWidgetClass "{5D02175D22C9821E}" {
-       Name "ImageScale"
-       Slot OverlayWidgetSlot "{59696D781E51636A}" {
+      ItemPreviewWidgetClass "{60545763FFE54C79}" {
+       Name "ItemPreview0"
+       Slot OverlayWidgetSlot "{60545763FFE54C1F}" {
         HorizontalAlign 3
         VerticalAlign 3
+        Padding 8 8 8 8
        }
-       {
-        ImageWidgetClass "{5D02175D22CA782B}" {
-         Name "Image"
-         Slot OverlayWidgetSlot "{59696D7866BF9A35}" {
-         }
-         Texture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
-         Image "platform-crossplay"
-         Size 64 64
-        }
+       Filter Bilinear
+       Format LDR
+       "Use clear color" 1
+       "Blend mode" Blend
+      }
+      TextWidgetClass "{60545763F8437E58}" {
+       Name "Quantity"
+       Slot OverlayWidgetSlot "{60545763F8437E74}" {
+        HorizontalAlign 2
+        VerticalAlign 2
        }
+       Text "x123"
+       "Font Size" 16
+       "Min Font Size" 16
+       "Horizontal Alignment" Right
+       "Vertical Alignment" Center
       }
      }
     }

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{FC2639E8024276DC}UI/layouts/WidgetLibrary/SpinBox/CategorySpinBox.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -5,8 +5,6 @@ ButtonWidgetClass {
  }
  components {
   ADM_ShopUI_Item "{60515D7620599A39}" {
-   m_sScrollActionLeft "MenuLeft"
-   m_sScrollActionRight "MenuRight"
   }
   SCR_ListBoxElementComponent "{56CB58E7628E6533}" : "{2D2F81F501855B34}Configs/UI/ListBoxElement_ModularButtonComponent.conf" {
    m_bFocusOnMouseEnter 1
@@ -15,23 +13,23 @@ ButtonWidgetClass {
  }
  style blank
  {
-  SizeLayoutWidgetClass "{605049E852FA4FC2}" {
+  SizeLayoutWidgetClass "{6052766DDD0A7E4A}" {
    Name "SizeLayout"
    Slot ButtonWidgetSlot "{5548E6E7E6AEDDC1}" {
     HorizontalAlign 3
     Padding 0 5 0 5
    }
    AllowHeightOverride 1
-   HeightOverride 96
+   HeightOverride 48
    {
-    OverlayWidgetClass "{605049E852FA4FC0}" {
+    OverlayWidgetClass "{6052766DDD0A7E48}" {
      Name "Overlay"
      Slot ButtonWidgetSlot "{5548E6E7F213FB11}" {
       HorizontalAlign 3
       VerticalAlign 3
      }
      {
-      ImageWidgetClass "{605049DA182F5F23}" {
+      ImageWidgetClass "{6052766DDD0A7E4F}" {
        Name "Background"
        Slot OverlayWidgetSlot "{605049DA182F5FC4}" {
         HorizontalAlign 3
@@ -39,7 +37,7 @@ ButtonWidgetClass {
        }
        Color 0 0 0 0.7
       }
-      HorizontalLayoutWidgetClass "{605049E870709DB9}" {
+      HorizontalLayoutWidgetClass "{6052766DDD0A7E4E}" {
        Name "HorizontalLayout0"
        Slot OverlayWidgetSlot "{605049E870709C5F}" {
         HorizontalAlign 3
@@ -47,16 +45,16 @@ ButtonWidgetClass {
        }
        Clipping False
        {
-        SizeLayoutWidgetClass "{605049E81DA7CBFA}" {
+        SizeLayoutWidgetClass "{6052766DDD0AE5CE}" {
          Name "Item Preview Overlay"
          Slot LayoutSlot "{605049E81DA7CB9C}" {
          }
          AllowWidthOverride 1
-         WidthOverride 96
+         WidthOverride 48
          AllowHeightOverride 1
-         HeightOverride 96
+         HeightOverride 48
          {
-          ItemPreviewWidgetClass "{605049E866526D53}" {
+          ItemPreviewWidgetClass "{6052766DDD0AE5CC}" {
            Name "ItemPreview0"
            Slot AlignableSlot "{605049E81A06927A}" {
             HorizontalAlign 3
@@ -67,14 +65,14 @@ ButtonWidgetClass {
           }
          }
         }
-        OverlayWidgetClass "{605049EB786451CE}" {
+        OverlayWidgetClass "{6052766DDD0AE5D3}" {
          Name "Name Overlay"
          Slot LayoutSlot "{605049EB786451ED}" {
           SizeMode Fill
          }
          Clipping True
          {
-          TextWidgetClass "{605049E852F996D5}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
+          TextWidgetClass "{6052766DDD0AE5D2}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
            Name "Name"
            Slot OverlayWidgetSlot "{605049E4C7A0969F}" {
             HorizontalAlign 3
@@ -91,14 +89,14 @@ ButtonWidgetClass {
           }
          }
         }
-        OverlayWidgetClass "{605049EB79AEA82D}" {
+        OverlayWidgetClass "{6052766DDD0AE5D1}" {
          Name "Price Overlay"
          Slot LayoutSlot "{605049E4C7A096BF}" {
           SizeMode Fill
          }
          Clipping True
          {
-          ScrollLayoutWidgetClass "{60514A93AB2B25F5}" {
+          ScrollLayoutWidgetClass "{6052766DDD0AE5D0}" {
            Name "ScrollLayout0"
            Slot OverlayWidgetSlot "{60514A93AB2B25EC}" {
             VerticalAlign 3
@@ -107,15 +105,14 @@ ButtonWidgetClass {
            style Small
            ScrollDirection Horizontal
            {
-            HorizontalLayoutWidgetClass "{60514A99FD074C43}" {
+            HorizontalLayoutWidgetClass "{6052766DDD0AE5D7}" {
              Name "CostOverlay"
              Slot AlignableSlot "{60514A99FD074C71}" {
               HorizontalAlign 3
               VerticalAlign 3
              }
-             Clipping True
              {
-              TextWidgetClass "{605049EBE96B88AC}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
+              TextWidgetClass "{6052766DDD0AC04A}" : "{E64DA8292CD7DBDD}UI/layouts/WidgetLibrary/TextWidgets/Text_InteractiveSmall.layout" {
                Name "Cost"
                Slot LayoutSlot "{60514A996F956BB4}" {
                }
@@ -133,47 +130,59 @@ ButtonWidgetClass {
           }
          }
         }
-        OverlayWidgetClass "{605049EB66F26D52}" {
+        OverlayWidgetClass "{6052766DDD0AC04B}" {
          Name "Quantity Overlay"
          Slot LayoutSlot "{605049EB66F26D7D}" {
           SizeMode Fill
          }
          Clipping True
          {
-          HorizontalLayoutWidgetClass "{60515D753E5E7E32}" {
+          HorizontalLayoutWidgetClass "{6052766DDD0AC048}" {
            Name "HorizontalLayout0"
            Slot OverlayWidgetSlot "{60515D7B46186E55}" {
             HorizontalAlign 3
             VerticalAlign 3
            }
            {
-            ButtonWidgetClass "{605647F999D2AC32}" : "{DA657C7DB8D3DEBA}UI/Layouts/Menus/ShopMenu/CategorySpinBoxPagingButton.layout" {
-             Name "ButtonLeft"
-             Slot LayoutSlot "{605647F999D2ACDA}" {
-              Padding 4 4 4 4
+            ButtonWidgetClass "{6052766DDD0A92A4}" {
+             Name "QuantityLess"
+             Slot LayoutSlot "{60526779C8E7BCEE}" {
               SizeMode Fill
+              FillWeight 1.5
              }
              components {
-              ADM_VisualPagingButton "{60545C9FC4652D39}" {
-               m_bUseActionHint 1
-               m_sActionName "MenuNavLeft"
+              ADM_ShopQuantityButton "{605269C3646DD16D}" {
+               m_bShowBorderOnHover 1
+               m_iAmount -1
               }
              }
+             style blank
              {
-              SizeLayoutWidgetClass "{60545C9FD462BB71}" {
-               Prefab "{60545C9FD462BB71}"
-               Slot ButtonWidgetSlot "{5452C531C2876D63}" {
+              SizeLayoutWidgetClass "{6052766DDD0A92A5}" {
+               Name "SizeLayout0"
+               Slot ButtonWidgetSlot "{605269C3CAABA094}" {
                 HorizontalAlign 2
-                VerticalAlign 1
+               }
+               "Inherit Color" 1
+               {
+                ImageWidgetClass "{6052766DDD0A92AA}" {
+                 Name "Image0"
+                 Slot AlignableSlot "{605269C3CB572A4A}" {
+                  HorizontalAlign 3
+                  VerticalAlign 3
+                 }
+                 "Inherit Color" 1
+                 Texture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
+                 Image "move"
+                 Size 32 32
+                }
                }
               }
              }
             }
-            TextWidgetClass "{60515D752BE86B63}" {
+            TextWidgetClass "{6052766DDD0B4336}" {
              Name "Quantity"
              Slot LayoutSlot "{60515D752BE86B5A}" {
-              HorizontalAlign 1
-              VerticalAlign 1
               Padding 5 0 5 0
               SizeMode Fill
               FillWeight 2
@@ -184,18 +193,41 @@ ButtonWidgetClass {
              "Horizontal Alignment" Center
              "Vertical Alignment" Center
             }
-            ButtonWidgetClass "{605647F98401ADEA}" : "{DA657C7DB8D3DEBA}UI/Layouts/Menus/ShopMenu/CategorySpinBoxPagingButton.layout" {
-             Name "ButtonRight"
-             Slot LayoutSlot "{605647F98401AD80}" {
-              HorizontalAlign 0
-              VerticalAlign 1
-              Padding 4 4 4 4
+            ButtonWidgetClass "{6052766DDD0B4337}" {
+             Name "QuantityMore"
+             Slot LayoutSlot "{60526779F66E8D66}" {
               SizeMode Fill
+              FillWeight 1.5
              }
              components {
-              ADM_VisualPagingButton "{60545C9FC4652D39}" {
-               m_bUseActionHint 1
-               m_sActionName "MenuNavRight"
+              ADM_ShopQuantityButton "{605269C36E03C8B7}" {
+               m_bMouseOverToFocus 1
+               m_bShowBorderOnHover 1
+               m_iAmount 1
+              }
+             }
+             style blank
+             {
+              SizeLayoutWidgetClass "{6052766DDD0B4334}" {
+               Name "SizeLayout0"
+               Slot ButtonWidgetSlot "{605269C3C9F67004}" {
+                HorizontalAlign 0
+               }
+               "Inherit Color" 1
+               {
+                ImageWidgetClass "{6052766DDD0B4335}" {
+                 Name "Image1"
+                 Slot AlignableSlot "{605269C3F65F6F25}" {
+                  HorizontalAlign 3
+                  VerticalAlign 3
+                 }
+                 "Inherit Color" 1
+                 Texture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
+                 Image "move"
+                 Size 32 32
+                 "Flip Horizontally" 1
+                }
+               }
               }
              }
             }
@@ -205,7 +237,7 @@ ButtonWidgetClass {
         }
        }
       }
-      PanelWidgetClass "{605049E852F996DA}" {
+      PanelWidgetClass "{6052766DDD0B4332}" {
        Name "Border"
        Slot OverlayWidgetSlot "{5548E6E7D859FCD2}" {
         HorizontalAlign 3

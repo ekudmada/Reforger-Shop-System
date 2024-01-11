@@ -244,6 +244,10 @@ $grp GenericEntity {
       }
       m_bIgnorePlayer 1
      }
+     m_BuyPayment {
+      ADM_PaymentMethodCurrency "{60544748F02F3F69}" {
+      }
+     }
     }
     m_bDebugBB 1
    }
@@ -302,7 +306,7 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
    ADM_ShopComponent "{5D775155BFB12BA4}" {
     m_ShopName "Example Shop"
     m_Categories {
-     "{06CF3558777CEBF4}Configs/ShopCategories/Handguns.conf" "{BD4950A188201509}Configs/ShopCategories/Rifles.conf"
+     "{06CF3558777CEBF4}Configs/ShopCategories/Handguns.conf" "{BD4950A188201509}Configs/ShopCategories/Rifles.conf" "{211556D7ACE2140B}Configs/ShopCategories/Grenades.conf" "{6A0CDFB7108A69E7}Configs/ShopCategories/Launchers.conf" "{3F39EFFFE7E8E753}Configs/ShopCategories/Magazines.conf"
     }
     m_AdditionalMerchandise {
      ADM_ShopMerchandise "{5D7A75C53FBE8DDA}" {
@@ -369,14 +373,8 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
        }
       }
       m_BuyPayment {
-       ADM_PaymentMethodCurrency "{605049C81E11FF4A}" {
-        m_Quantity 10
-       }
        ADM_PaymentMethodItem "{60514A932B566F5B}" {
         m_ItemPrefab "{7CEF68E2BC68CE71}Prefabs/Items/Equipment/Compass/Compass_Adrianov.et"
-       }
-       ADM_PaymentMethodItem "{60514A966C4E6769}" {
-        m_ItemPrefab "{25CE9A2A7EAD5B9D}Prefabs/Weapons/Magazines/Box_127x99_M2_100rnd_AP.et"
        }
        ADM_PaymentMethodItem "{60514A99EA46AB2E}" {
         m_ItemPrefab "{C98FCC6CA6C56069}Prefabs/Items/Medicine/AspirinBottle.et"
@@ -425,4 +423,8 @@ GenericEntity : "{B0E67230AEEE2DF3}Prefabs/Items/Wallet.et" {
  angleX 0
  angleY 0
  angleZ 0
+}
+Vehicle Mi8MT1 : "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT.et" {
+ coords 151.832 1 137.338
+ angleY -123.309
 }
