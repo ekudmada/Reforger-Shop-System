@@ -116,14 +116,14 @@ class ADM_ShopBaseComponent: ScriptComponent
 			return false;
 		}
 		
-		bool canDeliver = merchandise.GetMerchandise().CanDeliver(player, this, quantity);
+		bool canDeliver = merchandise.GetType().CanDeliver(player, this, quantity);
 		if (!canDeliver) 
 		{
 			playerManager.SetPurchaseMessage("Error! Unable to deliver item(s).");
 			return false;
 		}
 		
-		if (!merchandise.GetMerchandise().CanPurchaseMultiple() && quantity > 1)
+		if (!merchandise.GetType().CanPurchaseMultiple() && quantity > 1)
 			quantity = 1;
 		
 		array<ADM_PaymentMethodBase> collectedPaymentMethods = {};
@@ -152,7 +152,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 			return false;
 		}
 		
-		bool deliver = merchandise.GetMerchandise().Deliver(player, this, quantity);
+		bool deliver = merchandise.GetType().Deliver(player, this, quantity);
 		if (!deliver) 
 		{
 			foreach (ADM_PaymentMethodBase paymentMethod : collectedPaymentMethods)

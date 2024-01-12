@@ -10,7 +10,7 @@ class ADM_ShopMerchandise: ScriptAndConfig
 	[Attribute(desc: "Payment that a user will receive when selling merchandise, if no payment is specified then selling to the shop is disabled for this merchandise.")]
 	protected ref array<ref ADM_PaymentMethodBase> m_SellPayment;
 	
-	ADM_MerchandiseType GetMerchandise() 
+	ADM_MerchandiseType GetType() 
 	{ 
 		return m_Merchandise; 
 	}

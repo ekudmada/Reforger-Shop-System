@@ -34,7 +34,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		if (shopMerchandise.Count() > 0) merchandise = shopMerchandise[0];
 		if (!merchandise) return;
 		
-		ADM_MerchandiseType merchandiseType = merchandise.GetMerchandise();
+		ADM_MerchandiseType merchandiseType = merchandise.GetType();
 		if (!merchandiseType) return;
 		
 		m_ItemName = ADM_Utils.GetPrefabDisplayName(merchandiseType.GetPrefab());

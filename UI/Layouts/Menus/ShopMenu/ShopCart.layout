@@ -64,7 +64,7 @@ FrameWidgetClass {
           VerticalAlign 2
          }
          AllowMinDesiredHeight 1
-         MinDesiredHeight 100
+         MinDesiredHeight 75
          AllowMaxDesiredHeight 1
          MaxDesiredHeight 300
          {
@@ -99,8 +99,7 @@ FrameWidgetClass {
                 Padding 20 0 20 0
                }
                Text "Total:"
-               "Font Size" 32
-               "Min Font Size" 32
+               "Min Font Size" 24
                "Horizontal Alignment" Center
                "Vertical Alignment" Center
                FontProperties FontProperties "{60527D4369C1297D}" {

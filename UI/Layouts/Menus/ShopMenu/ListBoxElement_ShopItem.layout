@@ -9,6 +9,8 @@ ButtonWidgetClass {
    m_sScrollActionRight "MenuRight"
   }
   SCR_ListBoxElementComponent "{56CB58E7628E6533}" : "{2D2F81F501855B34}Configs/UI/ListBoxElement_ModularButtonComponent.conf" {
+   m_bCanBeToggled 0
+   m_bToggledOnlyThroughApi 0
    m_bFocusOnMouseEnter 1
    m_sWidgetTextName "Name"
   }

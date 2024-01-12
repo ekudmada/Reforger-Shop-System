@@ -424,7 +424,3 @@ GenericEntity : "{B0E67230AEEE2DF3}Prefabs/Items/Wallet.et" {
  angleY 0
  angleZ 0
 }
-Vehicle Mi8MT1 : "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT.et" {
- coords 151.832 1 137.338
- angleY -123.309
-}

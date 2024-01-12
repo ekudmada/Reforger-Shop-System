@@ -29,7 +29,7 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		ResourceName modelPath;
 		string remapPath;
 		
-		ADM_MerchandiseType merchandise = m_Merchandise[0].GetMerchandise();
+		ADM_MerchandiseType merchandise = m_Merchandise[0].GetType();
 		if (!merchandise) 
 			return;
 		
@@ -123,7 +123,7 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	static autoptr Shape debugBB;
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
-		if (m_PhysicalMerchandise && ADM_Utils.m_CachedBoundingBoxes && ADM_Utils.m_CachedBoundingBoxes.Contains(m_PhysicalMerchandise.GetMerchandise().GetPrefab()))
+		if (m_PhysicalMerchandise && ADM_Utils.m_CachedBoundingBoxes && ADM_Utils.m_CachedBoundingBoxes.Contains(m_PhysicalMerchandise.GetType().GetPrefab()))
 		{
 			vector traceMat[4];
 			owner.GetTransform(traceMat);
@@ -136,8 +136,8 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 			paramOBB.Start = traceMat[3];
 			paramOBB.Flags = TraceFlags.ENTS;
 			paramOBB.LayerMask = EPhysicsLayerPresets.Projectile;
-			paramOBB.Mins = ADM_Utils.m_CachedBoundingBoxes.Get(m_PhysicalMerchandise.GetMerchandise().GetPrefab())[0];
-			paramOBB.Maxs = ADM_Utils.m_CachedBoundingBoxes.Get(m_PhysicalMerchandise.GetMerchandise().GetPrefab())[1];
+			paramOBB.Mins = ADM_Utils.m_CachedBoundingBoxes.Get(m_PhysicalMerchandise.GetType().GetPrefab())[0];
+			paramOBB.Maxs = ADM_Utils.m_CachedBoundingBoxes.Get(m_PhysicalMerchandise.GetType().GetPrefab())[1];
 			debugBB = Shape.Create(ShapeType.BBOX, COLOR_BLUE_A, ShapeFlags.VISIBLE | ShapeFlags.NOZBUFFER | ShapeFlags.WIREFRAME, paramOBB.Mins, paramOBB.Maxs);
 			debugBB.SetMatrix(traceMat);
 		}
@@ -154,7 +154,7 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		if (m_fRespawnTime < 1) 
 			m_fRespawnTime = 1;
 		
-		if (dt > m_fRespawnTime * 1000 && m_Merchandise.Count() > 0 && m_Merchandise[0].GetMerchandise().CanRespawn(this))
+		if (dt > m_fRespawnTime * 1000 && m_Merchandise.Count() > 0 && m_Merchandise[0].GetType().CanRespawn(this))
 		{
 			SetState(true);
 			m_fLastStateChangeTime = -1;

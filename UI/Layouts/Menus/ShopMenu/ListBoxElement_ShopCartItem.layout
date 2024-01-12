@@ -150,12 +150,6 @@ ButtonWidgetClass {
               SizeMode Fill
               FillWeight 1.5
              }
-             components {
-              ADM_ShopQuantityButton "{605269C3646DD16D}" {
-               m_bShowBorderOnHover 1
-               m_iAmount -1
-              }
-             }
              style blank
              {
               SizeLayoutWidgetClass "{6052766DDD0A92A5}" {
@@ -199,13 +193,6 @@ ButtonWidgetClass {
               SizeMode Fill
               FillWeight 1.5
              }
-             components {
-              ADM_ShopQuantityButton "{605269C36E03C8B7}" {
-               m_bMouseOverToFocus 1
-               m_bShowBorderOnHover 1
-               m_iAmount 1
-              }
-             }
              style blank
              {
               SizeLayoutWidgetClass "{6052766DDD0B4334}" {
@@ -226,6 +213,43 @@ ButtonWidgetClass {
                  Image "move"
                  Size 32 32
                  "Flip Horizontally" 1
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        OverlayWidgetClass "{605836BC205EC062}" {
+         Name "Overlay0"
+         Slot LayoutSlot "{605836BC205EC011}" {
+          SizeMode Fill
+          FillWeight 0.1
+         }
+         {
+          ButtonWidgetClass "{605836BFDDA27BD7}" : "{4A119D28E23A3999}UI/layouts/WidgetLibrary/Buttons/WLib_ButtonImage.layout" {
+           Name "Button0"
+           Slot OverlayWidgetSlot "{605836BFDDA27BDB}" {
+            Padding 4 4 4 4
+           }
+           components {
+            SCR_ButtonImageComponent "{55589476821916D2}" {
+             m_sImageName "trash"
+            }
+           }
+           {
+            SizeLayoutWidgetClass "{5548E6E7E6AEDDA7}" {
+             Prefab "{5548E6E7E6AEDDA7}"
+             {
+              OverlayWidgetClass "{5548E6E7F213FBF1}" {
+               Prefab "{5548E6E7F213FBF1}"
+               {
+                ImageWidgetClass "{5548E6E7DF4EE3F2}" {
+                 Prefab "{5548E6E7DF4EE3F2}"
+                 "Is Enabled" 0
+                 "Is Visible" 0
                 }
                }
               }
