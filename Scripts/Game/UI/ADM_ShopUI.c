@@ -373,12 +373,12 @@ class ADM_ShopUI: ChimeraMenuBase
 			shoppingCart.Insert(merch, item.GetQuantity());
 		}
 		
-		//PopulateCartTab(m_wCartTabView);
+		PopulateCartTab(m_wCartTabView);
 	}
 	
-	/*protected void PopulateCartTab(SCR_TabViewContent wTabView)
+	protected void PopulateCartTab(SCR_TabViewContent wTabView)
 	{
-		Widget wListbox = wTabView.m_wTab.FindAnyWidget("ListBox0");
+		/*Widget wListbox = wTabView.m_wTab.FindAnyWidget("ListBox0");
 		if (!wListbox)
 			return;
 		
@@ -458,8 +458,8 @@ class ADM_ShopUI: ChimeraMenuBase
 			//	item.SetQuantity(1);
 			//	item.SetMerchandise(merch);
 			//}
-		}
-	}*/
+		}*/
+	}
 	
 	void SetShop(ADM_ShopComponent shop)
 	{
@@ -595,6 +595,77 @@ class ADM_ShopUI: ChimeraMenuBase
 		listbox.Clear();
 	}
 	
+	protected void CreateListboxItem(SCR_ListBoxComponent listbox, ADM_ShopMerchandise merch, bool buyOrSell)
+	{			
+		ADM_MerchandiseType merchType = merch.GetType();
+		if (!merchType)
+			return;
+		
+		// Item Name
+		string itemName = ADM_Utils.GetPrefabDisplayName(merchType.GetPrefab());
+		if (!itemName)
+			itemName = "Item";
+			
+		int itemIdx = listbox.AddItem(itemName);
+		SCR_ListBoxElementComponent lbItem = listbox.GetElementComponent(itemIdx);
+		if (!lbItem)
+			return;
+			
+		// Item Preview
+		ItemPreviewWidget wItemPreview = ItemPreviewWidget.Cast(lbItem.GetRootWidget().FindAnyWidget("ItemPreview0"));
+		if (wItemPreview)
+		{
+			m_ItemPreviewManager.SetPreviewItemFromPrefab(wItemPreview, merchType.GetPrefab(), null, false);
+		}
+			
+		// Cost
+		TextWidget wItemPrice = TextWidget.Cast(lbItem.GetRootWidget().FindAnyWidget("Cost"));
+		array<ref ADM_PaymentMethodBase> paymentRequirement = merch.GetBuyPayment();
+		if (ADM_ShopComponent.IsBuyPaymentOnlyCurrency(merch) || paymentRequirement.Count() == 0)
+		{
+			if (wItemPrice) {
+				wItemPrice.SetVisible(true);
+				if (paymentRequirement.Count() == 0)
+				{
+					wItemPrice.SetTextFormat("Free");
+				} else {
+					ADM_PaymentMethodCurrency paymentMethod = ADM_PaymentMethodCurrency.Cast(paymentRequirement[0]);
+					int quantity = paymentMethod.GetQuantity();
+					if (quantity > 0)
+					{
+						wItemPrice.SetTextFormat("$%1", quantity);
+					} else {
+						wItemPrice.SetTextFormat("Free");
+					}
+				}
+			}
+		} else {
+			Widget priceParent = lbItem.GetRootWidget().FindAnyWidget("CostOverlay");
+			if (wItemPrice)
+			{ 
+				wItemPrice.SetVisible(false);
+			}
+			
+			for (int i = 0; i < paymentRequirement.Count(); i++)
+			{
+				Widget icon = GetGame().GetWorkspace().CreateWidgets(m_BarterIconPrefab, priceParent);
+				ADM_IconBarterTooltip barterItemIcon = ADM_IconBarterTooltip.Cast(icon.FindHandler(ADM_IconBarterTooltip));
+				if (barterItemIcon)
+				{
+					barterItemIcon.SetPayment(paymentRequirement[i]);
+				}
+			}
+		}
+		
+		// Quantity
+		ADM_ShopUI_Item item = ADM_ShopUI_Item.Cast(lbItem.GetRootWidget().FindHandler(ADM_ShopUI_Item));
+		if (item) {
+			item.SetQuantity(1);
+			item.SetMerchandise(merch);
+			item.SetBuyOrSell(buyOrSell);
+		}
+	}
+	
 	protected void PopulateTab(SCR_TabViewContent wTabView, array<ref ADM_ShopMerchandise> merchandise, bool buyOrSell = true)
 	{
 		Widget wListbox = wTabView.m_wTab.FindAnyWidget("ListBox0");
@@ -610,74 +681,12 @@ class ADM_ShopUI: ChimeraMenuBase
 		{
 			if (!merch)
 				continue;
-			
+				
 			ADM_MerchandiseType merchType = merch.GetType();
 			if (!merchType)
 				continue;
 			
-			// Item Name
-			string itemName = ADM_Utils.GetPrefabDisplayName(merchType.GetPrefab());
-			if (!itemName)
-				itemName = "Item";
-			
-			int itemIdx = listbox.AddItem(itemName);
-			SCR_ListBoxElementComponent lbItem = listbox.GetElementComponent(itemIdx);
-			if (!lbItem)
-				return;
-			
-			// Item Preview
-			ItemPreviewWidget wItemPreview = ItemPreviewWidget.Cast(lbItem.GetRootWidget().FindAnyWidget("ItemPreview0"));
-			if (wItemPreview)
-			{
-				m_ItemPreviewManager.SetPreviewItemFromPrefab(wItemPreview, merchType.GetPrefab(), null, false);
-			}
-			
-			// Cost
-			TextWidget wItemPrice = TextWidget.Cast(lbItem.GetRootWidget().FindAnyWidget("Cost"));
-			array<ref ADM_PaymentMethodBase> paymentRequirement = merch.GetBuyPayment();
-			if (ADM_ShopComponent.IsBuyPaymentOnlyCurrency(merch) || paymentRequirement.Count() == 0)
-			{
-				if (wItemPrice) {
-					wItemPrice.SetVisible(true);
-					if (paymentRequirement.Count() == 0)
-					{
-						wItemPrice.SetTextFormat("Free");
-					} else {
-						ADM_PaymentMethodCurrency paymentMethod = ADM_PaymentMethodCurrency.Cast(paymentRequirement[0]);
-						int quantity = paymentMethod.GetQuantity();
-						if (quantity > 0)
-						{
-							wItemPrice.SetTextFormat("$%1", quantity);
-						} else {
-							wItemPrice.SetTextFormat("Free");
-						}
-					}
-				}
-			} else {
-				Widget priceParent = lbItem.GetRootWidget().FindAnyWidget("CostOverlay");
-				if (wItemPrice)
-				{ 
-					wItemPrice.SetVisible(false);
-				}
-				
-				for (int i = 0; i < paymentRequirement.Count(); i++)
-				{
-					Widget icon = GetGame().GetWorkspace().CreateWidgets(m_BarterIconPrefab, priceParent);
-					ADM_IconBarterTooltip barterItemIcon = ADM_IconBarterTooltip.Cast(icon.FindHandler(ADM_IconBarterTooltip));
-					if (barterItemIcon)
-					{
-						barterItemIcon.SetPayment(paymentRequirement[i]);
-					}
-				}
-			}
-			
-			// Quantity
-			ADM_ShopUI_Item item = ADM_ShopUI_Item.Cast(lbItem.GetRootWidget().FindHandler(ADM_ShopUI_Item));
-			if (item) {
-				item.SetQuantity(1);
-				item.SetMerchandise(merch);
-				item.SetBuyOrSell(buyOrSell);
-			}
+			CreateListboxItem(listbox, merch, buyOrSell);
 		}
 	}
 	
