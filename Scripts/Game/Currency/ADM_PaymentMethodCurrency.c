@@ -58,4 +58,13 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 	{
 		return "{51D31AB07AE3C1C7}Prefabs/Props/Commercial/CashierShop_01.et";
 	}
+	
+	override bool Equals(ADM_PaymentMethodBase other)
+	{
+		ADM_PaymentMethodCurrency otherCurrency = ADM_PaymentMethodCurrency.Cast(other);
+		if (!otherCurrency)
+			return false;
+		
+		return true;
+	}
 }

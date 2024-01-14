@@ -236,6 +236,8 @@ FrameWidgetClass {
               SizeMode Fill
               FillWeight 1
              }
+             "Right rule" Explicit
+             "Right target" "RightAreaOverlay"
              {
               HorizontalLayoutWidgetClass "{604F7067D0A22D47}" {
                Name "LeftMiddleHorizontal"
@@ -274,6 +276,7 @@ FrameWidgetClass {
                         SCR_TabViewContent "{6050050F241B75AC}" {
                          m_ElementLayout "{7513528C6C68D18A}UI/Layouts/Menus/ShopMenu/ShopList.layout"
                          m_sTabButtonContent "Sell"
+                         m_bEnabled 0
                         }
                        }
                        m_bKeepHiddenTabs 1
@@ -322,6 +325,7 @@ FrameWidgetClass {
               SizeMode Fill
               FillWeight 0.5
              }
+             "Left target" "LeftMiddle"
              {
               VerticalLayoutWidgetClass "{604F7067D0A5D405}" {
                Name "VerticalLayout0"
@@ -386,9 +390,31 @@ FrameWidgetClass {
            {
             ButtonWidgetClass "{589F049780D13CDF}" {
              Prefab "{589F049780D13CDF}"
+             Slot LayoutSlot "{54ACA297E9BAB648}" {
+              HorizontalAlign 0
+             }
              components {
               SCR_InputButtonComponent "{5D346C3DD81D95CD}" {
                m_sActionName "InventoryEscape"
+              }
+             }
+            }
+            HorizontalLayoutWidgetClass "{589F049780D13CDD}" {
+             Prefab "{589F049780D13CDD}"
+             {
+              ButtonWidgetClass "{605C4DC75019D432}" : "{C42847838185932E}UI/layouts/WidgetLibrary/Buttons/WLib_InputButton.layout" {
+               Name "Checkout"
+               Slot LayoutSlot "{605C4DC75019D420}" {
+                HorizontalAlign 2
+                Padding 100000 0 0 0
+               }
+               components {
+                SCR_InputButtonComponent "{5D346C3DD81D95CD}" {
+                 m_sActionName "MenuSelectHold"
+                 m_sLabel "Checkout"
+                 m_iHeightInPixel 48
+                }
+               }
               }
              }
             }

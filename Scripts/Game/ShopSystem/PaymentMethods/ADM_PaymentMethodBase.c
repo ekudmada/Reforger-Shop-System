@@ -25,4 +25,14 @@ class ADM_PaymentMethodBase: ScriptAndConfig
 		How to display this payment method in menus
 	*/
 	ResourceName GetDisplayEntity() { return string.Empty; }
+	
+	/*
+		Check if two payment methods are the same
+	*/
+	bool Equals(ADM_PaymentMethodBase other) { return false; }
+	
+	/*
+		Add other payment method to this instance
+	*/
+	bool Add(ADM_PaymentMethodBase other) { return false; }
 }

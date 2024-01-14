@@ -51,6 +51,8 @@ FrameWidgetClass {
             SizeMode Fill
             FillWeight 1
            }
+           "Right rule" Explicit
+           "Right target" "RightAreaOverlay"
            "Down target" "ScrollLayout0"
           }
          }
@@ -66,6 +68,17 @@ FrameWidgetClass {
           }
          }
          {
+          TextWidgetClass "{605C4DC566A3DE22}" {
+           Name "Empty Text"
+           Slot OverlayWidgetSlot "{605C4DC566A3DED8}" {
+           }
+           Text "Empty Text"
+           "Font Size" 26
+           "Min Font Size" 26
+           FontProperties FontProperties "{605C4DC56D06CF41}" {
+            Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+           }
+          }
           ScrollLayoutWidgetClass "{56691148E692435A}" {
            Prefab "{56691148E692435A}"
            "Down target" "ScrollLayout0"

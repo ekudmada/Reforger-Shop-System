@@ -2,16 +2,23 @@ class ADM_MerchandiseType: ScriptAndConfig
 {
 	[Attribute(defvalue: "", desc: "Prefab to sell", uiwidget: UIWidgets.ResourceNamePicker, params: "et")]
 	protected ResourceName m_sPrefab;
-	protected bool m_CanPurchaseMultiple = true;
+	
+	[Attribute(defvalue: "-1", params: "0 inf")]
+	protected int m_iMaxQuantity;
 	
 	ResourceName GetPrefab() 
 	{ 
 		return m_sPrefab; 
 	}
 	
-	bool CanPurchaseMultiple() 
-	{ 
-		return m_CanPurchaseMultiple; 
+	int GetMaxQuantity() 
+	{ 		
+		return m_iMaxQuantity; 
+	}
+	
+	void SetMaxQuantity(int quantity)
+	{
+		m_iMaxQuantity = quantity;
 	}
 	
 	bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1, array<IEntity> ignoreEntities = null) 

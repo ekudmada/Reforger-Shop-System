@@ -20,7 +20,7 @@ ButtonWidgetClass {
     Padding 0 5 0 5
    }
    AllowHeightOverride 1
-   HeightOverride 48
+   HeightOverride 64
    {
     OverlayWidgetClass "{6052766DDD0A7E48}" {
      Name "Overlay"
@@ -50,9 +50,9 @@ ButtonWidgetClass {
          Slot LayoutSlot "{605049E81DA7CB9C}" {
          }
          AllowWidthOverride 1
-         WidthOverride 48
+         WidthOverride 64
          AllowHeightOverride 1
-         HeightOverride 48
+         HeightOverride 64
          {
           ItemPreviewWidgetClass "{6052766DDD0AE5CC}" {
            Name "ItemPreview0"
@@ -117,7 +117,6 @@ ButtonWidgetClass {
                Slot LayoutSlot "{60514A996F956BB4}" {
                }
                "Z Order" 8
-               Color 0.071 0.561 0.192 1
                Text "$1234"
                "Font Size" 20
                "Min Font Size" 20
@@ -144,36 +143,6 @@ ButtonWidgetClass {
             VerticalAlign 3
            }
            {
-            ButtonWidgetClass "{6052766DDD0A92A4}" {
-             Name "QuantityLess"
-             Slot LayoutSlot "{60526779C8E7BCEE}" {
-              SizeMode Fill
-              FillWeight 1.5
-             }
-             style blank
-             {
-              SizeLayoutWidgetClass "{6052766DDD0A92A5}" {
-               Name "SizeLayout0"
-               Slot ButtonWidgetSlot "{605269C3CAABA094}" {
-                HorizontalAlign 2
-               }
-               "Inherit Color" 1
-               {
-                ImageWidgetClass "{6052766DDD0A92AA}" {
-                 Name "Image0"
-                 Slot AlignableSlot "{605269C3CB572A4A}" {
-                  HorizontalAlign 3
-                  VerticalAlign 3
-                 }
-                 "Inherit Color" 1
-                 Texture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
-                 Image "move"
-                 Size 32 32
-                }
-               }
-              }
-             }
-            }
             TextWidgetClass "{6052766DDD0B4336}" {
              Name "Quantity"
              Slot LayoutSlot "{60515D752BE86B5A}" {
@@ -187,71 +156,38 @@ ButtonWidgetClass {
              "Horizontal Alignment" Center
              "Vertical Alignment" Center
             }
-            ButtonWidgetClass "{6052766DDD0B4337}" {
-             Name "QuantityMore"
-             Slot LayoutSlot "{60526779F66E8D66}" {
-              SizeMode Fill
-              FillWeight 1.5
-             }
-             style blank
-             {
-              SizeLayoutWidgetClass "{6052766DDD0B4334}" {
-               Name "SizeLayout0"
-               Slot ButtonWidgetSlot "{605269C3C9F67004}" {
-                HorizontalAlign 0
-               }
-               "Inherit Color" 1
-               {
-                ImageWidgetClass "{6052766DDD0B4335}" {
-                 Name "Image1"
-                 Slot AlignableSlot "{605269C3F65F6F25}" {
-                  HorizontalAlign 3
-                  VerticalAlign 3
-                 }
-                 "Inherit Color" 1
-                 Texture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
-                 Image "move"
-                 Size 32 32
-                 "Flip Horizontally" 1
-                }
-               }
-              }
-             }
-            }
            }
           }
          }
         }
-        OverlayWidgetClass "{605836BC205EC062}" {
+        OverlayWidgetClass "{605A1C4650327C76}" {
          Name "Overlay0"
-         Slot LayoutSlot "{605836BC205EC011}" {
-          SizeMode Fill
-          FillWeight 0.1
+         Slot LayoutSlot "{605A1C4650327C62}" {
          }
          {
-          ButtonWidgetClass "{605836BFDDA27BD7}" : "{4A119D28E23A3999}UI/layouts/WidgetLibrary/Buttons/WLib_ButtonImage.layout" {
-           Name "Button0"
-           Slot OverlayWidgetSlot "{605836BFDDA27BDB}" {
-            Padding 4 4 4 4
+          ButtonWidgetClass "{605A1C46739B60B5}" {
+           Name "RemoveButton"
+           Slot OverlayWidgetSlot "{605A1C46739B60AF}" {
+            Padding 10 0 10 0
            }
-           components {
-            SCR_ButtonImageComponent "{55589476821916D2}" {
-             m_sImageName "trash"
-            }
-           }
+           style blank
            {
-            SizeLayoutWidgetClass "{5548E6E7E6AEDDA7}" {
-             Prefab "{5548E6E7E6AEDDA7}"
+            SizeLayoutWidgetClass "{605A1C4662F05314}" {
+             Name "SizeLayout0"
+             Slot ButtonWidgetSlot "{605A1C4662F0530C}" {
+             }
+             AllowWidthOverride 1
+             WidthOverride 32
+             AllowHeightOverride 1
+             HeightOverride 32
              {
-              OverlayWidgetClass "{5548E6E7F213FBF1}" {
-               Prefab "{5548E6E7F213FBF1}"
-               {
-                ImageWidgetClass "{5548E6E7DF4EE3F2}" {
-                 Prefab "{5548E6E7DF4EE3F2}"
-                 "Is Enabled" 0
-                 "Is Visible" 0
-                }
+              ImageWidgetClass "{605A1C465C9DDE58}" {
+               Name "Image0"
+               Slot AlignableSlot "{605A1C466342BE66}" {
                }
+               Texture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
+               Image "trash"
+               Size 64 64
               }
              }
             }

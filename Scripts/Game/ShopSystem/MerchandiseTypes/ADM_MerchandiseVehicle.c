@@ -7,6 +7,11 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 	[Attribute(desc: "Ignore player when checking if spawn area is clear")]
 	protected bool m_bIgnorePlayer;
 	
+	override int GetMaxQuantity() 
+	{
+		return 1;
+	}
+	
 	EntitySpawnParams GetVehicleSpawnTransform(ADM_ShopBaseComponent shop)
 	{
 		EntitySpawnParams params = EntitySpawnParams();
@@ -26,7 +31,7 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 	int lastCheckTime = -1;
 	bool canRespawnCache = false;
 	override bool CanRespawn(ADM_ShopBaseComponent shop, int quantity = 1, array<IEntity> ignoreEntities = null)
-	{
+	{		
 		int curTick = System.GetTickCount();
 		if (curTick - lastCheckTime >= 1000)
 		{
@@ -45,7 +50,7 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 	
 	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1, array<IEntity> ignoreEntities = null)
 	{
-		if (quantity > 1) quantity = 1;
+		if (quantity > m_iMaxQuantity) quantity = m_iMaxQuantity;
 		
 		array<IEntity> excludeEntities = {};
 		if (m_bIgnorePlayer)
@@ -64,7 +69,7 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
 	{
 		if (!Replication.IsServer()) return false;
-		if (quantity > 1) quantity = 1;
+		if (quantity > m_iMaxQuantity) quantity = m_iMaxQuantity;
 		
 		bool canDeliver = this.CanDeliver(player, shop, quantity, null);
 		if (!canDeliver) 

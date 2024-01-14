@@ -42,6 +42,17 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 		Rpc(RpcDo_Transaction, m_sPurchaseMessage);
 	}
 	
+	void AskSell(ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1)
+	{
+		
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	void Rpc_AskSell(int playerId, RplId shopID, int merchandiseIndex, int quantity)
+	{
+		
+	}
+	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
 	void RpcDo_Transaction(string message)
 	{

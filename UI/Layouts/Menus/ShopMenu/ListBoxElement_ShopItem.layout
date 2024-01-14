@@ -122,7 +122,6 @@ ButtonWidgetClass {
                Slot LayoutSlot "{60514A996F956BB4}" {
                }
                "Z Order" 8
-               Color 0.071 0.561 0.192 1
                Text "$1234"
                "Font Size" 20
                "Min Font Size" 20

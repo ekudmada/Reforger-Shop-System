@@ -131,4 +131,16 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 	{
 		return m_ItemPrefab;
 	}
+	
+	override bool Equals(ADM_PaymentMethodBase other)
+	{
+		ADM_PaymentMethodItem otherItem = ADM_PaymentMethodItem.Cast(other);
+		if (!otherItem)
+			return false;
+		
+		if (otherItem.GetItemPrefab() != this.GetItemPrefab())
+			return false;
+		
+		return true;
+	}
 }

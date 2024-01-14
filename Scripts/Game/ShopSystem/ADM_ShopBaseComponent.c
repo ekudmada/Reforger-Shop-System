@@ -29,7 +29,7 @@ class ADM_ShopBaseComponent: ScriptComponent
 	static bool IsBuyPaymentOnlyCurrency(ADM_ShopMerchandise merchandise)
 	{
 		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetBuyPayment();
-		if (requiredPayment.Count() != 1 || requiredPayment[0].Type() != ADM_PaymentMethodCurrency) 
+		if (requiredPayment.Count() != 1 || !requiredPayment[0].Type().IsInherited(ADM_PaymentMethodCurrency)) 
 			return false;
 		
 		return true;
@@ -88,9 +88,12 @@ class ADM_ShopBaseComponent: ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	bool CanPurchase(IEntity player, ADM_ShopMerchandise merchandise, int quantity = 1)
+	static bool CanPurchase(IEntity player, ADM_ShopMerchandise merchandise, int quantity = 1)
 	{
 		bool canPurchase = true;
+		
+		if (!merchandise || !player)
+			return false;
 		
 		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetBuyPayment();
 		foreach (ADM_PaymentMethodBase payment : requiredPayment)
@@ -123,8 +126,9 @@ class ADM_ShopBaseComponent: ScriptComponent
 			return false;
 		}
 		
-		if (!merchandise.GetType().CanPurchaseMultiple() && quantity > 1)
-			quantity = 1;
+		int maxQuantity = merchandise.GetType().GetMaxQuantity();
+		if (maxQuantity != 0 && maxQuantity > 0 && quantity > maxQuantity)
+			quantity = maxQuantity;
 		
 		array<ADM_PaymentMethodBase> collectedPaymentMethods = {};
 		array<bool> didCollectPayments = {};

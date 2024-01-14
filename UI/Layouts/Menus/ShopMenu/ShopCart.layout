@@ -40,6 +40,17 @@ FrameWidgetClass {
           }
          }
          {
+          TextWidgetClass "{605C4DC508AC4C39}" {
+           Name "Empty Text"
+           Slot OverlayWidgetSlot "{605C4DC566A3DED8}" {
+           }
+           Text "Empty Text"
+           "Font Size" 26
+           "Min Font Size" 26
+           FontProperties FontProperties "{605C4DC56D06CF41}" {
+            Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+           }
+          }
           ScrollLayoutWidgetClass "{56691148E692435A}" {
            Prefab "{56691148E692435A}"
            "Scrollbar Always Visible" 1
@@ -86,14 +97,14 @@ FrameWidgetClass {
              Color 0 0 0 0.519
             }
             HorizontalLayoutWidgetClass "{60527D42723A33A9}" {
-             Name "HorizontalLayout1"
+             Name "Total"
              Slot OverlayWidgetSlot "{60527D43EC746BE1}" {
               HorizontalAlign 3
               VerticalAlign 3
              }
              {
               TextWidgetClass "{60527D420BD7DB5A}" {
-               Name "Text0"
+               Name "Text"
                Slot LayoutSlot "{60527D420BD7DB6A}" {
                 HorizontalAlign 0
                 Padding 20 0 20 0
@@ -104,6 +115,46 @@ FrameWidgetClass {
                "Vertical Alignment" Center
                FontProperties FontProperties "{60527D4369C1297D}" {
                 Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+               }
+              }
+              OverlayWidgetClass "{605C6E091ADBF66D}" {
+               Name "TotalCostOverlay"
+               Slot LayoutSlot "{605C6E091ADBF60B}" {
+                SizeMode Fill
+               }
+               {
+                TextWidgetClass "{605C6E096FED93D6}" {
+                 Name "TotalCostCurrencyText"
+                 Slot OverlayWidgetSlot "{605C6E066DB0BDE7}" {
+                  VerticalAlign 3
+                 }
+                 Text "$123"
+                 "Min Font Size" 24
+                 "Horizontal Alignment" Center
+                 "Vertical Alignment" Center
+                 FontProperties FontProperties "{60527D4369C1297D}" {
+                  Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
+                 }
+                }
+                ScrollLayoutWidgetClass "{605C6E092B3AD1B5}" {
+                 Name "ScrollLayout0"
+                 Slot OverlayWidgetSlot "{605C6E066DB0BD85}" {
+                  HorizontalAlign 3
+                  VerticalAlign 3
+                 }
+                 "Is Visible" 0
+                 ScrollDirection Horizontal
+                 "Scrollbar Always Visible" 1
+                 {
+                  HorizontalLayoutWidgetClass "{605C6E092B3AD1B2}" {
+                   Prefab "{56691148E013D981}"
+                   Name "BarterItemContainer"
+                   Slot AlignableSlot "{56691148E013D9A9}" {
+                    Padding 0 0 15 0
+                   }
+                  }
+                 }
+                }
                }
               }
              }

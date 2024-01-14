@@ -47,7 +47,7 @@ ButtonWidgetClass {
        "Blend mode" Blend
       }
       TextWidgetClass "{60545763F8437E58}" {
-       Name "Quantity"
+       Name "BarterIconQuantity"
        Slot OverlayWidgetSlot "{60545763F8437E74}" {
         HorizontalAlign 2
         VerticalAlign 2
