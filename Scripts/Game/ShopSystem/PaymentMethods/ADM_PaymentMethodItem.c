@@ -6,8 +6,6 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 	[Attribute(defvalue: "1", desc: "Number of item for payment", params: "1 inf")]
 	protected int m_ItemQuantity;
 	
-	protected ResourceName m_CachedIcon;
-	
 	ResourceName GetItemPrefab()
 	{
 		return m_ItemPrefab;
@@ -124,7 +122,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 	
 	override string GetDisplayString(int quantity = 1)
 	{
-		return string.Format("%1 x%2", ADM_Utils.GetPrefabDisplayName(m_ItemPrefab), m_ItemQuantity * quantity);
+		return string.Format("%1 x%2", ADM_Utils.GetPrefabDisplayName(m_ItemPrefab), Math.AbsInt(m_ItemQuantity * quantity));
 	}
 	
 	override ResourceName GetDisplayEntity()
@@ -140,6 +138,20 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		
 		if (otherItem.GetItemPrefab() != this.GetItemPrefab())
 			return false;
+		
+		return true;
+	}
+	
+	override bool Add(ADM_PaymentMethodBase other, int quantity = 1)
+	{
+		if (!this.Equals(other))
+			return false;
+		
+		ADM_PaymentMethodItem otherItem = ADM_PaymentMethodItem.Cast(other);
+		if (!otherItem)
+			return false;
+				
+		this.m_ItemQuantity += otherItem.m_ItemQuantity * quantity;
 		
 		return true;
 	}

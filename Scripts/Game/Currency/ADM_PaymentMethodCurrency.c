@@ -23,16 +23,13 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 	
 	override bool CollectPayment(IEntity player, int quantity = 1)
 	{
-		Print("collect payment");
 		if (!Replication.IsServer() || !CheckPayment(player)) 
 			return false;
 		
 		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventory) return false;
 		
-		Print("found inventory");
 		bool didRemoveCurrency = ADM_CurrencyComponent.RemoveCurrencyFromInventory(inventory, m_Quantity * quantity);
-		Print(didRemoveCurrency);
 		return didRemoveCurrency;
 	}
 	
@@ -51,12 +48,12 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 	
 	override string GetDisplayString(int quantity = 1)
 	{
-		return string.Format("$%1", m_Quantity * quantity);
+		return string.Format("$%1", Math.AbsInt(m_Quantity * quantity));
 	}
 	
 	override ResourceName GetDisplayEntity()
 	{
-		return "{51D31AB07AE3C1C7}Prefabs/Props/Commercial/CashierShop_01.et";
+		return "{B0E67230AEEE2DF3}Prefabs/Items/Wallet.et";
 	}
 	
 	override bool Equals(ADM_PaymentMethodBase other)
@@ -64,6 +61,20 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 		ADM_PaymentMethodCurrency otherCurrency = ADM_PaymentMethodCurrency.Cast(other);
 		if (!otherCurrency)
 			return false;
+		
+		return true;
+	}
+	
+	override bool Add(ADM_PaymentMethodBase other, int quantity = 1)
+	{
+		if (!this.Equals(other))
+			return false;
+		
+		ADM_PaymentMethodCurrency otherCurrency = ADM_PaymentMethodCurrency.Cast(other);
+		if (!otherCurrency)
+			return false;
+				
+		this.m_Quantity += otherCurrency.m_Quantity * quantity;
 		
 		return true;
 	}

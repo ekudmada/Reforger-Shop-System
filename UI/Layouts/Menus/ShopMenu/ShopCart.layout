@@ -143,15 +143,18 @@ FrameWidgetClass {
                   VerticalAlign 3
                  }
                  "Is Visible" 0
+                 style Blank
                  ScrollDirection Horizontal
-                 "Scrollbar Always Visible" 1
                  {
                   HorizontalLayoutWidgetClass "{605C6E092B3AD1B2}" {
                    Prefab "{56691148E013D981}"
                    Name "BarterItemContainer"
                    Slot AlignableSlot "{56691148E013D9A9}" {
-                    Padding 0 0 15 0
+                    HorizontalAlign 3
+                    VerticalAlign 3
+                    Padding 0 0 15 5
                    }
+                   "Fill Origin" Center
                   }
                  }
                 }

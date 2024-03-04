@@ -90,11 +90,10 @@ class ADM_ShopBaseComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	static bool CanPurchase(IEntity player, ADM_ShopMerchandise merchandise, int quantity = 1)
 	{
-		bool canPurchase = true;
-		
 		if (!merchandise || !player)
 			return false;
 		
+		bool canPurchase = true;
 		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetBuyPayment();
 		foreach (ADM_PaymentMethodBase payment : requiredPayment)
 		{
@@ -182,7 +181,17 @@ class ADM_ShopBaseComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	bool CanSell(IEntity player, ADM_ShopMerchandise merchandise, int quantity = 1)
 	{
+		if (!merchandise || !player)
+			return false;
 		
+		array<ref ADM_PaymentMethodBase> requiredPayment = merchandise.GetSellPayment();
+		foreach (ADM_PaymentMethodBase payment : requiredPayment)
+		{
+			// TODO: instead of check payment, check if player has same prefab
+			// TODO: will want to account for weapon attachments and such
+			//if (!payment.CheckPayment(player, quantity))
+			//	break;
+		}
 		
 		return false;
 	}
@@ -190,13 +199,13 @@ class ADM_ShopBaseComponent: ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	bool AskSell(IEntity player, ADM_PlayerShopManagerComponent playerManager, ADM_ShopMerchandise merchandise, int quantity)
 	{
-		
+		playerManager.SetPurchaseMessage("Selling not implemented yet!");
 		
 		// Invoke OnPostSell (event after a purchase is completed for gamemodes to hook to)
 		// Pass in the shop, player who purchased, and sold item
 		Event_OnPostSell.Invoke(this, player, null);
 		
-		return true;
+		return false;
 	}
 	
 	//------------------------------------------------------------------------------------------------

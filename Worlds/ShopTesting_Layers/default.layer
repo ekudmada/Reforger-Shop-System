@@ -317,6 +317,14 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
        ADM_PaymentMethodCurrency "{605049D5FA717D35}" {
         m_Quantity 10
        }
+       ADM_PaymentMethodItem "{60C77E5D245FFACD}" {
+        m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
+       }
+      }
+      m_SellPayment {
+       ADM_PaymentMethodItem "{60C77E5D2C3811F6}" {
+        m_ItemPrefab "{E8F00BF730225B00}Prefabs/Weapons/Grenades/Grenade_M67.et"
+       }
       }
      }
      ADM_ShopMerchandise "{605049DF9EC02875}" {
@@ -329,13 +337,15 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
        }
       }
       m_SellPayment {
-       ADM_PaymentMethodItem "{605049D59BF8A399}" {
+       ADM_PaymentMethodCurrency "{605049D59BF8A399}" {
+        m_Quantity 10
        }
       }
      }
      ADM_ShopMerchandise "{605049C8C4B5EB18}" {
       m_Merchandise ADM_MerchandiseItem "{605049C8C5E436AC}" {
        m_sPrefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
+       m_AllowSaleWithFullInventory 1
       }
       m_BuyPayment {
        ADM_PaymentMethodCurrency "{605049C8F5B9466F}" {

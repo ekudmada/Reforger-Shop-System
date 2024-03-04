@@ -7,7 +7,7 @@ class ADM_CurrencyPredicate: InventorySearchPredicate
 
 	override protected bool IsMatch(BaseInventoryStorageComponent storage, IEntity item, array<GenericComponent> queriedComponents, array<BaseItemAttributeData> queriedAttributes)
 	{		
-		return (ADM_CurrencyComponent.Cast(queriedComponents[0])).GetValue() > 0;
+		return ADM_CurrencyComponent.Cast(queriedComponents[0]);
 	}
 }
 
@@ -117,17 +117,19 @@ class ADM_CurrencyComponent: ScriptComponent
 		if (!inventory) return false;
 		if (amount < 1) return false;
 		
+		bool didAdd = false;
 		array<IEntity> currencyItems = ADM_CurrencyComponent.FindCurrencyInInventory(inventory);
 		foreach (IEntity item : currencyItems)
 		{
 			ADM_CurrencyComponent currencyComp = ADM_CurrencyComponent.Cast(item.FindComponent(ADM_CurrencyComponent));
 			if (currencyComp) 
 			{
-				currencyComp.ModifyValue(amount, true); 
+				currencyComp.ModifyValue(amount, true);
+				didAdd = true;
 				break;
 			}
 		}
 		
-		return true;
+		return didAdd;
 	}
 }

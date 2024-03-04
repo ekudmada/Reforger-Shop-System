@@ -276,7 +276,6 @@ FrameWidgetClass {
                         SCR_TabViewContent "{6050050F241B75AC}" {
                          m_ElementLayout "{7513528C6C68D18A}UI/Layouts/Menus/ShopMenu/ShopList.layout"
                          m_sTabButtonContent "Sell"
-                         m_bEnabled 0
                         }
                        }
                        m_bKeepHiddenTabs 1

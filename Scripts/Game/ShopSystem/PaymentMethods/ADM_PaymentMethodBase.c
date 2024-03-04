@@ -34,5 +34,5 @@ class ADM_PaymentMethodBase: ScriptAndConfig
 	/*
 		Add other payment method to this instance
 	*/
-	bool Add(ADM_PaymentMethodBase other) { return false; }
+	bool Add(ADM_PaymentMethodBase other, int quantity = 1) { return false; }
 }

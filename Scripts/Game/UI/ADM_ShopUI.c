@@ -70,12 +70,18 @@ class ADM_ShopUI_Item : SCR_ModularButtonComponent
 		if (GetGame().GetWorkspace().GetFocusedWidget() != m_wRoot)
 			return;
 
+		if (m_bIsCartItem)
+			return;
+		
 		UpdateQuantity(-1);
 	}
 
 	protected void OnQuantityMore()
 	{
 		if (GetGame().GetWorkspace().GetFocusedWidget() != m_wRoot)
+			return;
+
+		if (m_bIsCartItem)
 			return;
 
 		UpdateQuantity(1);
@@ -269,7 +275,7 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 	[Attribute()]
 	protected ref SCR_ScriptedWidgetTooltipPreset m_wTooltipPreset;
 	
-	void SetPayment(ADM_PaymentMethodBase payment)
+	void SetPayment(ADM_PaymentMethodBase payment, Color texCol = Color.White)
 	{
 		m_PaymentMethod = payment;
 		
@@ -289,15 +295,41 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 		if (!m_wQuantityWidget)
 			return;
 		
+		m_wQuantityWidget.SetColor(texCol);
+		
 		int quantity = 1;
 		string displayString = m_PaymentMethod.GetDisplayString(quantity);
 		if (m_PaymentMethod.Type() == ADM_PaymentMethodItem)
 		{
 			ADM_PaymentMethodItem paymentMethodItem = ADM_PaymentMethodItem.Cast(m_PaymentMethod);
+			if (paymentMethodItem)
+			{
+				quantity = Math.AbsInt(paymentMethodItem.GetItemQuantity());
+			}
+			
+			if (paymentMethodItem.GetItemQuantity() < 0)
+			{
+				m_wQuantityWidget.SetColor(Color.Green);
+			}
+			
 			displayString = string.Format("x%1", quantity);
 		}
 		
+		if (m_PaymentMethod.Type() == ADM_PaymentMethodCurrency)
+		{
+			ADM_PaymentMethodCurrency paymentMethodCurrency = ADM_PaymentMethodCurrency.Cast(m_PaymentMethod);
+			if (paymentMethodCurrency && paymentMethodCurrency.GetQuantity() < 0)
+			{
+				m_wQuantityWidget.SetColor(Color.Green);
+			}
+		}
+		
 		m_wQuantityWidget.SetText(string.Format("%1", displayString));
+		
+		if (quantity == 0)
+		{
+			delete m_wRoot;
+		}
 	}
 	
 	override void HandlerAttached(Widget w)
@@ -508,7 +540,14 @@ class ADM_ShopUI: ChimeraMenuBase
 		// Cost
 		TextWidget wItemPrice = TextWidget.Cast(lbItem.GetRootWidget().FindAnyWidget("Cost"));
 		array<ref ADM_PaymentMethodBase> paymentRequirement = merch.GetBuyPayment();
-		if (ADM_ShopComponent.IsBuyPaymentOnlyCurrency(merch) || paymentRequirement.Count() == 0)
+		bool isCurrencyOnly = ADM_ShopComponent.IsBuyPaymentOnlyCurrency(merch);
+		if (!buyOrSell)
+		{
+			paymentRequirement = merch.GetSellPayment();
+			isCurrencyOnly = ADM_ShopComponent.IsSellPaymentOnlyCurrency(merch);
+		}
+		
+		if (isCurrencyOnly || paymentRequirement.Count() == 0)
 		{
 			if (wItemPrice) {
 				string posOrMinus = "+";
@@ -550,7 +589,13 @@ class ADM_ShopUI: ChimeraMenuBase
 				ADM_IconBarterTooltip barterItemIcon = ADM_IconBarterTooltip.Cast(icon.FindHandler(ADM_IconBarterTooltip));
 				if (barterItemIcon)
 				{
-					barterItemIcon.SetPayment(paymentRequirement[i]);
+					Color texColor = Color.White;
+					if (!buyOrSell)
+					{
+						texColor = Color.Green;
+					}
+					
+					barterItemIcon.SetPayment(paymentRequirement[i], texColor);
 				}
 			}
 		}
@@ -582,7 +627,7 @@ class ADM_ShopUI: ChimeraMenuBase
 		
 		ClearTab(wTabView);
 		
-		array<ADM_PaymentMethodBase> totalCost = {};
+		array<ref ADM_PaymentMethodBase> totalCost = {};
 		foreach (ADM_ShopMerchandise merch, int quantity : m_BuyShoppingCart)
 		{
 			if (!merch)
@@ -599,14 +644,20 @@ class ADM_ShopUI: ChimeraMenuBase
 				bool didAddToTotal = false;
 				foreach(ADM_PaymentMethodBase existing : totalCost)
 				{
+					if (didAddToTotal)
+					{
+						continue;
+					}
+					
 					bool isSame = existing.Equals(paymentMethod);
-					didAddToTotal = existing.Add(paymentMethod);
+					didAddToTotal = existing.Add(paymentMethod, quantity);
 				}
 				
 				if (!didAddToTotal)
 				{
-					//need to add quantity to total as well
-					//int idx = totalCost.Insert(paymentMetho
+					ADM_PaymentMethodBase clone = ADM_PaymentMethodBase.Cast(paymentMethod.Clone());
+					int idx = totalCost.Insert(clone);
+					clone.Add(paymentMethod, quantity-1);
 				}
 			}
 		}
@@ -622,20 +673,41 @@ class ADM_ShopUI: ChimeraMenuBase
 			
 			CreateCartListboxItem(listbox, merch, false);
 			
-			// TODO: account for this in total cost
+			foreach(ADM_PaymentMethodBase paymentMethod : merch.GetSellPayment())
+			{
+				bool didAddToTotal = false;
+				foreach(ADM_PaymentMethodBase existing : totalCost)
+				{
+					if (didAddToTotal)
+					{
+						continue;
+					}
+					
+					bool isSame = existing.Equals(paymentMethod);
+					didAddToTotal = existing.Add(paymentMethod, quantity*-1);
+				}
+				
+				if (!didAddToTotal)
+				{
+					ADM_PaymentMethodBase clone = ADM_PaymentMethodBase.Cast(paymentMethod.Clone());
+					int idx = totalCost.Insert(clone);
+					clone.Add(paymentMethod, (quantity+1)*-1);
+				}
+			}
 		}
 		
 		Widget totalCostOverlay = wTabView.m_wTab.FindAnyWidget("TotalCostOverlay");
-		Widget priceParent = totalCostOverlay.FindAnyWidget("BarterItemContainer");
+		Widget barterParent = totalCostOverlay.FindAnyWidget("BarterItemContainer");
 		TextWidget wItemPrice = TextWidget.Cast(totalCostOverlay.FindAnyWidget("TotalCostCurrencyText"));
 		if ((totalCost.Count() == 1 && totalCost[0].Type().IsInherited(ADM_PaymentMethodCurrency)) || totalCost.Count() == 0)
 		{
-			if (priceParent)
+			if (barterParent)
 			{
-				priceParent.SetVisible(false);
+				barterParent.GetParent().SetVisible(false);
 			}
 			
 			if (wItemPrice) {
+				wItemPrice.SetColor(Color.White);
 				wItemPrice.SetVisible(true);
 				if (totalCost.Count() == 0)
 				{
@@ -643,9 +715,14 @@ class ADM_ShopUI: ChimeraMenuBase
 				} else {
 					ADM_PaymentMethodCurrency paymentMethod = ADM_PaymentMethodCurrency.Cast(totalCost[0]);
 					int quantity = paymentMethod.GetQuantity();
-					if (quantity > 0)
+					if (Math.AbsInt(quantity) > 0)
 					{
-						wItemPrice.SetTextFormat("$%1", quantity);
+						wItemPrice.SetTextFormat("$%1", Math.AbsInt(quantity));
+						
+						if (quantity < 0)
+						{
+							wItemPrice.SetColor(Color.Green);
+						}
 					} else {
 						wItemPrice.SetTextFormat("Free");
 					}
@@ -657,14 +734,15 @@ class ADM_ShopUI: ChimeraMenuBase
 				wItemPrice.SetVisible(false);
 			}
 			
-			if (priceParent)
+			if (barterParent)
 			{
-				priceParent.SetVisible(true);
+				barterParent.GetParent().SetVisible(true);
+				SCR_WidgetHelper.RemoveAllChildren(barterParent);
 			}
 			
 			for (int i = 0; i < totalCost.Count(); i++)
 			{
-				Widget icon = GetGame().GetWorkspace().CreateWidgets(m_BarterIconPrefab, priceParent);
+				Widget icon = GetGame().GetWorkspace().CreateWidgets(m_BarterIconPrefab, barterParent);
 				ADM_IconBarterTooltip barterItemIcon = ADM_IconBarterTooltip.Cast(icon.FindHandler(ADM_IconBarterTooltip));
 				if (barterItemIcon)
 				{
@@ -697,15 +775,7 @@ class ADM_ShopUI: ChimeraMenuBase
 		if (!playerShopManager) 
 			return;
 		
-		foreach(ADM_ShopMerchandise merch, int quantity : m_SellShoppingCart)
-		{
-			playerShopManager.AskSell(m_Shop, merch, quantity);
-		}
-		
-		foreach(ADM_ShopMerchandise merch, int quantity : m_BuyShoppingCart)
-		{
-			playerShopManager.AskPurchase(m_Shop, merch, quantity);
-		}
+		playerShopManager.AskProcessCart(m_Shop, m_BuyShoppingCart, m_SellShoppingCart);
 		
 		Close();
 	}
@@ -865,7 +935,14 @@ class ADM_ShopUI: ChimeraMenuBase
 		// Cost
 		TextWidget wItemPrice = TextWidget.Cast(lbItem.GetRootWidget().FindAnyWidget("Cost"));
 		array<ref ADM_PaymentMethodBase> paymentRequirement = merch.GetBuyPayment();
-		if (ADM_ShopComponent.IsBuyPaymentOnlyCurrency(merch) || paymentRequirement.Count() == 0)
+		bool isOnlyCurrency = ADM_ShopComponent.IsBuyPaymentOnlyCurrency(merch);
+		if (!buyOrSell)
+		{
+			paymentRequirement = merch.GetSellPayment(); 
+			isOnlyCurrency = ADM_ShopComponent.IsSellPaymentOnlyCurrency(merch);
+		}
+		
+		if (isOnlyCurrency || paymentRequirement.Count() == 0)
 		{
 			if (wItemPrice) {
 				wItemPrice.SetVisible(true);
