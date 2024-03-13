@@ -19,7 +19,6 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	// Only used for server to determine when to spawn a new vehicle
 	protected float m_fLastStateChangeTime = -1;
 	
-	//------------------------------------------------------------------------------------------------
 	void UpdateMesh(IEntity owner)
 	{
 		//TODO: look into using SCR_PreviewEntity or replicating it. Display prefab 1:1 with all slots and such
@@ -29,7 +28,7 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		ResourceName modelPath;
 		string remapPath;
 		
-		ADM_MerchandiseType merchandise = m_Merchandise[0].GetType();
+		ADM_MerchandisePrefab merchandise = ADM_MerchandisePrefab.Cast(m_Merchandise[0].GetType());
 		if (!merchandise) 
 			return;
 		
@@ -51,7 +50,6 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		Physics.CreateStatic(owner, 0xffffffff);
 	}
 	
-	//------------------------------------------------------------------------------------------------
 	void SetState(bool state)
 	{
 		m_bState = !m_bState;
@@ -61,7 +59,6 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		OnStateChange();
 	}
 	
-	//------------------------------------------------------------------------------------------------
 	void OnStateChange()
 	{
 		IEntity owner = GetOwner();
@@ -76,30 +73,25 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------
 	// Return amount of seconds to respawn
 	float GetRespawnTime()
 	{
 		return m_fRespawnTime;
 	}
 	
-	//------------------------------------------------------------------------------------------------
 	// Amount of time in milliseconds until respawn
 	float GetTimeUntilRespawn()
 	{
 		return System.GetTickCount() - m_fLastStateChangeTime;
 	}
 	
-	//------------------------------------------------------------------------------------------------
 	void ViewPayment(ADM_PhysicalShopAction action)
 	{
 		MenuBase menuBase = GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.ADM_ViewPaymentMenu); 
 		ADM_ViewPaymentUI menu = ADM_ViewPaymentUI.Cast(menuBase);
-		menu.SetShop(this);
-		menu.SetAction(action);
+		menu.SetShop(this, action);
 	}
 	
-	//------------------------------------------------------------------------------------------------
 	override bool AskPurchase(IEntity player, ADM_PlayerShopManagerComponent playerManager, ADM_ShopMerchandise merchandise, int quantity)
 	{
 		bool success = super.AskPurchase(player, playerManager, merchandise, quantity);
@@ -123,7 +115,14 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 	static autoptr Shape debugBB;
 	override void EOnDiag(IEntity owner, float timeSlice)
 	{
-		if (m_PhysicalMerchandise && ADM_Utils.m_CachedBoundingBoxes && ADM_Utils.m_CachedBoundingBoxes.Contains(m_PhysicalMerchandise.GetType().GetPrefab()))
+		if (!m_PhysicalMerchandise)
+			return;
+		
+		ADM_MerchandisePrefab merchPrefab = ADM_MerchandisePrefab.Cast(m_PhysicalMerchandise.GetType());
+		if (!merchPrefab)
+			return;
+		
+		if (m_PhysicalMerchandise && ADM_Utils.m_CachedBoundingBoxes && ADM_Utils.m_CachedBoundingBoxes.Contains(merchPrefab.GetPrefab()))
 		{
 			vector traceMat[4];
 			owner.GetTransform(traceMat);
@@ -136,14 +135,13 @@ class ADM_PhysicalShopComponent: ADM_ShopBaseComponent
 			paramOBB.Start = traceMat[3];
 			paramOBB.Flags = TraceFlags.ENTS;
 			paramOBB.LayerMask = EPhysicsLayerPresets.Projectile;
-			paramOBB.Mins = ADM_Utils.m_CachedBoundingBoxes.Get(m_PhysicalMerchandise.GetType().GetPrefab())[0];
-			paramOBB.Maxs = ADM_Utils.m_CachedBoundingBoxes.Get(m_PhysicalMerchandise.GetType().GetPrefab())[1];
+			paramOBB.Mins = ADM_Utils.m_CachedBoundingBoxes.Get(merchPrefab.GetPrefab())[0];
+			paramOBB.Maxs = ADM_Utils.m_CachedBoundingBoxes.Get(merchPrefab.GetPrefab())[1];
 			debugBB = Shape.Create(ShapeType.BBOX, COLOR_BLUE_A, ShapeFlags.VISIBLE | ShapeFlags.NOZBUFFER | ShapeFlags.WIREFRAME, paramOBB.Mins, paramOBB.Maxs);
 			debugBB.SetMatrix(traceMat);
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
 		if (!Replication.IsServer() || m_fLastStateChangeTime == -1 || m_fRespawnTime == -1) 

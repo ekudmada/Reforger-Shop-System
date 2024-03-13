@@ -71,6 +71,9 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 			EntityPrefabData prefabData = item.GetPrefabData();
 			ResourceName prefabName = prefabData.GetPrefabName();
 			
+			// TODO: check if the payment has storages or attachments and drop them on the ground
+			// things like magazines, sights, etc.
+			
 			bool didRemoveItem = inventory.TryDeleteItem(item, null);
 			didRemoveItems.Insert(didRemoveItem);
 			
@@ -120,7 +123,7 @@ class ADM_PaymentMethodItem: ADM_PaymentMethodBase
 		return returned;
 	}
 	
-	override string GetDisplayString(int quantity = 1)
+	override string GetDisplayName(int quantity = 1)
 	{
 		return string.Format("%1 x%2", ADM_Utils.GetPrefabDisplayName(m_ItemPrefab), Math.AbsInt(m_ItemQuantity * quantity));
 	}

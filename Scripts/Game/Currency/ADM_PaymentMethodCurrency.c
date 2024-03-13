@@ -46,7 +46,7 @@ class ADM_PaymentMethodCurrency: ADM_PaymentMethodBase
 		return didAddCurrency;
 	}
 	
-	override string GetDisplayString(int quantity = 1)
+	override string GetDisplayName(int quantity = 1)
 	{
 		return string.Format("$%1", Math.AbsInt(m_Quantity * quantity));
 	}

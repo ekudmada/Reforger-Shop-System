@@ -37,7 +37,7 @@ class ADM_PhysicalShopAction : ScriptedUserAction
 		ADM_MerchandiseType merchandiseType = merchandise.GetType();
 		if (!merchandiseType) return;
 		
-		m_ItemName = ADM_Utils.GetPrefabDisplayName(merchandiseType.GetPrefab());
+		m_ItemName = merchandiseType.GetDisplayName();
 		m_fTargetValue = m_fAdjustmentStep;
 	}
 	

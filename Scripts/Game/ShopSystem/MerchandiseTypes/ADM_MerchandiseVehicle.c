@@ -1,5 +1,5 @@
 [BaseContainerProps()]
-class ADM_MerchandiseVehicle: ADM_MerchandiseType
+class ADM_MerchandiseVehicle: ADM_MerchandisePrefab
 {
 	[Attribute()]
 	protected ref PointInfo m_SpawnPosition;
@@ -7,7 +7,7 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 	[Attribute(desc: "Ignore player when checking if spawn area is clear")]
 	protected bool m_bIgnorePlayer;
 	
-	override int GetMaxQuantity() 
+	override int GetMaxPurchaseQuantity() 
 	{
 		return 1;
 	}
@@ -18,7 +18,8 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 		params.TransformMode = ETransformMode.WORLD;
 		
 		if (m_SpawnPosition && !shop.IsInherited(ADM_PhysicalShopComponent)) {
-			m_SpawnPosition.GetWorldTransform(params.Transform);
+			m_SpawnPosition.Init(shop.GetOwner());
+			m_SpawnPosition.GetModelTransform(params.Transform);
 			params.Transform[3] = shop.GetOwner().CoordToParent(params.Transform[3]);
 		} else {
 			shop.GetOwner().GetTransform(params.Transform);
@@ -39,8 +40,10 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 			array<IEntity> excludeEntities = {shopEntity};
 			
 			if (ignoreEntities)
+			{
 				excludeEntities.InsertAll(ignoreEntities);
-			
+			}
+				
 			canRespawnCache = ADM_Utils.IsSpawnPositionClean(m_sPrefab, GetVehicleSpawnTransform(shop), excludeEntities);
 			lastCheckTime = curTick;
 		}
@@ -48,9 +51,9 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 		return canRespawnCache;
 	}
 	
-	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1, array<IEntity> ignoreEntities = null)
+	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1, array<IEntity> ignoreEntities = null)
 	{
-		if (quantity > m_iMaxQuantity) quantity = m_iMaxQuantity;
+		if (quantity > m_iMaxPurchaseQuantity) quantity = m_iMaxPurchaseQuantity;
 		
 		array<IEntity> excludeEntities = {};
 		if (m_bIgnorePlayer)
@@ -62,20 +65,18 @@ class ADM_MerchandiseVehicle: ADM_MerchandiseType
 		if (ignoreEntities)
 			excludeEntities.InsertAll(ignoreEntities);
 		
-		// same check for respawning and delivering
 		return CanRespawn(shop, quantity, excludeEntities); 
 	}
 	
-	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
+	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1)
 	{
 		if (!Replication.IsServer()) return false;
-		if (quantity > m_iMaxQuantity) quantity = m_iMaxQuantity;
+		if (quantity > m_iMaxPurchaseQuantity) quantity = m_iMaxPurchaseQuantity;
 		
-		bool canDeliver = this.CanDeliver(player, shop, quantity, null);
+		bool canDeliver = this.CanDeliver(player, shop, merchandise, quantity, null);
 		if (!canDeliver) 
 			return false;
 		
-		// spawn vehicle
 		EntitySpawnParams params = GetVehicleSpawnTransform(shop);
 		IEntity entity = GetGame().SpawnEntityPrefab(Resource.Load(m_sPrefab), shop.GetOwner().GetWorld(), params);
 		

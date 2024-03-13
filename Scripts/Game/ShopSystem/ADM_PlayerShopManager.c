@@ -1,11 +1,11 @@
 class ADM_PlayerShopManagerComponentClass: ScriptComponentClass {}
 
 class ADM_PlayerShopManagerComponent: ScriptComponent {
-	protected string m_sPurchaseMessage;
+	protected string m_sTransactionMessage;
 	
-	void SetPurchaseMessage(string message)
+	void SetTransactionMessage(string message)
 	{
-		m_sPurchaseMessage = message;
+		m_sTransactionMessage = message;
 	}
 	
 	void AskProcessCart(ADM_ShopBaseComponent shop, map<ADM_ShopMerchandise, int> buyShoppingCart, map<ADM_ShopMerchandise, int> sellShoppingCart)
@@ -57,7 +57,7 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 		ADM_ShopMerchandise merchandise = shop.GetMerchandiseBuy()[merchandiseIndex];
 		bool success = shop.AskPurchase(player, this, merchandise, quantity);
 		
-		Rpc(RpcDo_Transaction, m_sPurchaseMessage);
+		Rpc(RpcDo_Transaction, m_sTransactionMessage);
 	}
 	
 	void AskSell(ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1)
@@ -91,7 +91,7 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 		ADM_ShopMerchandise merchandise = shop.GetMerchandiseSell()[merchandiseIndex];
 		bool success = shop.AskSell(player, this, merchandise, quantity);
 		
-		Rpc(RpcDo_Transaction, m_sPurchaseMessage);
+		Rpc(RpcDo_Transaction, m_sTransactionMessage);
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]

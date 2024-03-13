@@ -21,7 +21,7 @@ class ADM_ShopUI_Item : SCR_ModularButtonComponent
 	protected SCR_PagingButtonComponent m_ButtonLeft;
 	protected SCR_PagingButtonComponent m_ButtonRight;
 	protected ScrollLayoutWidget m_wPriceScrollLayout;
-	protected bool m_bBuyOrSell; // true buy, false sell
+	protected bool m_bBuyOrSell; 
 	protected int m_iMaxQuantity = 0;
 	protected bool m_bIsCartItem = false;
 	
@@ -275,7 +275,7 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 	[Attribute()]
 	protected ref SCR_ScriptedWidgetTooltipPreset m_wTooltipPreset;
 	
-	void SetPayment(ADM_PaymentMethodBase payment, Color texCol = Color.White)
+	void SetPayment(ADM_PaymentMethodBase payment, Color texCol = Color.White, int requestedQuantity = 1)
 	{
 		m_PaymentMethod = payment;
 		
@@ -298,7 +298,7 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 		m_wQuantityWidget.SetColor(texCol);
 		
 		int quantity = 1;
-		string displayString = m_PaymentMethod.GetDisplayString(quantity);
+		string displayString = m_PaymentMethod.GetDisplayName(quantity * requestedQuantity);
 		if (m_PaymentMethod.Type() == ADM_PaymentMethodItem)
 		{
 			ADM_PaymentMethodItem paymentMethodItem = ADM_PaymentMethodItem.Cast(m_PaymentMethod);
@@ -312,7 +312,7 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 				m_wQuantityWidget.SetColor(Color.Green);
 			}
 			
-			displayString = string.Format("x%1", quantity);
+			displayString = string.Format("x%1", quantity * requestedQuantity);
 		}
 		
 		if (m_PaymentMethod.Type() == ADM_PaymentMethodCurrency)
@@ -368,7 +368,7 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 		ItemPreviewWidget wRenderTarget = ItemPreviewWidget.Cast(w.FindAnyWidget("ItemPreview"));
 		if (m_PaymentMethod) {
 			int quantity = 1;
-			string displayString = m_PaymentMethod.GetDisplayString(quantity);
+			string displayString = m_PaymentMethod.GetDisplayName(quantity);
 			wText.SetText(displayString);
 			
 			if (wRenderTarget && previewManager) 
@@ -437,13 +437,13 @@ class ADM_ShopUI: ChimeraMenuBase
 			if (additionalMerchandise && additionalMerchandise == merch)
 				sameMerchandiseQuantity = quantity;
 			
-			if (!ADM_ShopBaseComponent.CanPurchase(player, merch, quantity))
+			if (!m_Shop.CanPurchase(player, merch.GetBuyPayment(), quantity))
 			{
 				return false;
 			}
 		}
 		
-		if (additionalMerchandise && !ADM_ShopBaseComponent.CanPurchase(player, additionalMerchandise, additionalQuantity+sameMerchandiseQuantity))
+		if (additionalMerchandise && !m_Shop.CanPurchase(player, additionalMerchandise.GetBuyPayment(), additionalQuantity+sameMerchandiseQuantity))
 			return false;
 		
 		return true;
@@ -503,14 +503,6 @@ class ADM_ShopUI: ChimeraMenuBase
 			m_BuyShoppingCart.Remove(merch);
 		}
 		
-		Widget wListbox = m_wCartTabView.m_wTab.FindAnyWidget("ListBox0");
-		if (!wListbox)
-			return;
-		
-		SCR_ListBoxComponent listbox = SCR_ListBoxComponent.Cast(wListbox.FindHandler(SCR_ListBoxComponent));
-		if (!listbox)
-			return;
-		
 		PopulateCartTab(m_wCartTabView);
 	}
 	
@@ -521,7 +513,7 @@ class ADM_ShopUI: ChimeraMenuBase
 			return;
 		
 		// Item Name
-		string itemName = ADM_Utils.GetPrefabDisplayName(merchType.GetPrefab());
+		string itemName = merchType.GetDisplayName();
 		if (!itemName)
 			itemName = "Item";
 			
@@ -534,7 +526,7 @@ class ADM_ShopUI: ChimeraMenuBase
 		ItemPreviewWidget wItemPreview = ItemPreviewWidget.Cast(lbItem.GetRootWidget().FindAnyWidget("ItemPreview0"));
 		if (wItemPreview)
 		{
-			m_ItemPreviewManager.SetPreviewItemFromPrefab(wItemPreview, merchType.GetPrefab(), null, false);
+			m_ItemPreviewManager.SetPreviewItemFromPrefab(wItemPreview, merchType.GetDisplayEntity(), null, false);
 		}
 			
 		// Cost
@@ -571,7 +563,7 @@ class ADM_ShopUI: ChimeraMenuBase
 					{
 						wItemPrice.SetTextFormat("%1$%2", posOrMinus, quantity);
 					} else {
-						wItemPrice.SetColor(Color.Green);
+						wItemPrice.SetColor(Color.White);
 						wItemPrice.SetText("Free");
 					}
 				}
@@ -609,7 +601,7 @@ class ADM_ShopUI: ChimeraMenuBase
 			item.SetMerchandise(merch);
 			item.SetBuyOrSell(buyOrSell);
 			item.SetQuantity(quantity);
-			item.SetMaxQuantity(merch.GetType().GetMaxQuantity());
+			item.SetMaxQuantity(merch.GetType().GetMaxPurchaseQuantity());
 			
 			item.m_OnClicked.Insert(RemoveFromCart);
 		}
@@ -617,15 +609,39 @@ class ADM_ShopUI: ChimeraMenuBase
 	
 	protected void PopulateCartTab(SCR_TabViewContent wTabView)
 	{
-		Widget wListbox = wTabView.m_wTab.FindAnyWidget("ListBox0");
-		if (!wListbox)
+		Widget wListboxBuy = wTabView.m_wTab.FindAnyWidget("ListBox0");
+		if (!wListboxBuy)
 			return;
 		
-		SCR_ListBoxComponent listbox = SCR_ListBoxComponent.Cast(wListbox.FindHandler(SCR_ListBoxComponent));
-		if (!listbox)
+		SCR_ListBoxComponent listboxBuy = SCR_ListBoxComponent.Cast(wListboxBuy.FindHandler(SCR_ListBoxComponent));
+		if (!listboxBuy)
+			return;
+		
+		Widget wListboxSell = wTabView.m_wTab.FindAnyWidget("ListBox1");
+		if (!wListboxSell)
+			return;
+		
+		SCR_ListBoxComponent listboxSell = SCR_ListBoxComponent.Cast(wListboxSell.FindHandler(SCR_ListBoxComponent));
+		if (!listboxSell)
 			return;
 		
 		ClearTab(wTabView);
+		
+		TextWidget buyText = TextWidget.Cast(wTabView.m_wTab.FindAnyWidget("Text0"));
+		if (m_BuyShoppingCart.Count() > 0)
+		{
+			buyText.SetVisible(true);
+		} else {
+			buyText.SetVisible(false);
+		}
+		
+		TextWidget sellText = TextWidget.Cast(wTabView.m_wTab.FindAnyWidget("Text1"));
+		if (m_SellShoppingCart.Count() > 0)
+		{
+			sellText.SetVisible(true);
+		} else {
+			sellText.SetVisible(false);
+		}
 		
 		array<ref ADM_PaymentMethodBase> totalCost = {};
 		foreach (ADM_ShopMerchandise merch, int quantity : m_BuyShoppingCart)
@@ -637,7 +653,7 @@ class ADM_ShopUI: ChimeraMenuBase
 			if (!merchType)
 				continue;
 			
-			CreateCartListboxItem(listbox, merch, true);
+			CreateCartListboxItem(listboxBuy, merch, true);
 			
 			foreach(ADM_PaymentMethodBase paymentMethod : merch.GetBuyPayment())
 			{
@@ -671,7 +687,7 @@ class ADM_ShopUI: ChimeraMenuBase
 			if (!merchType)
 				continue;
 			
-			CreateCartListboxItem(listbox, merch, false);
+			CreateCartListboxItem(listboxSell, merch, false);
 			
 			foreach(ADM_PaymentMethodBase paymentMethod : merch.GetSellPayment())
 			{
@@ -765,8 +781,6 @@ class ADM_ShopUI: ChimeraMenuBase
 	
 	protected void Checkout(SCR_InputButtonComponent btn)
 	{
-		PrintFormat("checkout %1", btn);
-		
 		PlayerController playerController = GetGame().GetPlayerController();
 		if (!playerController)
 			return;
@@ -813,15 +827,18 @@ class ADM_ShopUI: ChimeraMenuBase
 			
 			foreach (ADM_ShopMerchandise merch : items)
 			{
-				if (validItems.Contains(merch.GetType().GetPrefab())) {
+				ADM_MerchandisePrefab prefabMerch = ADM_MerchandisePrefab.Cast(merch.GetType());
+				if (prefabMerch && validItems.Contains(prefabMerch.GetPrefab())) {
 					sortedItems.Insert(merch);
 				}
 			}
 		}
 		
 		if (search != string.Empty)
+		{
 			sortedItems = ProcessSearch(search, sortedItems);
-		
+		}
+			
 		PopulateTab(wTabView, sortedItems, buyOrSell);
 	}
 	
@@ -892,14 +909,20 @@ class ADM_ShopUI: ChimeraMenuBase
 			return;
 		
 		Widget wListbox = wTabView.m_wTab.FindAnyWidget("ListBox0");
-		if (!wListbox)
-			return;
+		if (wListbox)
+		{
+			SCR_ListBoxComponent listbox = SCR_ListBoxComponent.Cast(wListbox.FindHandler(SCR_ListBoxComponent));
+			if (listbox)
+				listbox.Clear();
+		}
 		
-		SCR_ListBoxComponent listbox = SCR_ListBoxComponent.Cast(wListbox.FindHandler(SCR_ListBoxComponent));
-		if (!listbox)
-			return;
-		
-		listbox.Clear();
+		Widget wListbox1 = wTabView.m_wTab.FindAnyWidget("ListBox1");
+		if (wListbox1)
+		{
+			SCR_ListBoxComponent listbox1 = SCR_ListBoxComponent.Cast(wListbox1.FindHandler(SCR_ListBoxComponent));
+			if (listbox1)
+				listbox1.Clear();
+		}
 	}
 	
 	protected void CreateListboxItem(SCR_ListBoxComponent listbox, ADM_ShopMerchandise merch, bool buyOrSell = true)
@@ -909,7 +932,7 @@ class ADM_ShopUI: ChimeraMenuBase
 			return;
 		
 		// Item Name
-		string itemName = ADM_Utils.GetPrefabDisplayName(merchType.GetPrefab());
+		string itemName = merchType.GetDisplayName();
 		if (!itemName)
 			itemName = "Item";
 			
@@ -922,7 +945,7 @@ class ADM_ShopUI: ChimeraMenuBase
 		ItemPreviewWidget wItemPreview = ItemPreviewWidget.Cast(lbItem.GetRootWidget().FindAnyWidget("ItemPreview0"));
 		if (wItemPreview)
 		{
-			m_ItemPreviewManager.SetPreviewItemFromPrefab(wItemPreview, merchType.GetPrefab(), null, false);
+			m_ItemPreviewManager.SetPreviewItemFromPrefab(wItemPreview, merchType.GetDisplayEntity(), null, false);
 		}
 		
 		// On click
@@ -984,7 +1007,7 @@ class ADM_ShopUI: ChimeraMenuBase
 			item.SetShopUI(this);
 			item.SetMerchandise(merch);
 			item.SetBuyOrSell(buyOrSell);
-			item.SetMaxQuantity(merch.GetType().GetMaxQuantity());
+			item.SetMaxQuantity(merch.GetType().GetMaxPurchaseQuantity());
 			item.SetQuantity(1);
 		}
 	}
@@ -1037,7 +1060,7 @@ class ADM_ShopUI: ChimeraMenuBase
 		array<ref ADM_ShopMerchandise> matchedMerchandise = {};
 		foreach (ADM_ShopMerchandise merch : merchandise)
 		{
-			string itemName = ADM_Utils.GetPrefabDisplayName(merch.GetType().GetPrefab());
+			string itemName = merch.GetType().GetDisplayName();
 			itemName.ToLower();
 			
 			if (itemName.Contains(search))

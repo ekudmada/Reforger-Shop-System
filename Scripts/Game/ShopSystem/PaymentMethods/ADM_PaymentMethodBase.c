@@ -19,7 +19,7 @@ class ADM_PaymentMethodBase: ScriptAndConfig
 	/*
 		How to display this payment method in menus
 	*/
-	string GetDisplayString(int quantity = 1) { return string.Empty; }
+	string GetDisplayName(int quantity = 1) { return string.Empty; }
 	
 	/*
 		How to display this payment method in menus

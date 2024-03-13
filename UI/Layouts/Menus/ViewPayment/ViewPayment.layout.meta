@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{870C775F6E4107A1}UI/Layouts/Menus/ShopMenu/ViewPayment.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

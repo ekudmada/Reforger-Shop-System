@@ -240,7 +240,7 @@ $grp GenericEntity {
      m_Merchandise ADM_MerchandiseVehicle "{5D20781944DD5758}" {
       m_sPrefab "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT.et"
       m_SpawnPosition PointInfo "{60451A239E0B254C}" {
-       Offset 0 0.4966 0
+       Offset 0 1.2332 0
       }
       m_bIgnorePlayer 1
      }
@@ -278,7 +278,7 @@ $grp GenericEntity {
    RplComponent "{5C664CA59F5A8A12}" {
    }
   }
-  coords 159.109 0.812 125.249
+  coords 164.362 0.938 126.924
   angleX 4.288
  }
 }
@@ -311,7 +311,11 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
     m_AdditionalMerchandise {
      ADM_ShopMerchandise "{5D7A75C53FBE8DDA}" {
       m_Merchandise ADM_MerchandiseItem "{5D7A75C53D58AA32}" {
+       m_iMaxPurchaseQuantity 10
        m_sPrefab "{BBB50A815A2F916B}Prefabs/Weapons/Magazines/Magazine_545x39_AK_30rnd_Ball.et"
+       m_bAllowPurchaseWithFullInventory 1
+       m_bAllowSaleWithFullInventory 1
+       m_bDropSubStorageItemsOnSell 1
       }
       m_BuyPayment {
        ADM_PaymentMethodCurrency "{605049D5FA717D35}" {
@@ -329,7 +333,11 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
      }
      ADM_ShopMerchandise "{605049DF9EC02875}" {
       m_Merchandise ADM_MerchandiseItem "{605049DF9D769105}" {
+       m_iMaxPurchaseQuantity 10
        m_sPrefab "{12D5AD21E383B768}Prefabs/Items/Fuel/Jerrycan_01/Jerrycan_01_item.et"
+       m_bAllowPurchaseWithFullInventory 1
+       m_bAllowSaleWithFullInventory 1
+       m_bDropSubStorageItemsOnSell 1
       }
       m_BuyPayment {
        ADM_PaymentMethodCurrency "{605049D215D671E1}" {
@@ -344,8 +352,11 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
      }
      ADM_ShopMerchandise "{605049C8C4B5EB18}" {
       m_Merchandise ADM_MerchandiseItem "{605049C8C5E436AC}" {
+       m_iMaxPurchaseQuantity 10
        m_sPrefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
-       m_AllowSaleWithFullInventory 1
+       m_bAllowPurchaseWithFullInventory 1
+       m_bAllowSaleWithFullInventory 1
+       m_bDropSubStorageItemsOnSell 1
       }
       m_BuyPayment {
        ADM_PaymentMethodCurrency "{605049C8F5B9466F}" {
@@ -354,7 +365,11 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
      }
      ADM_ShopMerchandise "{605049C8F079BC0F}" {
       m_Merchandise ADM_MerchandiseItem "{605049C8FE718082}" {
+       m_iMaxPurchaseQuantity 10
        m_sPrefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
+       m_bAllowPurchaseWithFullInventory 1
+       m_bAllowSaleWithFullInventory 1
+       m_bDropSubStorageItemsOnSell 1
       }
       m_BuyPayment {
        ADM_PaymentMethodCurrency "{605049C8F823909C}" {
@@ -368,7 +383,11 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
      }
      ADM_ShopMerchandise "{605049C8E82FEF1C}" {
       m_Merchandise ADM_MerchandiseItem "{605049C8E9FD8ED1}" {
+       m_iMaxPurchaseQuantity 10
        m_sPrefab "{3E413771E1834D2F}Prefabs/Weapons/Rifles/M16/Rifle_M16A2.et"
+       m_bAllowPurchaseWithFullInventory 1
+       m_bAllowSaleWithFullInventory 1
+       m_bDropSubStorageItemsOnSell 1
       }
       m_SellPayment {
        ADM_PaymentMethodCurrency "{605049C893F88081}" {
@@ -377,23 +396,15 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
      }
      ADM_ShopMerchandise "{605049C8627D705B}" {
       m_Merchandise ADM_MerchandiseVehicle "{605049C863CFA53B}" {
+       m_iMaxPurchaseQuantity 1
        m_sPrefab "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT.et"
        m_SpawnPosition PointInfo "{605049C868C5ECE7}" {
-        Offset 0 0 14.2208
+        Offset 0 1.6943 14.2208
        }
       }
       m_BuyPayment {
-       ADM_PaymentMethodItem "{60514A932B566F5B}" {
-        m_ItemPrefab "{7CEF68E2BC68CE71}Prefabs/Items/Equipment/Compass/Compass_Adrianov.et"
-       }
-       ADM_PaymentMethodItem "{60514A99EA46AB2E}" {
-        m_ItemPrefab "{C98FCC6CA6C56069}Prefabs/Items/Medicine/AspirinBottle.et"
-       }
        ADM_PaymentMethodItem "{60514A966D519506}" {
         m_ItemPrefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
-       }
-       ADM_PaymentMethodItem "{60514A999A1D5EA6}" {
-        m_ItemPrefab "{A81F501D3EF6F38E}Prefabs/Items/Medicine/FieldDressing_US_01.et"
        }
       }
      }

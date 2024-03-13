@@ -1,24 +1,60 @@
 [BaseContainerProps()]
-class ADM_MerchandiseItem: ADM_MerchandiseType
+class ADM_MerchandiseItem: ADM_MerchandisePrefab
 {
-	[Attribute(defvalue: "0", desc: "If true then shop will spawn in place of the shop if the player cannot equip item or place in inventory. If false the sale will not be allowed.", uiwidget: UIWidgets.CheckBox, category: "Physical Shop")]
-	protected bool m_AllowSaleWithFullInventory;
+	[Attribute(defvalue: "0", desc: "If true then shop will spawn merchandise on the ground at the player if the player cannot equip item or place in inventory. If false the sale will not be allowed.", uiwidget: UIWidgets.CheckBox, category: "Physical Shop")]
+	protected bool m_bAllowPurchaseWithFullInventory;
 	
-	bool CanFitItemInInventory(IEntity player, int quantity = 1)
-	{
-		//TODO
-		return true;
+	[Attribute(defvalue: "0", desc: "If true then shop will spawn payment on the ground at the player if the player cannot equip item or place in inventory. If false the sale will not be allowed.", uiwidget: UIWidgets.CheckBox, category: "Physical Shop")]
+	protected bool m_bAllowSaleWithFullInventory;
+	
+	[Attribute(defvalue: "0", desc: "if true, then attachements and all sub-storage items will be dropped on the ground when the player sells an item and does not have enough storage for the contents.", uiwidget: UIWidgets.CheckBox, category: "Physical Shop")]
+	protected bool m_bDropSubStorageItemsOnSell;
+	
+	override bool CanRespawn(ADM_ShopBaseComponent shop, int quantity = 1, array<IEntity> ignoreEntities = null) 
+	{ 
+		// I think this will always be true, maybe for items with geometry that is large it should do a space check so no collisions occur?
+		return true; 
 	}
 	
-	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1, array<IEntity> ignoreEntities = null)
+	IEntity FindItemToSell(IEntity player)
 	{
-		if (!m_AllowSaleWithFullInventory) 
-			return CanFitItemInInventory(player);
+		// cool gamemode feature might be to check for storages nearby that the player owns (such as vehicles)
+		
+		
+	}
+	
+	override bool CanSell(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1) 
+	{ 
+		IEntity itemToSell = FindItemToSell(player);
+		if (!itemToSell)
+		{
+			return false;
+		}
+						
+		return true; 
+	}
+	
+	override bool CanCollectMerchandise(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1) 
+	{ 
+		// same as CanSell for now. maybe in future check for limited quantity or pulling from a specific storage
+		
+		 
+		return CanSell(player, shop, merchandise, quantity); 
+	}
+		
+	override bool CollectMerchandise(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1) 
+	{ 
+		return false; 
+	}
+	
+	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1, array<IEntity> ignoreEntities = null)
+	{
+		//TODO: better logic here, i'm lazy. need to check if everything can fit in players inventory
 		
 		return true;
 	}
 	
-	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, int quantity = 1)
+	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1)
 	{
 		if (!Replication.IsServer()) return false;
 		
@@ -26,7 +62,7 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 		if (!inventory) return false;
 		
 		// double check we can deliver
-		bool canDeliver = this.CanDeliver(player, shop, quantity);
+		bool canDeliver = this.CanDeliver(player, shop, merchandise, quantity);
 		if (!canDeliver) return false;
 		
 		array<IEntity> deliveredItems = {};
@@ -37,15 +73,15 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 			bool putInInventory = ADM_Utils.InsertAutoEquipItem(inventory, item);
 			
 			// Move item to location of shop if we can't fit in inventory and we allow sale with full inventory
-			if (m_AllowSaleWithFullInventory && !putInInventory)
+			if (m_bAllowPurchaseWithFullInventory && !putInInventory)
 			{
-				vector shopMat[4];
-				shop.GetOwner().GetTransform(shopMat);
-				item.SetTransform(shopMat);
+				vector mat[4];
+				player.GetTransform(mat);
+				item.SetTransform(mat);
 			}
 			
 			// If we cant do with both conditions false, delete it
-			if (!m_AllowSaleWithFullInventory && !putInInventory)
+			if (!m_bAllowPurchaseWithFullInventory && !putInInventory)
 			{
 				SCR_EntityHelper.DeleteEntityAndChildren(item);
 			} else {
@@ -64,10 +100,5 @@ class ADM_MerchandiseItem: ADM_MerchandiseType
 		}
 		
 		return true;
-	}
-	
-	override bool CanRespawn(ADM_ShopBaseComponent shop, int quantity = 1, array<IEntity> ignoreEntities = null) 
-	{ 
-		return true; 
 	}
 }

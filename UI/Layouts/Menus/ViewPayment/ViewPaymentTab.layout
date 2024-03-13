@@ -1,7 +1,7 @@
 FrameWidgetClass {
  Name "rootFrame"
  {
-  OverlayWidgetClass "{6052766E2C12308D}" {
+  OverlayWidgetClass "{60DA118CA8BFACBF}" {
    Name "Overlay0"
    Slot FrameWidgetSlot "{605028C4E12773E2}" {
     Anchor 0 0 1 1
@@ -15,120 +15,65 @@ FrameWidgetClass {
     OffsetBottom 0
    }
    {
-    SizeLayoutWidgetClass "{6052766E2C12308B}" {
+    SizeLayoutWidgetClass "{60DA118CA8BFACBC}" {
      Name "SizeLayout0"
      Slot OverlayWidgetSlot "{605028C48528AB54}" {
       HorizontalAlign 3
       VerticalAlign 3
      }
      {
-      VerticalLayoutWidgetClass "{6052766E2C123088}" {
+      VerticalLayoutWidgetClass "{60DA118CA8BFACBD}" {
        Name "HorizontalLayout0"
        Slot AlignableSlot "{605028C329F16F63}" {
         HorizontalAlign 3
         VerticalAlign 3
        }
        {
-        ScrollLayoutWidgetClass "{60D54298EFC888E6}" {
+        ScrollLayoutWidgetClass "{60DA118CA8BFACBA}" {
          Name "ScrollLayout0"
          Slot LayoutSlot "{60D54298EFC8889F}" {
           SizeMode Fill
          }
          style Small
          {
-          OverlayWidgetClass "{60D6075A45173B8B}" {
-           Name "Overlay0"
-           Slot AlignableSlot "{60D6075A45173BA7}" {
+          OverlayWidgetClass "{60DA118CA8BC7527}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
+           Name "ListBox0"
+           Slot AlignableSlot "{60DA118C1FDBA5E2}" {
             HorizontalAlign 3
             VerticalAlign 3
            }
+           components {
+            SCR_ListBoxComponent "{566C9415BAA54E1B}" {
+             m_sElementLayout "{5AE5E3EEAAFBE10D}UI/Layouts/Menus/ViewPayment/ListBoxElement_ViewPaymentItem.layout"
+            }
+           }
            {
-            VerticalLayoutWidgetClass "{60D6075A48087CB2}" {
-             Name "HorizontalLayout0"
-             Slot OverlayWidgetSlot "{60D6075A48087D57}" {
+            ScrollLayoutWidgetClass "{56691148E692435A}" {
+             Prefab "{56691148E692435A}"
+             Slot OverlayWidgetSlot "{56691148E692437F}" {
               HorizontalAlign 3
               VerticalAlign 3
+              Padding 0 6 6 6
              }
+             "Scrollbar Always Visible" 1
              {
-              TextWidgetClass "{60D6075A5F070B6F}" {
-               Name "Text0"
-               Slot LayoutSlot "{60D6075A5F070B07}" {
-               }
-               Text "You are purchasing from the shop:"
-               "Font Size" 18
-               "Min Font Size" 18
-              }
-              OverlayWidgetClass "{6052766E2C11C0B2}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
-               Name "ListBox0"
-               Slot LayoutSlot "{60D61C0825B7A748}" {
-               }
-               components {
-                SCR_ListBoxComponent "{566C9415BAA54E1B}" {
-                 m_sElementLayout "{B5B8AA917CD89225}UI/Layouts/Menus/ShopMenu/ListBoxElement_ShopCartItem.layout"
-                }
-               }
-               {
-                ScrollLayoutWidgetClass "{56691148E692435A}" {
-                 Prefab "{56691148E692435A}"
-                 "Scrollbar Always Visible" 1
-                 {
-                  VerticalLayoutWidgetClass "{56691148E013D981}" {
-                   Prefab "{56691148E013D981}"
-                   Slot AlignableSlot "{56691148E013D9A9}" {
-                    Padding 0 0 15 0
-                   }
-                  }
-                 }
-                }
-                ImageWidgetClass "{5DB6D18100D38307}" {
-                 Prefab "{5DB6D18100D38307}"
-                 "Is Visible" 0
-                }
-               }
-              }
-              TextWidgetClass "{60D6075A10208D82}" {
-               Name "Text1"
-               Slot LayoutSlot "{60D6075A5F070B07}" {
-               }
-               Text "You are selling to the shop:"
-               "Font Size" 18
-               "Min Font Size" 18
-              }
-              OverlayWidgetClass "{60D6075A102024CF}" : "{94CAAE4A601195D3}UI/layouts/ListBox/ListBox.layout" {
-               Name "ListBox1"
-               Slot LayoutSlot "{60D6075A1020245A}" {
-               }
-               components {
-                SCR_ListBoxComponent "{566C9415BAA54E1B}" {
-                 m_sElementLayout "{B5B8AA917CD89225}UI/Layouts/Menus/ShopMenu/ListBoxElement_ShopCartItem.layout"
-                }
-               }
-               {
-                ScrollLayoutWidgetClass "{56691148E692435A}" {
-                 Prefab "{56691148E692435A}"
-                 "Scrollbar Always Visible" 1
-                 {
-                  VerticalLayoutWidgetClass "{56691148E013D981}" {
-                   Prefab "{56691148E013D981}"
-                   Slot AlignableSlot "{56691148E013D9A9}" {
-                    Padding 0 0 15 0
-                   }
-                  }
-                 }
-                }
-                ImageWidgetClass "{5DB6D18100D38307}" {
-                 Prefab "{5DB6D18100D38307}"
-                 "Is Visible" 0
-                }
+              VerticalLayoutWidgetClass "{56691148E013D981}" {
+               Prefab "{56691148E013D981}"
+               Slot AlignableSlot "{56691148E013D9A9}" {
+                Padding 0 0 15 0
                }
               }
              }
+            }
+            ImageWidgetClass "{5DB6D18100D38307}" {
+             Prefab "{5DB6D18100D38307}"
+             "Is Visible" 0
             }
            }
           }
          }
         }
-        SizeLayoutWidgetClass "{60527D4267925D2C}" {
+        SizeLayoutWidgetClass "{60DA118CA8BC7520}" {
          Name "SizeLayout0"
          Slot LayoutSlot "{60527D4267925DDB}" {
           VerticalAlign 2
@@ -138,7 +83,7 @@ FrameWidgetClass {
          AllowMaxDesiredHeight 1
          MaxDesiredHeight 300
          {
-          OverlayWidgetClass "{60527D43DB61F543}" {
+          OverlayWidgetClass "{60DA118CA8BC7521}" {
            Name "Overlay0"
            Slot AlignableSlot "{60527D43DB61F57F}" {
             HorizontalAlign 3
@@ -147,7 +92,7 @@ FrameWidgetClass {
            }
            Clipping False
            {
-            ImageWidgetClass "{60527D42289542AE}" {
+            ImageWidgetClass "{60DA118CA8BC388C}" {
              Name "Image0"
              Slot OverlayWidgetSlot "{60527D43EC746B2A}" {
               HorizontalAlign 3
@@ -155,14 +100,14 @@ FrameWidgetClass {
              }
              Color 0 0 0 0.519
             }
-            HorizontalLayoutWidgetClass "{60527D42723A33A9}" {
+            HorizontalLayoutWidgetClass "{60DA118CA8BC3883}" {
              Name "Total"
              Slot OverlayWidgetSlot "{60527D43EC746BE1}" {
               HorizontalAlign 3
               VerticalAlign 3
              }
              {
-              TextWidgetClass "{60527D420BD7DB5A}" {
+              TextWidgetClass "{60DA118CA8BC3882}" {
                Name "Text"
                Slot LayoutSlot "{60527D420BD7DB6A}" {
                 HorizontalAlign 0
@@ -176,13 +121,13 @@ FrameWidgetClass {
                 Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
                }
               }
-              OverlayWidgetClass "{605C6E091ADBF66D}" {
+              OverlayWidgetClass "{60DA118CA8BC3881}" {
                Name "TotalCostOverlay"
                Slot LayoutSlot "{605C6E091ADBF60B}" {
                 SizeMode Fill
                }
                {
-                TextWidgetClass "{605C6E096FED93D6}" {
+                TextWidgetClass "{60DA118CA8BC3880}" {
                  Name "TotalCostCurrencyText"
                  Slot OverlayWidgetSlot "{605C6E066DB0BDE7}" {
                   VerticalAlign 3
@@ -195,7 +140,7 @@ FrameWidgetClass {
                   Font "{E2CBA6F76AAA42AF}UI/Fonts/Roboto/Roboto_Regular.fnt"
                  }
                 }
-                ScrollLayoutWidgetClass "{605C6E092B3AD1B5}" {
+                ScrollLayoutWidgetClass "{60DA118CA8BCD7C3}" {
                  Name "ScrollLayout0"
                  Slot OverlayWidgetSlot "{605C6E066DB0BD85}" {
                   HorizontalAlign 3
@@ -205,7 +150,7 @@ FrameWidgetClass {
                  style Blank
                  ScrollDirection Horizontal
                  {
-                  HorizontalLayoutWidgetClass "{605C6E092B3AD1B2}" {
+                  HorizontalLayoutWidgetClass "{60DA118CA8BCD7C4}" {
                    Prefab "{56691148E013D981}"
                    Name "BarterItemContainer"
                    Slot AlignableSlot "{56691148E013D9A9}" {
@@ -221,7 +166,7 @@ FrameWidgetClass {
               }
              }
             }
-            PanelWidgetClass "{60527D43CFB45990}" {
+            PanelWidgetClass "{60DA118CA8BCD7C5}" {
              Name "Border"
              Slot OverlayWidgetSlot "{60527D43CFB45988}" {
               HorizontalAlign 3
@@ -239,7 +184,7 @@ FrameWidgetClass {
       }
      }
     }
-    TextWidgetClass "{605C4DC508AC4C39}" {
+    TextWidgetClass "{60DA118CA8BCD7C6}" {
      Name "Empty Text"
      Slot OverlayWidgetSlot "{60D61C0825B7A549}" {
       HorizontalAlign 1
