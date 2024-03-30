@@ -16,17 +16,37 @@ class ADM_MerchandiseItem: ADM_MerchandisePrefab
 		return true; 
 	}
 	
-	IEntity FindItemToSell(IEntity player)
+	array<IEntity> FindItemsToSell(IEntity player, ResourceName itemResource, int quantity = 1)
 	{
 		// cool gamemode feature might be to check for storages nearby that the player owns (such as vehicles)
 		
+		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventory) return null;
 		
+		array<IEntity> items = {};
+		int numItems = inventory.GetItems(items);
+		
+		array<IEntity> foundItems = {};
+		foreach (IEntity item : items)
+		{
+			if (item.GetPrefabData().GetPrefabName() == itemResource)
+			{
+				foundItems.Insert(item);
+				
+				if (foundItems.Count() >= quantity)
+				{
+					break;
+				}
+			}
+		}
+		
+		return foundItems;
 	}
 	
 	override bool CanSell(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1) 
 	{ 
-		IEntity itemToSell = FindItemToSell(player);
-		if (!itemToSell)
+		array<IEntity> itemsToSell = FindItemsToSell(player, GetPrefab(), quantity);
+		if (!itemsToSell || itemsToSell.IsEmpty() || itemsToSell.Count() < quantity)
 		{
 			return false;
 		}
@@ -44,7 +64,51 @@ class ADM_MerchandiseItem: ADM_MerchandisePrefab
 		
 	override bool CollectMerchandise(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1) 
 	{ 
-		return false; 
+		
+		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventory) return null;
+		
+		int numItemsToSell = quantity;
+		array<IEntity> itemsToSell = FindItemsToSell(player, GetPrefab(), quantity);
+		array<IEntity> itemsRemovedFromInventory = {};
+		array<bool> itemRemovalSuccess = {};
+		while (numItemsToSell > 0)
+		{
+			int lastIdx = itemsToSell.Count()-1;
+			IEntity item = itemsToSell[lastIdx];
+			
+			bool success = inventory.TryRemoveItemFromInventory(item);
+			if (success)
+			{
+				itemsToSell.Remove(lastIdx);
+				itemsRemovedFromInventory.Insert(item);
+				itemRemovalSuccess.Insert(true);
+				numItemsToSell--;
+			} else {
+				itemRemovalSuccess.Insert(false);
+				break;
+			}
+			
+		}
+		
+		// if anything failed to remove, and we already removed some items, then return everything and cancel the transaction
+		if (itemRemovalSuccess.Contains(false))
+		{
+			foreach(IEntity item : itemsRemovedFromInventory)
+			{
+				inventory.TryInsertItem(item);
+			}
+			
+			return false;
+		}
+		
+		// if everything was removed, then delete all (eventually add option to place into a specific storage)
+		foreach(IEntity item : itemsRemovedFromInventory)
+		{
+			SCR_EntityHelper.DeleteEntityAndChildren(item);
+		}
+						
+		return true; 
 	}
 	
 	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1, array<IEntity> ignoreEntities = null)

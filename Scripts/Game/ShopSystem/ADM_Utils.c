@@ -13,7 +13,8 @@ class ADM_Utils
 
 		if (!resultInfo)
 		{
-			IEntitySource entitySource = SCR_BaseContainerTools.FindEntitySource(Resource.Load(prefab));
+			Resource entityResource = Resource.Load(prefab);
+			IEntitySource entitySource = SCR_BaseContainerTools.FindEntitySource(entityResource);
 			if (entitySource)
 			{
 			    for(int nComponent, componentCount = entitySource.GetComponentCount(); nComponent < componentCount; nComponent++)
@@ -48,7 +49,8 @@ class ADM_Utils
 
 		if (!resultInfo)
 		{
-			IEntitySource entitySource = SCR_BaseContainerTools.FindEntitySource(Resource.Load(prefab));
+			Resource entityResource = Resource.Load(prefab);
+			IEntitySource entitySource = SCR_BaseContainerTools.FindEntitySource(entityResource);
 			if (entitySource)
 			{
 			    for(int nComponent, componentCount = entitySource.GetComponentCount(); nComponent < componentCount; nComponent++)

@@ -165,8 +165,6 @@ class ADM_ShopBaseComponent: ScriptComponent
 		if (!Replication.IsServer())
 			return false;
 		
-		playerManager.SetTransactionMessage("Selling not implemented yet!");
-		
 		bool canSell = merchandise.GetType().CanSell(player, this, merchandise, quantity);
 		if (!canSell) 
 		{
@@ -197,11 +195,13 @@ class ADM_ShopBaseComponent: ScriptComponent
 			}
 		}
 		
+		playerManager.SetTransactionMessage("Success! Merchandise sold.");
+		
 		// Invoke OnPostSell (event after a purchase is completed for gamemodes to hook to)
 		// Pass in the shop, player who purchased, and sold item
 		Event_OnPostSell.Invoke(this, player, null);
 		
-		return false;
+		return true;
 	}
 	
 	override void OnPostInit(IEntity owner)
