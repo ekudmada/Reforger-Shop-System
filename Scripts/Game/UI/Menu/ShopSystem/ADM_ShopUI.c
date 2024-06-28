@@ -266,7 +266,7 @@ class ADM_ShopUI_Item : SCR_ModularButtonComponent
 class ADM_IconBarterTooltip : ScriptedWidgetComponent
 {
 	protected Widget m_wRoot;
-	protected SCR_HoverDetectorComponent m_HoverDetector;
+	//protected SCR_HoverDetectorComponent m_HoverDetector;
 	protected ref ADM_PaymentMethodBase m_PaymentMethod;
 	
 	protected ItemPreviewWidget m_wPreviewWidget;
@@ -344,10 +344,10 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 		if (!manager)
 			return;
 		
-		m_HoverDetector = SCR_HoverDetectorComponent.Cast(w.FindHandler(SCR_HoverDetectorComponent));	
+		//m_HoverDetector = SCR_HoverDetectorComponent.Cast(w.FindHandler(SCR_HoverDetectorComponent));	
 		m_wPreviewWidget = ItemPreviewWidget.Cast(w.FindAnyWidget("ItemPreview0"));	
 		m_wQuantityWidget = TextWidget.Cast(w.FindAnyWidget("BarterIconQuantity"));		
-		m_HoverDetector.m_OnHoverDetected.Insert(OnHoverDetected);
+		//m_HoverDetector.m_OnHoverDetected.Insert(OnHoverDetected);
 	}
 	
 	void OnHoverDetected()
