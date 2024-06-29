@@ -266,7 +266,7 @@ class ADM_ShopUI_Item : SCR_ModularButtonComponent
 class ADM_IconBarterTooltip : ScriptedWidgetComponent
 {
 	protected Widget m_wRoot;
-	protected SCR_HoverDetectorComponent m_HoverDetector;
+	protected SCR_EventHandlerComponent m_HoverDetector;
 	protected ref ADM_PaymentMethodBase m_PaymentMethod;
 	
 	protected ItemPreviewWidget m_wPreviewWidget;
@@ -274,6 +274,8 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 	
 	[Attribute()]
 	protected ref SCR_ScriptedWidgetTooltipPreset m_wTooltipPreset;
+	
+	protected SCR_ScriptedWidgetTooltip m_Tooltip;
 	
 	void SetPayment(ADM_PaymentMethodBase payment, Color texCol = Color.White, int requestedQuantity = 1)
 	{
@@ -344,15 +346,18 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 		if (!manager)
 			return;
 		
-		m_HoverDetector = SCR_HoverDetectorComponent.Cast(w.FindHandler(SCR_HoverDetectorComponent));	
+		//m_HoverDetector = SCR_EventHandlerComponent.Cast(w.FindHandler(SCR_EventHandlerComponent));	
 		m_wPreviewWidget = ItemPreviewWidget.Cast(w.FindAnyWidget("ItemPreview0"));	
 		m_wQuantityWidget = TextWidget.Cast(w.FindAnyWidget("BarterIconQuantity"));		
-		m_HoverDetector.m_OnHoverDetected.Insert(OnHoverDetected);
+		
+		//SCR_ScriptedWidgetTooltip.GetOnTooltipShow().Insert(OnTooltipShow);
 	}
 	
-	void OnHoverDetected()
+	void OnTooltipShow(SCR_ScriptedWidgetTooltip tooltip)
 	{
-		ChimeraWorld world = GetGame().GetWorld();
+		//Print(tooltip);
+		//m_Tooltip = tooltip;
+		/*ChimeraWorld world = GetGame().GetWorld();
 		if (!world)
 			return;
 		
@@ -363,7 +368,7 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 		if (!m_wRoot || !m_wTooltipPreset)
 			return;
 		
-		Widget w = SCR_TooltipManagerEntity.CreateTooltip(m_wTooltipPreset, m_wRoot);
+		/*Widget w = SCR_TooltipManagerEntity.CreateTooltip(m_wTooltipPreset, m_wRoot);
 		TextWidget wText = TextWidget.Cast(w.FindAnyWidget("Text"));
 		ItemPreviewWidget wRenderTarget = ItemPreviewWidget.Cast(w.FindAnyWidget("ItemPreview"));
 		if (m_PaymentMethod) {
@@ -373,7 +378,7 @@ class ADM_IconBarterTooltip : ScriptedWidgetComponent
 			
 			if (wRenderTarget && previewManager) 
 				previewManager.SetPreviewItemFromPrefab(wRenderTarget, m_PaymentMethod.GetDisplayEntity(), null, false);
-		}
+		}*/
 	}
 }
 

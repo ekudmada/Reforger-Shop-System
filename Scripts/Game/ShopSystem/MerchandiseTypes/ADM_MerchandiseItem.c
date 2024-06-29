@@ -114,8 +114,13 @@ class ADM_MerchandiseItem: ADM_MerchandisePrefab
 	override bool CanDeliver(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1, array<IEntity> ignoreEntities = null)
 	{
 		//TODO: better logic here, i'm lazy. need to check if everything can fit in players inventory
+		SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventory) return false;
 		
-		return true;
+		ADM_MerchandiseItem merchItem = ADM_MerchandiseItem.Cast(merchandise.GetType());
+		if (!merchItem) return false;
+		
+		return inventory.CanInsertResource(merchItem.GetPrefab(), EStoragePurpose.PURPOSE_ANY, quantity) || m_bAllowSaleWithFullInventory;
 	}
 	
 	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1)
@@ -134,15 +139,11 @@ class ADM_MerchandiseItem: ADM_MerchandisePrefab
 		{
 			// give item/weapon/magazine/clothing to player	
 			IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_sPrefab));	
+			vector mat[4];
+			player.GetTransform(mat);
+			item.SetTransform(mat);
+		
 			bool putInInventory = ADM_Utils.InsertAutoEquipItem(inventory, item);
-			
-			// Move item to location of shop if we can't fit in inventory and we allow sale with full inventory
-			if (m_bAllowPurchaseWithFullInventory && !putInInventory)
-			{
-				vector mat[4];
-				player.GetTransform(mat);
-				item.SetTransform(mat);
-			}
 			
 			// If we cant do with both conditions false, delete it
 			if (!m_bAllowPurchaseWithFullInventory && !putInInventory)

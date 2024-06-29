@@ -5,16 +5,18 @@ ButtonWidgetClass {
  }
  Color 0 0 0 0
  components {
-  SCR_HoverDetectorComponent "{5D02175C4A76AD89}" {
-  }
   ADM_IconBarterTooltip "{60515D7343DCBD20}" {
    m_wTooltipPreset SCR_ScriptedWidgetTooltipPreset "{60515D72E97D6212}" {
-    m_sContentLayout "{FC117CCADBAB3DBA}UI/Layouts/Menus/ShopMenu/IconBarterTooltip.layout"
+    m_Content SCR_ScriptedWidgetTooltipContentBase "{61BA03D58981CB58}" {
+     m_sContentLayout "{FC117CCADBAB3DBA}UI/Layouts/Menus/ShopMenu/IconBarterTooltip.layout"
+    }
     m_MousePositionSettings SCR_TooltipPositionPreset "{60515D729538D4A3}" {
     }
     m_GamepadPositionSettings SCR_TooltipPositionPreset "{60515D7294DB0459}" {
     }
    }
+  }
+  SCR_EventHandlerComponent "{61B97477F0FCE55E}" {
   }
  }
  {

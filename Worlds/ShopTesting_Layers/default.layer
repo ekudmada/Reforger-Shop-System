@@ -238,7 +238,7 @@ $grp GenericEntity {
    ADM_PhysicalShopComponent "{5C664CA5B791097A}" {
     m_PhysicalMerchandise ADM_ShopMerchandise "{5D20781947C0CF15}" {
      m_Merchandise ADM_MerchandiseVehicle "{5D20781944DD5758}" {
-      m_sPrefab "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT.et"
+      m_sPrefab "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT_unarmed_transport.et"
       m_SpawnPosition PointInfo "{60451A239E0B254C}" {
        Offset 0 1.2332 0
       }
@@ -397,7 +397,7 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
      ADM_ShopMerchandise "{605049C8627D705B}" {
       m_Merchandise ADM_MerchandiseVehicle "{605049C863CFA53B}" {
        m_iMaxPurchaseQuantity 1
-       m_sPrefab "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT.et"
+       m_sPrefab "{DF5CCB7C0FF049F4}Prefabs/Vehicles/Helicopters/Mi8MT/Mi8MT_unarmed_transport.et"
        m_SpawnPosition PointInfo "{605049C868C5ECE7}" {
         Offset 0 1.6943 14.2208
        }
