@@ -1,3 +1,5 @@
+#define ADM_SHOPSYSTEM
+
 class ADM_ShopBaseComponentClass: ScriptComponentClass {}
 class ADM_ShopBaseComponent: ScriptComponent
 {
