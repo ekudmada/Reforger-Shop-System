@@ -1,9 +1,9 @@
 class ADM_ShopUI_Item : SCR_ModularButtonComponent
 {
-	[Attribute(defvalue: "MenuNavLeft")]
+	[Attribute(defvalue: "MenuNavLeft_NoScroll")]
 	protected string m_sQuantityActionLess;
 	
-	[Attribute(defvalue: "MenuNavRight")]
+	[Attribute(defvalue: "MenuNavRight_NoScroll")]
 	protected string m_sQuantityActionMore;
 	
 	[Attribute(defvalue: "MenuLeft")]
