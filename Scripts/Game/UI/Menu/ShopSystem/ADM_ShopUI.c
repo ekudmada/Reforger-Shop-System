@@ -850,18 +850,31 @@ class ADM_ShopUI: ChimeraMenuBase
 		{
 			sortedItems = ProcessSearch(search, sortedItems);
 		}
+
+        if (!buyOrSell) // Only show items in player inventory on sell tab
+		{
+			PlayerController playerController = GetGame().GetPlayerController();
+			if (playerController)
+			{
+				IEntity player = playerController.GetControlledEntity();
+				if (player)
+				{
+					sortedItems = ProcessPlayerInventoryFilter(player, sortedItems);
+				}
+			}
+		}
 			
 		PopulateTab(wTabView, sortedItems, buyOrSell);
 	}
 	
 	protected void SelectCategoryBuy(string search = "")
 	{		
-		SelectCategory(m_wBuyTabView, m_iCategoryBuy, m_Shop.GetMerchandiseBuy(), search, true);
+		SelectCategory(m_wBuyTabView, m_iCategoryBuy, m_Shop.GetMerchandiseBuy(), search, buyOrSell: true);
 	}
 	
 	protected void SelectCategorySell(string search = "")
 	{		
-		SelectCategory(m_wSellTabView, m_iCategorySell, m_Shop.GetMerchandiseSell(), search, false);
+		SelectCategory(m_wSellTabView, m_iCategorySell, m_Shop.GetMerchandiseSell(), search, buyOrSell: false);
 	}
 	
 	protected void ChangeCategoryBuy(SCR_SpinBoxComponent comp, int itemIndex)
@@ -1082,6 +1095,30 @@ class ADM_ShopUI: ChimeraMenuBase
 		}
 		
 		return matchedMerchandise;
+	}
+
+	protected array<ref ADM_ShopMerchandise> ProcessPlayerInventoryFilter(IEntity playerEntity, array<ref ADM_ShopMerchandise> merchandise)
+	{	
+		array<ref ADM_ShopMerchandise> filteredItems = {};
+		
+		SCR_InventoryStorageManagerComponent invManager = SCR_InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!invManager) 
+			return {};
+		
+		SCR_PrefabNamePredicate prefabPredicate = new SCR_PrefabNamePredicate();
+		foreach (ADM_ShopMerchandise merch : merchandise)
+		{
+			prefabPredicate.prefabName = merch.GetType().GetDisplayEntity();
+			array<IEntity> tempItems = {};
+			invManager.FindItems(tempItems, prefabPredicate, EStoragePurpose.PURPOSE_ANY);
+			
+			if (tempItems.Count() == 0)
+				continue; // Exclude this item if not found in player's inventory
+					
+			filteredItems.Insert(merch); 
+		}
+		
+		return filteredItems;
 	}
 	
 	protected void ProcessSearchBuy(SCR_EditBoxSearchComponent searchbox, string search)
