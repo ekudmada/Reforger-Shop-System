@@ -501,11 +501,18 @@ class ADM_ShopUI: ChimeraMenuBase
 		if (!merch)
 			return;
 		
+        map<ADM_ShopMerchandise, int> shoppingCart = m_BuyShoppingCart;
 		if (!item.GetBuyOrSell())
+			shoppingCart = m_SellShoppingCart;
+		
+		int curQuantity = shoppingCart.Get(merch);
+		int newQuantity = curQuantity - 1;
+		
+		if (newQuantity == 0)
 		{
-			m_SellShoppingCart.Remove(merch);
+			shoppingCart.Remove(merch)
 		} else {
-			m_BuyShoppingCart.Remove(merch);
+			shoppingCart.Set(merch, newQuantity);
 		}
 		
 		PopulateCartTab(m_wCartTabView);
