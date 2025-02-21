@@ -61,7 +61,7 @@ class ADM_Utils
 						BaseContainer baseUIInfo = componentSource.GetObject("m_UIInfo");
 						if (baseUIInfo)
 						{
-		                    resultInfo = Managed.Cast(BaseContainerTools.CreateInstanceFromContainer(baseUIInfo));
+		                    resultInfo = BaseContainerTools.CreateInstanceFromContainer(baseUIInfo);
 							
 							break;
 						}
