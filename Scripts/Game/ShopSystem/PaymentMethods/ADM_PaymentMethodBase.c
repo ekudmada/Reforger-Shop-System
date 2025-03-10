@@ -12,6 +12,11 @@ class ADM_PaymentMethodBase: ScriptAndConfig
 	bool CollectPayment(IEntity player, int quantity = 1) { return false; }
 	
 	/*
+		This function checks if the payment can be distributed to the player. Used for selling to the shop and in case of merchandise delivery error.
+	*/
+	bool CanDistributePayment(IEntity player, int quantity = 1) { return false; }
+	
+	/*
 		This function distributes payment to the player. Used for selling to the shop and in case of merchandise delivery error.
 	*/
 	bool DistributePayment(IEntity player, int quantity = 1) { return false; }

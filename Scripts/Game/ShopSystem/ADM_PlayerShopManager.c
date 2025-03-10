@@ -76,7 +76,7 @@ class ADM_PlayerShopManagerComponent: ScriptComponent {
 		PlayerController player = GetGame().GetPlayerController();
 		RplId shopID = Replication.FindId(shop);
 		
-		Print(player,shopID);
+		//Print(player,shopID);
 		Rpc(Rpc_AskSell, player.GetPlayerId(), shopID, shop.GetMerchandiseSell().Find(merchandise), quantity);
 	}
 	

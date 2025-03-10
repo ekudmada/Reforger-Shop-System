@@ -59,6 +59,7 @@ $grp GenericEntity {
      UserActionContext "{5C664CA5800A49E1}" {
       ContextName "Shop"
       Position PointInfo "{5C664CA529C736CB}" {
+       Offset -0.5835 0.9487 -0.19
       }
       Radius 2
      }
@@ -75,7 +76,7 @@ $grp GenericEntity {
    RplComponent "{5C664CA59F5A8A12}" {
    }
   }
-  coords 138.44 1.403 126.672
+  coords 138.44 0.994 126.672
  }
  jeepshop5 {
   components {
@@ -282,6 +283,10 @@ $grp GenericEntity {
   angleX 4.288
  }
 }
+SCR_ChimeraCharacter : "{0B14B52F2AB1C1E9}Prefabs/Characters/Tutorial/Narrative/Ambulance_Doctor.et" {
+ coords 151.725 1 128.435
+ angleY 0
+}
 $grp StaticModelEntity : "{1A1020205E2B1710}Prefabs/Props/Military/Furniture/TableMilitary_USSR_01.et" {
  {
   coords 148.287 0.988 128.735
@@ -405,6 +410,14 @@ $grp GenericEntity : "{403E2B0BE16D6CC9}Prefabs/ItemShop_Base.et" {
       m_BuyPayment {
        ADM_PaymentMethodItem "{60514A966D519506}" {
         m_ItemPrefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
+       }
+      }
+     }
+     ADM_ShopMerchandise "{64D37B63FDEA0AC6}" {
+      m_Merchandise ADM_MerchandiseVehicle "{64D37B63FB16C5DA}" {
+       m_SpawnPosition PointInfo "{64D37B63F884C367}" {
+        Offset -0.6261 0 7.0574
+        Angles 0 -84.1406 0
        }
       }
      }
