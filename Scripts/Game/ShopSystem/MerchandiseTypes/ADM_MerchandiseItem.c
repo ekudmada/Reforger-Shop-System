@@ -120,7 +120,7 @@ class ADM_MerchandiseItem: ADM_MerchandisePrefab
 		ADM_MerchandiseItem merchItem = ADM_MerchandiseItem.Cast(merchandise.GetType());
 		if (!merchItem) return false;
 		
-		return inventory.CanInsertResource(merchItem.GetPrefab(), EStoragePurpose.PURPOSE_ANY, quantity) || m_bAllowPurchaseWithFullInventory;
+		return inventory.CanInsertResource(merchItem.GetPrefab(), EStoragePurpose.PURPOSE_ANY/*, quantity*/) || m_bAllowPurchaseWithFullInventory;
 	}
 	
 	override bool Deliver(IEntity player, ADM_ShopBaseComponent shop, ADM_ShopMerchandise merchandise, int quantity = 1)
